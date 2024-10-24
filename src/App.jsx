@@ -1,4 +1,6 @@
+import MainRoute from './routes/MainRoute.jsx';
+
 const App = () => {
-  return <div>App</div>;
+  return <MainRoute />;
 };
 export default App;
