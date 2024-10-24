@@ -9,7 +9,18 @@ export default [
   pluginReact.configs.flat.recommended,
   {
     rules: {
-      'react/react-in-jsx-scope': 'off'
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          args: 'after-used',
+          caughtErrors: 'all',
+          ignoreRestSiblings: false,
+          reportUsedIgnorePattern: false
+        }
+      ]
     }
   }
 ];

@@ -6,6 +6,8 @@ const initialState = {
     refreshToken: localStorage.getItem('refreshToken')
   },
   user: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : null
 };
 
 export const authSlice = createSlice({
@@ -13,18 +15,35 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     addAuth: (state, action) => {
-      state.token = action.payload.token;
+      state.token.accessToken = action.payload.token.accessToken;
+      state.token.refreshToken = action.payload.token.refreshToken;
       state.user = action.payload.user;
-      localStorage.setItem('token', action.payload.token);
-      localStorage.setItem('user', action.payload.user);
+
+      localStorage.setItem('accessToken', action.payload.token.accessToken);
+      localStorage.setItem('refreshToken', action.payload.token.refreshToken);
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
     },
 
     removeAuth: (state) => {
-      state.token = null;
+      state.token.accessToken = null;
+      state.token.refreshToken = null;
       state.user = null;
+
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+    },
+
+    setToken: (state, action) => {
+      state.token.accessToken = action.payload.token.accessToken;
+      state.token.refreshToken = action.payload.token.refreshToken;
+
+      localStorage.setItem('accessToken', action.payload.token.accessToken);
+      localStorage.setItem('refreshToken', action.payload.token.refreshToken);
     }
   }
 });
 
-export const { addAuth, removeAuth } = authSlice.actions;
+export const { addAuth, removeAuth, setToken } = authSlice.actions;
+
 export default authSlice.reducer;
