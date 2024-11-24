@@ -24,8 +24,7 @@ const formSchema = z
     message: 'Mật khẩu xác nhận không khớp'
   });
 
-const RegisterForm = ({ onSubmit }) => {
-  const isLoading = true;
+const RegisterForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {

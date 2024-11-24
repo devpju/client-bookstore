@@ -26,3 +26,4 @@ export const passwordSchema = z
     REGEX.PASSWORD,
     'Mật khẩu phải có 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt'
   );
+export const otpSchema = z.string().min(6, 'Vui lòng nhập đầy đủ 6 ký tự');

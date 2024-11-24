@@ -10,8 +10,7 @@ const formSchema = z.object({
   email: emailSchema
 });
 
-const ForgotPasswordForm = ({ onSubmit }) => {
-  const isLoading = true;
+const ForgotPasswordForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {

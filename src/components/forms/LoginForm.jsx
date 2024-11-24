@@ -12,8 +12,7 @@ const formSchema = z.object({
   password: passwordSchema
 });
 
-const LoginForm = ({ onSubmit }) => {
-  const isLoading = true;
+const LoginForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
