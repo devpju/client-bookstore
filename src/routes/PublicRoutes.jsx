@@ -1,4 +1,5 @@
 import AuthLayout from '@/components/layouts/AuthLayout';
+import CustomerLayout from '@/components/layouts/CustomerLayout';
 import ForgotPasswordPage from '@/pages/AuthPages/ForgotPassword/RequestPage';
 import ForgotPasswordSuccessPage from '@/pages/AuthPages/ForgotPassword/SuccessPage';
 import LoginPage from '@/pages/AuthPages/LoginPage';
@@ -24,7 +25,9 @@ const PublicRoutes = () => {
         <Route path='/reset-password' element={<ResetPasswordPage />} />
         <Route path='/reset-password-success' element={<ResetPasswordSuccessPage />} />
       </Route>
-      <Route path='/' element={<HomePage />} />
+      <Route element={<CustomerLayout />}>
+        <Route path='/' element={<HomePage />} />
+      </Route>
       <Route path='*' element={<NotFoundPage />} />
     </Routes>
   );
