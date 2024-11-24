@@ -6,6 +6,14 @@
 
 @layer base {
   :root {
+    --success: 146 79.46% 43.92%;
+    --success-foreground: 0 0% 0%;
+    --warning: 37.03 91.27% 55.1%;
+    --warning-foreground: 0 0% 0%;
+    --danger: 339.2 90.36% 51.18%;
+    --danger-foreground: 0 0% 100%;
+    --info: 212.02 100% 46.67%;
+    --info-foreground: 0 0% 100%;
 
     --background: 0 0% 100%;
 
@@ -19,13 +27,13 @@
 
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 0 0% 10%;
 
-    --primary-foreground: 210 40% 98%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 0 0% 100%;
 
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: 0 0% 10%;
 
     --muted: 210 40% 96.1%;
 
@@ -55,10 +63,9 @@
 
     --chart-5: 27 87% 67%;
 
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   .dark {
-
     --background: 222.2 84% 4.9%;
 
     --foreground: 210 40% 98%;
@@ -105,15 +112,87 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
-
 @layer base {
+  @font-face {
+    font-family: 'SVN-Poppins';
+    src:
+      url('/fonts/SVN-Poppins/SVN-PoppinsBold.woff2') format('woff2'),
+      url('/fonts/SVN-Poppins/SVN-PoppinsBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SVN-Poppins';
+    src:
+      url('/fonts/SVN-Poppins/SVN-PoppinsBlack.woff2') format('woff2'),
+      url('/fonts/SVN-Poppins/SVN-PoppinsBlack.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SVN-Poppins';
+    src:
+      url('/fonts/SVN-Poppins/SVN-PoppinsLight.woff2') format('woff2'),
+      url('/fonts/SVN-Poppins/SVN-PoppinsLight.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SVN-Poppins';
+    src:
+      url('/fonts/SVN-Poppins/SVN-PoppinsSemiBold.woff2') format('woff2'),
+      url('/fonts/SVN-Poppins/SVN-PoppinsSemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SVN-Poppins';
+    src:
+      url('/fonts/SVN-Poppins/SVN-Poppins.woff2') format('woff2'),
+      url('/fonts/SVN-Poppins/SVN-Poppins.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SVN-Poppins';
+    src:
+      url('/fonts/SVN-Poppins/SVN-PoppinsMedium.woff2') format('woff2'),
+      url('/fonts/SVN-Poppins/SVN-PoppinsMedium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'SVN-Poppins';
+  }
+
+  ::-webkit-scrollbar {
+    @apply h-2.5 w-2.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full border-[1px] border-solid border-transparent bg-border bg-slate-500 bg-clip-padding;
   }
 }
