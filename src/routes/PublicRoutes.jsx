@@ -8,6 +8,7 @@ import OTPVerificationSuccessPage from '@/pages/AuthPages/OTPVerification/Succes
 import RegisterPage from '@/pages/AuthPages/RegisterPage';
 import ResetPasswordPage from '@/pages/AuthPages/ResetPassword/EnterPage';
 import ResetPasswordSuccessPage from '@/pages/AuthPages/ResetPassword/SuccessPage';
+import ProductListPage from '@/pages/CustomerPages/ProductListPage';
 import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { Route, Routes } from 'react-router';
@@ -27,6 +28,9 @@ const PublicRoutes = () => {
       </Route>
       <Route element={<CustomerLayout />}>
         <Route path='/' element={<HomePage />} />
+        <Route path='/:catSlugLv1/:catSlugLv2/:catSlugLv3' element={<ProductListPage />} />
+        <Route path='/:catSlugLv1/:catSlugLv2' element={<ProductListPage />} />
+        <Route path='/:catSlugLv1' element={<ProductListPage />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />
     </Routes>

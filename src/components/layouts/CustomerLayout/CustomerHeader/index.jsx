@@ -1,9 +1,9 @@
 import SearchForm from '@/components/forms/SearchForm';
 import { Button } from '@/components/ui/button';
-import { ChartBarStacked } from 'lucide-react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import HeaderActions from './HeaderActions';
+import BookCategory from './BookCategory';
 
 const CustomerHeader = () => {
   //   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -14,10 +14,7 @@ const CustomerHeader = () => {
         <Link to='/'>
           <img src='/images/brand-logo.png' alt='BookStore' className='h-8' />
         </Link>
-        <Button variant='ghost' size='icon' className='mx-10'>
-          <ChartBarStacked className='!size-6' />
-          Danh mục
-        </Button>
+        <BookCategory />
         <div className='w-2/5'>
           <SearchForm />
         </div>
