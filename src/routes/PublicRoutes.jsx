@@ -28,9 +28,9 @@ const PublicRoutes = () => {
       </Route>
       <Route element={<CustomerLayout />}>
         <Route path='/' element={<HomePage />} />
-        <Route path='/:catSlugLv1/:catSlugLv2/:catSlugLv3' element={<ProductListPage />} />
-        <Route path='/:catSlugLv1/:catSlugLv2' element={<ProductListPage />} />
-        <Route path='/:catSlugLv1' element={<ProductListPage />} />
+        <Route path='/danh-muc/:catSlugLv1/:catSlugLv2/:catSlugLv3' element={<ProductListPage />} />
+        <Route path='/danh-muc/:catSlugLv1/:catSlugLv2' element={<ProductListPage />} />
+        <Route path='/danh-muc/:catSlugLv1' element={<ProductListPage />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />
     </Routes>

@@ -1,6 +1,9 @@
 import { Button } from '@/components/ui/button';
 
-const GoogleLoginButton = ({ onClick, className }) => {
+const GoogleLoginButton = ({ className }) => {
+  const onClick = () => {
+    console.log('');
+  };
   return (
     <Button
       variant='outline'

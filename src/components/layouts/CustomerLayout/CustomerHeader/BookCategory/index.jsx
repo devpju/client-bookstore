@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-import { LayoutList } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import SidebarCategory from './SidebarCategory';
 import MainContentCategory from './MainContentCategory';
 import { useState } from 'react';
@@ -14,9 +14,9 @@ const BookCategory = () => {
   return (
     <HoverCard openDelay={30}>
       <HoverCardTrigger asChild>
-        <Button variant='ghost' size='icon' className='mx-5 lg:mx-10'>
-          <LayoutList className='!size-5' />
+        <Button variant='ghost' size='icon' className='mx-5 flex items-center gap-1 lg:mx-10'>
           <span className='hidden lg:inline'>Danh mục</span>
+          <ChevronDown />
         </Button>
       </HoverCardTrigger>
       <HoverCardContent sideOffset={10} className='w-dvw border-0 bg-transparent p-0 shadow-none'>

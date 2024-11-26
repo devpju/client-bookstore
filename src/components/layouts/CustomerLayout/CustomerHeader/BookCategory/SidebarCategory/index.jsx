@@ -13,7 +13,7 @@ const SidebarCategory = ({ className, onHoverCategory, hoveredCategoryId, catego
           <li key={category.id} className='text-sm'>
             <Link
               className={`block py-3 ${hoveredCategoryId === category.id ? 'text-cyan-600' : ''}`}
-              to={`/${category.slug}`}
+              to={`/danh-muc/${category.slug}`}
               onMouseEnter={() => onHoverCategory(category.id)}
               onMouseLeave={() => onHoverCategory(category.id)}
             >
