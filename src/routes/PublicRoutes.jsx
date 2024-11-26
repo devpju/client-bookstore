@@ -8,8 +8,8 @@ import OTPVerificationSuccessPage from '@/pages/AuthPages/OTPVerification/Succes
 import RegisterPage from '@/pages/AuthPages/RegisterPage';
 import ResetPasswordPage from '@/pages/AuthPages/ResetPassword/EnterPage';
 import ResetPasswordSuccessPage from '@/pages/AuthPages/ResetPassword/SuccessPage';
+import HomePage from '@/pages/CustomerPages/HomePage';
 import ProductListPage from '@/pages/CustomerPages/ProductListPage';
-import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { Route, Routes } from 'react-router';
 

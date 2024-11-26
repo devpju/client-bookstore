@@ -9,7 +9,7 @@ const CustomerHeader = () => {
   //   const accessToken = useSelector((state) => state.auth.accessToken);
   const accessToken = '2';
   return (
-    <div className='fixed left-0 top-0 w-full border-b bg-[#FAFAFA] py-5'>
+    <div className='fixed left-0 top-0 z-50 w-full border-b bg-[#FAFAFA] py-5'>
       <header className='container mx-auto flex items-center'>
         <Link to='/'>
           <img src='/images/brand-logo.png' alt='BookStore' className='h-8' />
