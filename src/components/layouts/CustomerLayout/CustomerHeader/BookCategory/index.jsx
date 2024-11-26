@@ -10,6 +10,7 @@ const BookCategory = () => {
   const firstCategoryId = categories[0].id;
   const [hoveredCategoryId, setHoveredCategoryId] = useState(firstCategoryId);
   const handleHoverCategory = (categoryId) => setHoveredCategoryId(categoryId);
+  const activatedCategory = categories.find((category) => category.id === hoveredCategoryId);
   return (
     <HoverCard openDelay={30} open={true}>
       <HoverCardTrigger asChild>
@@ -19,15 +20,18 @@ const BookCategory = () => {
         </Button>
       </HoverCardTrigger>
       <HoverCardContent sideOffset={10} className='w-dvw border-0 bg-transparent p-0 shadow-none'>
-        <div className='container mx-auto h-[calc(100vh-500px)] rounded-lg bg-white p-5 shadow-2xl'>
+        <div className='container mx-auto h-[calc(100vh-500px)] min-h-[300px] rounded-lg bg-white p-5 shadow-2xl'>
           <div className='grid h-full grid-cols-12'>
             <SidebarCategory
-              className='col-span-3'
+              className='col-span-3 md:col-span-2'
               onHoverCategory={handleHoverCategory}
               hoveredCategoryId={hoveredCategoryId}
               categories={categories}
             />
-            <MainContentCategory className='col-span-9' hoveredCategoryId={hoveredCategoryId} />
+            <MainContentCategory
+              className='col-span-9 md:col-span-10'
+              activatedCategory={activatedCategory}
+            />
           </div>
         </div>
       </HoverCardContent>

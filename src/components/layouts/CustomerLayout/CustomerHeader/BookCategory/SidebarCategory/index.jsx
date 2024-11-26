@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 const SidebarCategory = ({ className, onHoverCategory, hoveredCategoryId, categories }) => {
   return (
-    <div className={`h-full overflow-y-auto border-r ${className}`}>
+    <div className={`h-full overflow-y-auto overscroll-contain border-r ${className}`}>
       <span className='flex items-center gap-2 font-medium text-black'>
         <LibraryBig className='size-5' />
         Danh mục sách
