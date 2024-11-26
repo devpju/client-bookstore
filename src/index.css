@@ -196,3 +196,11 @@
     @apply rounded-full border-[1px] border-solid border-transparent bg-border bg-slate-500 bg-clip-padding;
   }
 }
+.slick-next:before,
+.slick-prev:before {
+  content: '' !important;
+}
+
+.slick-dots .slick-active div {
+  @apply bg-primary;
+}
