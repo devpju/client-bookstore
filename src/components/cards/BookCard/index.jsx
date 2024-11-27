@@ -19,7 +19,9 @@ export const BookCard = ({ book }) => {
         <div>
           <span className='font-semibold text-red-600'>{formatCurrencyToVND(book.price)}</span>
         </div>
-        <span className='text-sm text-gray-400'>{formatCurrencyToVND(book.originalPrice)}</span>
+        <span className='text-sm text-gray-400 line-through'>
+          {formatCurrencyToVND(book.originalPrice)}
+        </span>
         <BookCardStats rating={book.rating} reviewCount={book.reviewCount} sold={book.sold} />
       </div>
     </div>

@@ -38,6 +38,8 @@ const BooksCarousel = ({ books }) => {
     slidesToScroll: 4,
     initialSlide: 0,
     infinite: true,
+    autoplay: true,
+    pauseOnFocus: true,
     nextArrow: <SampleNextArrow className='!z-20' />,
     prevArrow: <SamplePrevArrow className='!z-20' />,
     appendDots: (dots) => (
