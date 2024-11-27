@@ -1,5 +1,5 @@
+import { removeAuth, updateToken } from '@/redux/slices/authSlice';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
-import { removeAuth, updateToken } from './slices/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL_API,

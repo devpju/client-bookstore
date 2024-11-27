@@ -12,7 +12,7 @@ const LoadingButton = ({ onClick, isLoading, className, children, variant, size,
       disabled={isLoading}
     >
       {children}
-      {isLoading && <Loader2 className='animate-spin' />}
+      {isLoading && <Loader2 className='!size-3 animate-spin' />}
     </Button>
   );
 };
