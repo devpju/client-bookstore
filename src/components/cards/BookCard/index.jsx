@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 export const BookCard = ({ book }) => {
   return (
-    <div className='w-full p-4'>
+    <div className='group w-full p-4 transition-transform hover:scale-105'>
       <Link to={`/${book.slug}`} className='w-full'>
         <div className='flex h-[250px] w-full justify-center'>
           <img src={book.thumbnailUrl} alt='' className='h-full object-cover' />
@@ -12,7 +12,9 @@ export const BookCard = ({ book }) => {
       </Link>
       <div className='mt-3 space-y-2'>
         <Link to={`/${book.slug}`} className='w-full'>
-          <h3 className='line-clamp-2'>{book.name}</h3>
+          <h3 className='line-clamp-2 transition-colors group-hover:text-emerald-600'>
+            {book.name}
+          </h3>
         </Link>
         <div>
           <span className='font-semibold text-red-600'>{formatCurrencyToVND(book.price)}</span>

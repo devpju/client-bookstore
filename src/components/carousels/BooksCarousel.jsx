@@ -8,7 +8,7 @@ function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
     <button
-      className={`${className} !flex !size-8 !items-center !justify-center !rounded-full !bg-primary`}
+      className={`${className} !z-20 !flex !size-8 !items-center !justify-center !rounded-full !bg-primary`}
       style={{ ...style }}
       onClick={onClick}
     >
@@ -21,7 +21,7 @@ function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <button
-      className={`${className} !flex !size-8 !items-center !justify-center !rounded-full !bg-primary`}
+      className={`${className} !z-20 !flex !size-8 !items-center !justify-center !rounded-full !bg-primary`}
       style={{ ...style }}
       onClick={onClick}
     >
@@ -38,8 +38,8 @@ const BooksCarousel = ({ books }) => {
     slidesToScroll: 4,
     initialSlide: 0,
     infinite: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: <SampleNextArrow className='!z-20' />,
+    prevArrow: <SamplePrevArrow className='!z-20' />,
     appendDots: (dots) => (
       <div style={{ bottom: '-30px' }}>
         <ul> {dots} </ul>
@@ -77,7 +77,7 @@ const BooksCarousel = ({ books }) => {
     <div className='slider-container'>
       <Slider {...settings}>
         {books.map((book) => (
-          <div key={book.id}>
+          <div key={book.id} className=''>
             <BookCard book={book} />
           </div>
         ))}
