@@ -1,9 +1,28 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { useLogoutMutation } from '@/redux/apis/authApi';
+import { useEffect } from 'react';
+import { removeAuth } from '@/redux/slices/authSlice';
+import { toast } from 'sonner';
 const AvatarMenu = () => {
   const urlAvatar = useSelector((state) => state.auth.useInfo?.urlAvatar) || '/images/avatar.jpg';
+  const navigate = useNavigate();
+  const [logout, logoutState] = useLogoutMutation();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (logoutState.isSuccess) {
+      dispatch(removeAuth());
+      navigate('/login');
+    } else if (logoutState.isError) {
+      toast.error(logoutState.error.data.message);
+    }
+  }, [logoutState, navigate, dispatch]);
+
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <HoverCard openDelay={20}>
       <HoverCardTrigger asChild>
@@ -24,7 +43,7 @@ const AvatarMenu = () => {
         </Link>
         <Link
           className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-sky-200/30'
-          to='/login'
+          onClick={handleLogout}
         >
           Đăng xuất
         </Link>
