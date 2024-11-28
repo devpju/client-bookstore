@@ -15,7 +15,6 @@ const LoginPage = () => {
   useEffect(() => {
     if (loginState.isSuccess) {
       const { accessToken, ...userInfo } = loginState.data.results;
-      console.log(accessToken, userInfo);
       dispatch(addAuth({ accessToken, userInfo }));
       navigate('/');
     } else if (loginState.isError) {
