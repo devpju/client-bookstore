@@ -5,6 +5,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem
 } from '@/components/ui/sidebar';
+import { Link } from 'react-router';
 
 export default function AdminNavMain({ items }) {
   return (
@@ -20,7 +21,9 @@ export default function AdminNavMain({ items }) {
             <SidebarMenuItem>
               <SidebarMenuButton tooltip={item.title} className='py-6'>
                 {item.icon && <item.icon />}
-                <span>{item.title}</span>
+                <Link to={item.url} className='w-full py-4'>
+                  {item.title}
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </Collapsible>

@@ -23,37 +23,37 @@ const data = {
   navMain: [
     {
       title: 'Dashboard',
-      url: '#',
+      url: '/admin',
       icon: LayoutDashboard
     },
     {
       title: 'Người dùng',
-      url: '#',
+      url: '/admin/users',
       icon: Users
     },
     {
       title: 'Danh mục',
-      url: '#',
+      url: '/admin/categories',
       icon: LibraryBig
     },
     {
       title: 'Sách',
-      url: '#',
+      url: '/admin/books',
       icon: BookOpen
     },
     {
       title: 'Đơn hàng',
-      url: '#',
+      url: '/admin/orders',
       icon: BaggageClaim
     },
     {
       title: 'Mã giảm giá',
-      url: '#',
+      url: '/admin/vouchers',
       icon: Ticket
     },
     {
       title: 'Đánh giá',
-      url: '#',
+      url: '/admin/reviews',
       icon: Star
     }
   ]
