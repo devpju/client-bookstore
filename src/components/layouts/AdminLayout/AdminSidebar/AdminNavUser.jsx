@@ -1,6 +1,6 @@
-import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
+import { ChevronsUpDown, CornerDownLeft, LogOut, Settings } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,10 +15,31 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router';
+import { useEffect } from 'react';
+import { removeAuth } from '@/redux/slices/authSlice';
+import { toast } from 'sonner';
+import { useLogoutMutation } from '@/redux/apis/authApi';
 
 export default function AdminNavUser() {
   const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+  const [logout, logoutState] = useLogoutMutation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (logoutState.isSuccess) {
+      dispatch(removeAuth());
+      navigate('/login');
+    } else if (logoutState.isError) {
+      toast.error(logoutState.error.data.message);
+    }
+  }, [logoutState, navigate, dispatch]);
+
+  const handleLogout = () => {
+    logout();
+  };
   const { userInfo } = useSelector((state) => state.auth);
   return (
     <SidebarMenu>
@@ -51,8 +72,10 @@ export default function AdminNavUser() {
             <DropdownMenuLabel className='p-0 font-normal'>
               <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
                 <Avatar className='h-8 w-8 rounded-lg'>
-                  <AvatarImage src={userInfo.avatar} alt={userInfo.name} />
-                  <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
+                  <AvatarImage
+                    src={userInfo.urlAvatar ? userInfo.urlAvatar : '/images/avatar.jpg'}
+                    alt={userInfo.name}
+                  />
                 </Avatar>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
                   <span className='truncate font-semibold'>{userInfo.name}</span>
@@ -62,11 +85,17 @@ export default function AdminNavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem className='py-2 hover:bg-green-200'>
               <Settings />
               Cài đặt
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem className='py-2 hover:bg-green-200'>
+              <Link to='/' className='flex items-center gap-2'>
+                <CornerDownLeft className='size-4' />
+                Về trang chủ
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} className='py-2 hover:bg-green-200'>
               <LogOut />
               Đăng xuất
             </DropdownMenuItem>

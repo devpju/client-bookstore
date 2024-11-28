@@ -4,6 +4,9 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL_API,
   credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json'
+  },
   prepareHeaders: (headers, { getState }) => {
     const accessToken = getState()?.auth?.accessToken;
     if (accessToken) {

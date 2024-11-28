@@ -16,8 +16,8 @@ const LoginForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      emailOrPhoneNumber: '',
-      password: ''
+      emailOrPhoneNumber: 'anhduc08768@gmail.com',
+      password: 'Hoaiduc@12a3'
     }
   });
   return (

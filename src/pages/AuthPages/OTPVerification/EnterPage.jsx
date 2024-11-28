@@ -31,7 +31,6 @@ const OTPVerificationPage = () => {
       toast.error(sendOTPState.error.data.message);
     }
   }, [verifyOTPState, navigate, sendOTPState]);
-
   const handleVerifyOTP = ({ otp }) => {
     verifyOTP({ email, otp });
   };
