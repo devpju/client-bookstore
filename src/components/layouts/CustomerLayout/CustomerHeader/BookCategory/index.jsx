@@ -1,16 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { ChevronDown } from 'lucide-react';
-import SidebarCategory from './SidebarCategory';
-import MainContentCategory from './MainContentCategory';
-import { useState } from 'react';
+import BookCategoryContent from './BookCategoryContent';
 import { categories } from '@/data/categories';
 
 const BookCategory = () => {
-  const firstCategoryId = categories[0].id;
-  const [hoveredCategoryId, setHoveredCategoryId] = useState(firstCategoryId);
-  const handleHoverCategory = (categoryId) => setHoveredCategoryId(categoryId);
-  const activatedCategory = categories.find((category) => category.id === hoveredCategoryId);
+  const categoriesInHomePage = categories;
   return (
     <HoverCard openDelay={30}>
       <HoverCardTrigger asChild>
@@ -19,21 +14,11 @@ const BookCategory = () => {
           <ChevronDown />
         </Button>
       </HoverCardTrigger>
-      <HoverCardContent sideOffset={10} className='w-dvw border-0 bg-transparent p-0 shadow-none'>
-        <div className='container mx-auto h-[calc(100vh-500px)] min-h-[300px] rounded-lg bg-white p-5 shadow-2xl'>
-          <div className='grid h-full grid-cols-12'>
-            <SidebarCategory
-              className='col-span-3 lg:col-span-2'
-              onHoverCategory={handleHoverCategory}
-              hoveredCategoryId={hoveredCategoryId}
-              categories={categories}
-            />
-            <MainContentCategory
-              className='col-span-9 lg:col-span-10'
-              activatedCategory={activatedCategory}
-            />
-          </div>
-        </div>
+      <HoverCardContent
+        sideOffset={10}
+        className='h-[calc(100vh-500px)] min-h-[400px] w-[300px] border-0 bg-slate-200 shadow-2xl sm:w-[500px]'
+      >
+        <BookCategoryContent categories={categoriesInHomePage} />
       </HoverCardContent>
     </HoverCard>
   );
