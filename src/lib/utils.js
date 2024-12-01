@@ -63,3 +63,12 @@ export function formatCurrencyToVND(amount) {
     currency: 'VND'
   }).format(amount);
 }
+export function toSentenceCase(str) {
+  return str
+    .replace(/_/g, ' ')
+    .replace(/([A-Z])/g, ' $1')
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase())
+    .replace(/\s+/g, ' ')
+    .trim();
+}

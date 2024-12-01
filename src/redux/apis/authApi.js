@@ -54,9 +54,9 @@ export const authApi = createApi({
         body: { newPassword, token }
       })
     }),
-    logout: builder.mutation({
+    signout: builder.mutation({
       query: () => ({
-        url: 'logout',
+        url: 'signout',
         method: 'POST'
       })
     })
@@ -70,6 +70,6 @@ export const {
   useForgotPasswordMutation,
   useVerifyOTPMutation,
   useResetPasswordMutation,
-  useLogoutMutation,
+  useSignoutMutation,
   useLoginWithGoogleMutation
 } = authApi;

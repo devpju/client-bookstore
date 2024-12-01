@@ -20,25 +20,25 @@ import { Link, useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import { removeAuth } from '@/redux/slices/authSlice';
 import { toast } from 'sonner';
-import { useLogoutMutation } from '@/redux/apis/authApi';
+import { useSignoutMutation } from '@/redux/apis/authApi';
 
 export default function AdminNavUser() {
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
-  const [logout, logoutState] = useLogoutMutation();
+  const [signout, signoutState] = useSignoutMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (logoutState.isSuccess) {
+    if (signoutState.isSuccess) {
       dispatch(removeAuth());
       navigate('/login');
-    } else if (logoutState.isError) {
-      toast.error(logoutState.error.data.message);
+    } else if (signoutState.isError) {
+      toast.error(signoutState.error.data.message);
     }
-  }, [logoutState, navigate, dispatch]);
+  }, [signoutState, navigate, dispatch]);
 
-  const handleLogout = () => {
-    logout();
+  const handleSignout = () => {
+    signout();
   };
   const { userInfo } = useSelector((state) => state.auth);
   return (
@@ -95,7 +95,7 @@ export default function AdminNavUser() {
                 Về trang chủ
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleLogout} className='py-2 hover:bg-green-200'>
+            <DropdownMenuItem onClick={handleSignout} className='py-2 hover:bg-green-200'>
               <LogOut />
               Đăng xuất
             </DropdownMenuItem>

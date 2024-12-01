@@ -19,11 +19,9 @@ export const emailOrPhoneNumberSchema = z
     message: 'Email hoặc số điện thoại không hợp lệ'
   });
 
-export const passwordSchema = z
-  .string()
-  .min(1, 'Vui lòng nhập mật khẩu')
-  .regex(
-    REGEX.PASSWORD,
-    'Mật khẩu phải có 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt'
-  );
+export const passwordSchema = z.string().min(1, 'Vui lòng nhập mật khẩu');
+//   .regex(
+//     REGEX.PASSWORD,
+//     'Mật khẩu phải có 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt'
+//   );
 export const otpSchema = z.string().min(6, 'Vui lòng nhập đầy đủ 6 ký tự');

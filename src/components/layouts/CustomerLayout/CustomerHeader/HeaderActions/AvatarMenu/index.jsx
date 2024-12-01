@@ -1,27 +1,27 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-import { useLogoutMutation } from '@/redux/apis/authApi';
+import { useSignoutMutation } from '@/redux/apis/authApi';
 import { useEffect } from 'react';
 import { removeAuth } from '@/redux/slices/authSlice';
 import { toast } from 'sonner';
 const AvatarMenu = () => {
   const urlAvatar = useSelector((state) => state.auth.useInfo?.urlAvatar) || '/images/avatar.jpg';
   const navigate = useNavigate();
-  const [logout, logoutState] = useLogoutMutation();
+  const [signout, signoutState] = useSignoutMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (logoutState.isSuccess) {
+    if (signoutState.isSuccess) {
       dispatch(removeAuth());
       navigate('/login');
-    } else if (logoutState.isError) {
-      toast.error(logoutState.error.data.message);
+    } else if (signoutState.isError) {
+      toast.error(signoutState.error.data.message);
     }
-  }, [logoutState, navigate, dispatch]);
+  }, [signoutState, navigate, dispatch]);
 
-  const handleLogout = () => {
-    logout();
+  const handleSignout = () => {
+    signout();
   };
   return (
     <HoverCard openDelay={20}>
@@ -43,7 +43,7 @@ const AvatarMenu = () => {
         </Link>
         <Link
           className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-sky-200/30'
-          onClick={handleLogout}
+          onClick={handleSignout}
         >
           Đăng xuất
         </Link>
