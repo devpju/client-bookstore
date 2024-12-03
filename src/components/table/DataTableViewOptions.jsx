@@ -18,6 +18,11 @@ import { useRef } from 'react';
 
 export function DataTableViewOptions({ table }) {
   const triggerRef = useRef(null);
+  const dataViewOptions = {
+    createdAt: 'Ngày tạo',
+    isDeleted: 'Trạng thái',
+    name: 'Tên danh mục'
+  };
   return (
     <Popover modal>
       <PopoverTrigger asChild>
@@ -53,7 +58,9 @@ export function DataTableViewOptions({ table }) {
                       key={column.id}
                       onSelect={() => column.toggleVisibility(!column.getIsVisible())}
                     >
-                      <span className='truncate'>{toSentenceCase(column.id)}</span>
+                      <span className='truncate'>
+                        {dataViewOptions[column.id] ?? toSentenceCase(column.id)}
+                      </span>
                       <Check
                         className={cn(
                           'ml-auto size-4 shrink-0',

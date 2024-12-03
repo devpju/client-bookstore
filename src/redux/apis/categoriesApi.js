@@ -6,13 +6,13 @@ export const categoriesApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Categories'],
   endpoints: (builder) => ({
-    getFullCategories: builder.query({
+    fetchCategories: builder.query({
       query: () => ({
         url: '/admin/categories'
       }),
       providesTags: ['Categories']
     }),
-    createNewCategory: builder.mutation({
+    addCategory: builder.mutation({
       query: ({ name }) => ({
         url: '/admin/categories',
         method: 'POST',
@@ -20,15 +20,15 @@ export const categoriesApi = createApi({
       }),
       invalidatesTags: ['Categories']
     }),
-    updateCategory: builder.mutation({
-      query: ({ name, isDeleted }) => ({
-        url: '/admin/categories',
+    editCategory: builder.mutation({
+      query: ({ id, name, isDeleted }) => ({
+        url: `/admin/categories/${id}`,
         method: 'PUT',
         body: { name, isDeleted }
       }),
       invalidatesTags: ['Categories']
     }),
-    deleteCategories: builder.mutation({
+    removeCategories: builder.mutation({
       query: ({ categoryIds }) => ({
         url: '/admin/categories',
         method: 'DELETE',
@@ -40,8 +40,8 @@ export const categoriesApi = createApi({
 });
 
 export const {
-  useGetFullCategoriesQuery,
-  useCreateNewCategoryMutation,
-  useUpdateCategoryMutation,
-  useDeleteCategoriesMutation
+  useFetchCategoriesQuery,
+  useAddCategoryMutation,
+  useEditCategoryMutation,
+  useRemoveCategoriesMutation
 } = categoriesApi;

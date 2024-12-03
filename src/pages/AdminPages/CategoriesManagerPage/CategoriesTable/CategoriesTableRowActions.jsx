@@ -11,9 +11,11 @@ export default function CategoriesTableRowActions({ row }) {
     dispatch(
       openDialog({
         triggeredBy: DialogActionType.UpdateCategory,
-        dialogData: { rowData: row.original }
+        data: { rowData: row.original }
       })
     );
+    dispatch(clearIds());
+    dispatch(addId(row.original.id));
   };
   const onClickDeleteButton = () => {
     dispatch(

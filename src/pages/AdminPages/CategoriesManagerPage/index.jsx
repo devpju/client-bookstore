@@ -1,8 +1,8 @@
 import {
-  useCreateNewCategoryMutation,
-  useDeleteCategoriesMutation,
-  useGetFullCategoriesQuery,
-  useUpdateCategoryMutation
+  useAddCategoryMutation,
+  useEditCategoryMutation,
+  useFetchCategoriesQuery,
+  useRemoveCategoriesMutation
 } from '@/redux/apis/categoriesApi';
 import { FormField } from '@/components/ui/form';
 import { normalBooleanSchema, normalTextSchema } from '@/lib/validations';
@@ -34,42 +34,43 @@ const editCategoryFormSchema = z.object({
 const CategoriesManagerPage = () => {
   const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
   const { selectedIds } = useSelector((state) => state.selector);
-  console.log(selectedIds);
   const dispatch = useDispatch();
 
-  const { data: categoriesData, ...categoriesState } = useGetFullCategoriesQuery();
-  const [createNewCategory, createNewCategoryState] = useCreateNewCategoryMutation();
-  const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
-  const [deleteCategories, deleteCategoriesState] = useDeleteCategoriesMutation();
+  const { data: categoriesData, ...categoriesState } = useFetchCategoriesQuery();
+  const [addCategory, addCategoryState] = useAddCategoryMutation();
+  const [editCategory, editCategoryState] = useEditCategoryMutation();
+  const [removeCategories, removeCategoriesState] = useRemoveCategoriesMutation();
 
   useEffect(() => {
-    if (createNewCategoryState.isSuccess) {
-      toast.success(createNewCategoryState.data.message);
-    } else if (createNewCategoryState.isError) {
-      toast.error(createNewCategoryState.error.data.message);
+    if (addCategoryState.isSuccess) {
+      toast.success(addCategoryState.data.message);
+    } else if (addCategoryState.isError) {
+      toast.error(addCategoryState.error.data.message);
     }
-  }, [createNewCategoryState]);
+  }, [addCategoryState]);
 
   useEffect(() => {
-    if (updateCategoryState.isSuccess) {
+    if (editCategoryState.isSuccess) {
       toast.success('Cập nhật thành công');
-    } else if (updateCategoryState.isError) {
-      toast.error(updateCategoryState.error.data.message);
+    } else if (editCategoryState.isError) {
+      toast.error(editCategoryState.error.data.message);
     }
-  }, [updateCategoryState]);
+  }, [editCategoryState]);
 
   useEffect(() => {
-    if (deleteCategoriesState.isSuccess) {
-      toast.success('Cập nhật thành công');
-    } else if (deleteCategoriesState.isError) {
-      toast.error(deleteCategoriesState.error.data.message);
+    if (removeCategoriesState.isSuccess) {
+      toast.success('Xóa danh mục thành công');
+    } else if (removeCategoriesState.isError) {
+      toast.error(removeCategoriesState.error.data.message);
     }
-  }, [deleteCategoriesState]);
-  const handleCreateNewCategory = (values) => createNewCategory(values);
-  const handleUpdateCategory = (values) => updateCategory(values);
-  const handleDeleteCategories = () => {
-    deleteCategories({ categoryIds: selectedIds });
+  }, [removeCategoriesState]);
+
+  const handleAddCategory = (values) => addCategory(values);
+  const handleEditCategory = (values) => editCategory({ id: selectedIds[0], ...values });
+  const handleRemoveCategories = () => {
+    removeCategories({ categoryIds: selectedIds });
   };
+
   const addCategoryForm = useForm({
     resolver: zodResolver(addCategoryFormSchema),
     defaultValues: { name: '' }
@@ -97,12 +98,12 @@ const CategoriesManagerPage = () => {
       <CategoriesTable
         data={categoriesData?.results}
         loading={categoriesState.isFetching}
-        columns={CategoriesTableColumns(handleUpdateCategory)}
+        columns={CategoriesTableColumns(handleEditCategory)}
       />
 
       <FormDialog
         form={addCategoryForm}
-        onSubmit={handleCreateNewCategory}
+        onSubmit={handleAddCategory}
         title='Thêm mới danh mục'
         open={isDialogOpen && triggeredBy === DialogActionType.AddNewCategory}
         setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
@@ -123,7 +124,7 @@ const CategoriesManagerPage = () => {
 
       <FormDialog
         form={editCategoryForm}
-        onSubmit={handleUpdateCategory}
+        onSubmit={handleEditCategory}
         title='Chỉnh sửa danh mục'
         open={isDialogOpen && triggeredBy === DialogActionType.UpdateCategory}
         setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
@@ -174,7 +175,7 @@ const CategoriesManagerPage = () => {
       <DeleteConfirmDialog
         open={isDialogOpen && triggeredBy === DialogActionType.DeleteCategory}
         setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-        onClick={handleDeleteCategories}
+        onClick={handleRemoveCategories}
       />
     </div>
   );
