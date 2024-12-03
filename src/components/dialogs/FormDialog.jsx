@@ -14,7 +14,6 @@ import { closeDialog } from '@/redux/slices/dialogSlice';
 
 const FormDialog = ({ open, setOpen, children, form, onSubmit, title = 'Thêm mới' }) => {
   const dispatch = useDispatch();
-  console.log(123);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>

@@ -85,7 +85,6 @@ const CategoriesManagerPage = () => {
       });
     }
   }, [dialogData, editCategoryForm]);
-
   return (
     <div>
       <CategoriesTable

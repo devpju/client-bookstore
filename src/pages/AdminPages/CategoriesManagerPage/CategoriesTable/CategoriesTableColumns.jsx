@@ -3,7 +3,7 @@ import { DataTableColumnHeader } from '@/components/table/DataTableColumnHeader'
 import { convertToDDMMYYYY } from '@/lib/utils';
 import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/CategoriesTable/CategoriesTableRowActions';
 
-export const CategoriesTableColumns = ({ handleUpdateCategory }) => [
+export const CategoriesTableColumns = () => [
   {
     id: 'select',
     header: ({ table }) => (
