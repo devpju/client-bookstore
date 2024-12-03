@@ -9,8 +9,9 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { useState } from 'react';
-import { Button } from '../ui/button';
 import { Form } from '../ui/form';
+import SaveButton from '../buttons/SaveButton';
+import CancelButton from '../buttons/CancelButton';
 
 const AddNewDialog = ({ children, form, onSubmit, triggerContainer, title = 'Thêm mới' }) => {
   const [open, setOpen] = useState(false);
@@ -18,11 +19,13 @@ const AddNewDialog = ({ children, form, onSubmit, triggerContainer, title = 'Th�
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{triggerContainer}</DialogTrigger>
-      <DialogContent className='sm:max-w-md'>
+      <DialogContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((event) => {
-              onSubmit(event);
+            className='space-y-4'
+            onSubmit={form.handleSubmit((values) => {
+              onSubmit(values);
+              form.reset();
               setOpen(false);
             })}
           >
@@ -31,13 +34,11 @@ const AddNewDialog = ({ children, form, onSubmit, triggerContainer, title = 'Th�
               <DialogDescription></DialogDescription>
             </DialogHeader>
             {children}
-            <DialogFooter className='pt-4 sm:justify-start'>
+            <DialogFooter className='justify-start gap-2'>
               <DialogClose asChild>
-                <Button type='button' variant='outline'>
-                  Huỷ
-                </Button>
+                <CancelButton />
               </DialogClose>
-              <Button type='submit'>Lưu</Button>
+              <SaveButton onClick={() => form.formState.isValid && setOpen(false)} />
             </DialogFooter>
           </form>
         </Form>

@@ -3,7 +3,6 @@ import EditButton from '@/components/buttons/EditButton';
 import EditDialog from '@/components/dialogs/EditDialog';
 
 export default function CategoriesTableRowActions({ row }) {
-  console.log(row);
   return (
     <div className='flex items-center gap-2'>
       <EditDialog

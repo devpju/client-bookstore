@@ -7,7 +7,7 @@
 @layer base {
   :root {
     --success: 146 79.46% 43.92%;
-    --success-foreground: 0 0% 0%;
+    --success-foreground: 0 0% 100%;
     --warning: 37.03 91.27% 55.1%;
     --warning-foreground: 0 0% 0%;
     --danger: 339.2 90.36% 51.18%;

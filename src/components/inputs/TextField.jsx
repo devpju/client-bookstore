@@ -9,6 +9,7 @@ const TextField = ({ field, placeholder, label, isError, containerClassName, inp
         <div className='relative'>
           <Input
             type='text'
+            autoComplete='off'
             className={`h-13 bg-white p-[15px] text-[14px] text-primary placeholder:text-[#949CA9] focus-visible:ring-0 ${isError && 'border-danger'} ${inputClassName}`}
             {...field}
             placeholder={placeholder}

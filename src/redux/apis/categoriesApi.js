@@ -9,8 +9,15 @@ export const categoriesApi = createApi({
       query: () => ({
         url: '/admin/categories'
       })
+    }),
+    createNewCategory: builder.mutation({
+      query: ({ name }) => ({
+        url: '/admin/categories',
+        method: 'POST',
+        body: { name }
+      })
     })
   })
 });
 
-export const { useGetFullCategoriesQuery } = categoriesApi;
+export const { useGetFullCategoriesQuery, useCreateNewCategoryMutation } = categoriesApi;

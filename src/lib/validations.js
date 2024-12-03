@@ -25,3 +25,5 @@ export const passwordSchema = z.string().min(1, 'Vui lòng nhập mật khẩu')
 //     'Mật khẩu phải có 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt'
 //   );
 export const otpSchema = z.string().min(6, 'Vui lòng nhập đầy đủ 6 ký tự');
+
+export const normalTextSchema = z.string().min(1, 'Vui lòng nhập đầy đủ thông tin');
