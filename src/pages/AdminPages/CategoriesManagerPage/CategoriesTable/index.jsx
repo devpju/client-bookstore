@@ -28,7 +28,6 @@ export default function CategoriesTable({ columns, data, loading, handleCreateNe
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
-
   const tableData = useMemo(() => (loading ? Array(10).fill({}) : data), [loading, data]);
   const tableColumns = useMemo(
     () =>
@@ -67,7 +66,11 @@ export default function CategoriesTable({ columns, data, loading, handleCreateNe
   });
   return (
     <div className='space-y-4'>
-      <CategoriesTableToolbar table={table} handleCreateNewCategory={handleCreateNewCategory} />
+      <CategoriesTableToolbar
+        rowSelection={rowSelection}
+        table={table}
+        handleCreateNewCategory={handleCreateNewCategory}
+      />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>

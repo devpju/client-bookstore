@@ -4,7 +4,7 @@ import {
   useUpdateCategoryMutation
 } from '@/redux/apis/categoriesApi';
 import { FormField } from '@/components/ui/form';
-import { normalTextSchema } from '@/lib/validations';
+import { normalBooleanSchema, normalTextSchema } from '@/lib/validations';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,7 +26,7 @@ const addCategoryFormSchema = z.object({
 
 const editCategoryFormSchema = z.object({
   name: normalTextSchema,
-  isDeleted: z.boolean()
+  isDeleted: normalBooleanSchema
 });
 
 const CategoriesManagerPage = () => {
