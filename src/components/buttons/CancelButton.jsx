@@ -8,7 +8,7 @@ const CancelButton = ({ onClick }) => {
       variant='outline'
       className='hover:bg-primary/10 hover:text-primary'
     >
-      Huỷ
+      Huỷ bỏ
     </Button>
   );
 };

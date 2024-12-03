@@ -27,6 +27,14 @@ export const categoriesApi = createApi({
         body: { name, isDeleted }
       }),
       invalidatesTags: ['Categories']
+    }),
+    deleteCategories: builder.mutation({
+      query: ({ categoryIds }) => ({
+        url: '/admin/categories',
+        method: 'DELETE',
+        body: { categoryIds }
+      }),
+      invalidatesTags: ['Categories']
     })
   })
 });
@@ -34,5 +42,6 @@ export const categoriesApi = createApi({
 export const {
   useGetFullCategoriesQuery,
   useCreateNewCategoryMutation,
-  useUpdateCategoryMutation
+  useUpdateCategoryMutation,
+  useDeleteCategoriesMutation
 } = categoriesApi;

@@ -1,5 +1,6 @@
 import {
   useCreateNewCategoryMutation,
+  useDeleteCategoriesMutation,
   useGetFullCategoriesQuery,
   useUpdateCategoryMutation
 } from '@/redux/apis/categoriesApi';
@@ -19,6 +20,7 @@ import { DialogActionType } from '@/lib/constants';
 import FormDialog from '@/components/dialogs/FormDialog';
 import { FormItem, FormControl, FormLabel } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
 
 const addCategoryFormSchema = z.object({
   name: normalTextSchema
@@ -31,11 +33,14 @@ const editCategoryFormSchema = z.object({
 
 const CategoriesManagerPage = () => {
   const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
+  const { selectedIds } = useSelector((state) => state.selector);
+  console.log(selectedIds);
   const dispatch = useDispatch();
 
   const { data: categoriesData, ...categoriesState } = useGetFullCategoriesQuery();
   const [createNewCategory, createNewCategoryState] = useCreateNewCategoryMutation();
   const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
+  const [deleteCategories, deleteCategoriesState] = useDeleteCategoriesMutation();
 
   useEffect(() => {
     if (createNewCategoryState.isSuccess) {
@@ -53,9 +58,18 @@ const CategoriesManagerPage = () => {
     }
   }, [updateCategoryState]);
 
+  useEffect(() => {
+    if (deleteCategoriesState.isSuccess) {
+      toast.success('Cập nhật thành công');
+    } else if (deleteCategoriesState.isError) {
+      toast.error(deleteCategoriesState.error.data.message);
+    }
+  }, [deleteCategoriesState]);
   const handleCreateNewCategory = (values) => createNewCategory(values);
   const handleUpdateCategory = (values) => updateCategory(values);
-
+  const handleDeleteCategories = () => {
+    deleteCategories({ categoryIds: selectedIds });
+  };
   const addCategoryForm = useForm({
     resolver: zodResolver(addCategoryFormSchema),
     defaultValues: { name: '' }
@@ -156,6 +170,12 @@ const CategoriesManagerPage = () => {
           )}
         />
       </FormDialog>
+
+      <DeleteConfirmDialog
+        open={isDialogOpen && triggeredBy === DialogActionType.DeleteCategory}
+        setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+        onClick={handleDeleteCategories}
+      />
     </div>
   );
 };
