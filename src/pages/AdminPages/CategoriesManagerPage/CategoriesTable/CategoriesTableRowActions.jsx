@@ -15,7 +15,7 @@ const categoryFormSchema = z.object({
   name: normalTextSchema,
   isDeleted: z.boolean()
 });
-export default function CategoriesTableRowActions({ row }) {
+export default function CategoriesTableRowActions({ row, handleUpdateCategory }) {
   const form = useForm({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
@@ -24,17 +24,17 @@ export default function CategoriesTableRowActions({ row }) {
     }
   });
 
-  const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
-  useEffect(() => {
-    if (updateCategoryState.isSuccess) {
-      toast.success('Cập nhật thành công');
-    } else if (updateCategoryState.isError) {
-      toast.error(updateCategoryState.error.data.message);
-    }
-  }, [updateCategoryState]);
-  const handleUpdateCategory = (values) => {
-    updateCategory({ ...values });
-  };
+  //   const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
+  //   useEffect(() => {
+  //     if (updateCategoryState.isSuccess) {
+  //       toast.success('Cập nhật thành công');
+  //     } else if (updateCategoryState.isError) {
+  //       toast.error(updateCategoryState.error.data.message);
+  //     }
+  //   }, [updateCategoryState]);
+  //   const handleUpdateCategory = (values) => {
+  //     updateCategory({ ...values });
+  //   };
   return (
     <div className='flex items-center gap-2'>
       <EditDialog triggerContainer={<EditButton />} onSubmit={handleUpdateCategory} form={form}>

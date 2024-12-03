@@ -1,24 +1,22 @@
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog';
-import { useState } from 'react';
 import { Form } from '../ui/form';
 import SaveButton from '../buttons/SaveButton';
 import CancelButton from '../buttons/CancelButton';
+import { useDispatch } from 'react-redux';
+import { closeDialog } from '@/redux/slices/dialogSlice';
 
-const AddNewDialog = ({ children, form, onSubmit, triggerContainer, title = 'Thêm mới' }) => {
-  const [open, setOpen] = useState(false);
+const AddNewDialog = ({ open, setOpen, children, form, onSubmit, title = 'Thêm mới' }) => {
+  const dispatch = useDispatch();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{triggerContainer}</DialogTrigger>
       <DialogContent>
         <Form {...form}>
           <form
@@ -26,7 +24,7 @@ const AddNewDialog = ({ children, form, onSubmit, triggerContainer, title = 'Th�
             onSubmit={form.handleSubmit((values) => {
               onSubmit(values);
               form.reset();
-              setOpen(false);
+              dispatch(closeDialog());
             })}
           >
             <DialogHeader>
@@ -35,10 +33,8 @@ const AddNewDialog = ({ children, form, onSubmit, triggerContainer, title = 'Th�
             </DialogHeader>
             {children}
             <DialogFooter className='justify-start gap-2'>
-              <DialogClose asChild>
-                <CancelButton />
-              </DialogClose>
-              <SaveButton onClick={() => form.formState.isValid && setOpen(false)} />
+              <CancelButton onClick={() => dispatch(closeDialog())} />
+              <SaveButton />
             </DialogFooter>
           </form>
         </Form>

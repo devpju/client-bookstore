@@ -18,3 +18,9 @@ export const ACCOUNT_STATUS = {
   UNVERIFIED: 'unverified',
   BANNED: 'banned'
 };
+
+export const DialogActionType = {
+  AddNewCategory: 'add-new-category',
+  UpdateCategory: 'update-category',
+  DeleteCategory: 'delete-category'
+};

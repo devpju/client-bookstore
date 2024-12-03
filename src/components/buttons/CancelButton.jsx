@@ -1,8 +1,13 @@
 import { Button } from '../ui/button';
 
-const CancelButton = () => {
+const CancelButton = ({ onClick }) => {
   return (
-    <Button type='button' variant='outline' className='hover:bg-primary/10 hover:text-primary'>
+    <Button
+      type='button'
+      onClick={onClick}
+      variant='outline'
+      className='hover:bg-primary/10 hover:text-primary'
+    >
       Huỷ
     </Button>
   );
