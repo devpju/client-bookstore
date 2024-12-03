@@ -51,17 +51,7 @@ export default function CategoriesTable({ columns, data, loading, handleCreateNe
       rowSelection,
       columnFilters
     },
-    initialState: {
-      columnPinning: {
-        right: ['actions']
-      },
-      sorting: [
-        {
-          id: 'createdAt',
-          desc: false
-        }
-      ]
-    },
+    enableColumnPinning: true,
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,

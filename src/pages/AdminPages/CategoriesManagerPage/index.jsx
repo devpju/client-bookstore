@@ -3,9 +3,9 @@ import {
   useGetFullCategoriesQuery
 } from '@/redux/apis/categoriesApi';
 import CategoriesTable from './CategoriesTable';
-import categoriesColumns from '@/components/table/tableColumns';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import CategoriesTableColumns from './CategoriesTable/CategoriesTableColumns';
 
 const CategoriesManagerPage = () => {
   const { data: getFullCategoriesData, ...getFullCategoriesState } = useGetFullCategoriesQuery();
@@ -22,7 +22,7 @@ const CategoriesManagerPage = () => {
       <CategoriesTable
         data={getFullCategoriesData?.results}
         loading={getFullCategoriesState.isFetching}
-        columns={categoriesColumns}
+        columns={CategoriesTableColumns()}
         handleCreateNewCategory={handleCreateNewCategory}
       />
     </div>

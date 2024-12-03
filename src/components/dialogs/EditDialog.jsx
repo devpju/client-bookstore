@@ -21,8 +21,9 @@ const EditDialog = ({ children, form, onSubmit, triggerContainer, title = 'Chỉ
       <DialogContent className='sm:max-w-md'>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((event) => {
-              onSubmit(event);
+            className='space-y-3'
+            onSubmit={form.handleSubmit((values) => {
+              onSubmit(values);
               setOpen(false);
             })}
           >

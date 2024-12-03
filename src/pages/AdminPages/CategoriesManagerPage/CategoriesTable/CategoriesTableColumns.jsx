@@ -3,7 +3,7 @@ import { DataTableColumnHeader } from '@/components/table/DataTableColumnHeader'
 import { convertToDDMMYYYY } from '@/lib/utils';
 import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/CategoriesTable/CategoriesTableRowActions';
 
-export const categoriesColumns = [
+export const CategoriesTableColumns = () => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -75,4 +75,4 @@ export const categoriesColumns = [
   }
 ];
 
-export default categoriesColumns;
+export default CategoriesTableColumns;
