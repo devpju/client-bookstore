@@ -42,6 +42,23 @@ export const categoriesColumns = [
     enableHiding: true
   },
   {
+    accessorKey: 'isDeleted',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Trạng thái' />,
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>
+        {row.getValue('isDeleted') ? (
+          <div className='flex w-20 justify-center rounded-lg bg-info py-1 text-white'>Enabled</div>
+        ) : (
+          <div className='flex w-20 justify-center rounded-lg bg-danger py-1 text-white'>
+            Disabled
+          </div>
+        )}
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
     accessorKey: 'createdAt',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Ngày tạo' />,
     cell: ({ row }) => (
