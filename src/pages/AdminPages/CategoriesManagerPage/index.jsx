@@ -41,29 +41,22 @@ const CategoriesManagerPage = () => {
   const [editCategory, editCategoryState] = useEditCategoryMutation();
   const [removeCategories, removeCategoriesState] = useRemoveCategoriesMutation();
 
-  useEffect(() => {
-    if (addCategoryState.isSuccess) {
-      toast.success(addCategoryState.data.message);
-    } else if (addCategoryState.isError) {
-      toast.error(addCategoryState.error.data.message);
-    }
-  }, [addCategoryState]);
+  let resetRowSelectionCallback;
 
   useEffect(() => {
-    if (editCategoryState.isSuccess) {
-      toast.success('Cập nhật thành công');
-    } else if (editCategoryState.isError) {
-      toast.error(editCategoryState.error.data.message);
-    }
-  }, [editCategoryState]);
+    const handleToast = (state, successMessage) => {
+      if (state.isSuccess) {
+        toast.success(successMessage || state.data?.message);
+        resetRowSelectionCallback && resetRowSelectionCallback();
+      } else if (state.isError) {
+        toast.error(state.error?.data?.message);
+      }
+    };
 
-  useEffect(() => {
-    if (removeCategoriesState.isSuccess) {
-      toast.success('Xóa danh mục thành công');
-    } else if (removeCategoriesState.isError) {
-      toast.error(removeCategoriesState.error.data.message);
-    }
-  }, [removeCategoriesState]);
+    handleToast(addCategoryState, 'Thêm danh mục thành công');
+    handleToast(editCategoryState, 'Cập nhật thành công');
+    handleToast(removeCategoriesState, 'Xóa danh mục thành công');
+  }, [addCategoryState, editCategoryState, removeCategoriesState, resetRowSelectionCallback]);
 
   const handleAddCategory = (values) => addCategory(values);
   const handleEditCategory = (values) => editCategory({ id: selectedIds[0], ...values });
@@ -79,8 +72,8 @@ const CategoriesManagerPage = () => {
   const editCategoryForm = useForm({
     resolver: zodResolver(editCategoryFormSchema),
     defaultValues: {
-      name: dialogData?.rowData.name || '',
-      isDeleted: dialogData?.rowData.isDeleted || false
+      name: dialogData?.rowData?.name || '',
+      isDeleted: dialogData?.rowData?.isDeleted || false
     }
   });
 
@@ -99,84 +92,89 @@ const CategoriesManagerPage = () => {
         data={categoriesData?.results}
         loading={categoriesState.isFetching}
         columns={CategoriesTableColumns(handleEditCategory)}
+        onResetRowSelection={(callback) => (resetRowSelectionCallback = callback)}
       />
 
-      <FormDialog
-        form={addCategoryForm}
-        onSubmit={handleAddCategory}
-        title='Thêm mới danh mục'
-        open={isDialogOpen && triggeredBy === DialogActionType.AddNewCategory}
-        setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-      >
-        <FormField
-          control={addCategoryForm.control}
-          name='name'
-          render={({ field }) => (
-            <TextField
-              field={field}
-              placeholder='Nhập tên danh mục'
-              label='Tên danh mục'
-              isError={!!addCategoryForm.formState.errors.name}
-            />
-          )}
+      {triggeredBy === DialogActionType.AddNewCategory && (
+        <FormDialog
+          form={addCategoryForm}
+          onSubmit={handleAddCategory}
+          title='Thêm mới danh mục'
+          open={isDialogOpen && triggeredBy === DialogActionType.AddNewCategory}
+          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+        >
+          <FormField
+            control={addCategoryForm.control}
+            name='name'
+            render={({ field }) => (
+              <TextField
+                field={field}
+                placeholder='Nhập tên danh mục'
+                label='Tên danh mục'
+                isError={!!addCategoryForm.formState.errors.name}
+              />
+            )}
+          />
+        </FormDialog>
+      )}
+      {triggeredBy === DialogActionType.UpdateCategory && (
+        <FormDialog
+          form={editCategoryForm}
+          onSubmit={handleEditCategory}
+          title='Chỉnh sửa danh mục'
+          open={isDialogOpen && triggeredBy === DialogActionType.UpdateCategory}
+          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+        >
+          <FormField
+            control={editCategoryForm.control}
+            name='name'
+            render={({ field }) => (
+              <TextField
+                field={field}
+                placeholder='Nhập tên danh mục'
+                label='Tên danh mục'
+                isError={!!editCategoryForm.formState.errors.name}
+              />
+            )}
+          />
+          <FormField
+            control={editCategoryForm.control}
+            name='isDeleted'
+            render={({ field }) => (
+              <FormItem className='space-y-3'>
+                <FormLabel>Trạng thái</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={(value) => field.onChange(value === 'true')}
+                    defaultValue={String(field.value)}
+                    className='flex flex-col space-y-1'
+                  >
+                    <FormItem className='flex items-center space-x-3'>
+                      <FormControl>
+                        <RadioGroupItem value='true' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Enable</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3'>
+                      <FormControl>
+                        <RadioGroupItem value='false' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Disable</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </FormDialog>
+      )}
+      {triggeredBy === DialogActionType.DeleteCategory && (
+        <DeleteConfirmDialog
+          open={isDialogOpen && triggeredBy === DialogActionType.DeleteCategory}
+          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+          onClick={handleRemoveCategories}
         />
-      </FormDialog>
-
-      <FormDialog
-        form={editCategoryForm}
-        onSubmit={handleEditCategory}
-        title='Chỉnh sửa danh mục'
-        open={isDialogOpen && triggeredBy === DialogActionType.UpdateCategory}
-        setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-      >
-        <FormField
-          control={editCategoryForm.control}
-          name='name'
-          render={({ field }) => (
-            <TextField
-              field={field}
-              placeholder='Nhập tên danh mục'
-              label='Tên danh mục'
-              isError={!!editCategoryForm.formState.errors.name}
-            />
-          )}
-        />
-        <FormField
-          control={editCategoryForm.control}
-          name='isDeleted'
-          render={({ field }) => (
-            <FormItem className='space-y-3'>
-              <FormLabel>Trạng thái</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={(value) => field.onChange(value === 'true')}
-                  defaultValue={String(field.value)}
-                  className='flex flex-col space-y-1'
-                >
-                  <FormItem className='flex items-center space-x-3'>
-                    <FormControl>
-                      <RadioGroupItem value='true' />
-                    </FormControl>
-                    <FormLabel className='font-normal'>Enable</FormLabel>
-                  </FormItem>
-                  <FormItem className='flex items-center space-x-3'>
-                    <FormControl>
-                      <RadioGroupItem value='false' />
-                    </FormControl>
-                    <FormLabel className='font-normal'>Disable</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      </FormDialog>
-
-      <DeleteConfirmDialog
-        open={isDialogOpen && triggeredBy === DialogActionType.DeleteCategory}
-        setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-        onClick={handleRemoveCategories}
-      />
+      )}
     </div>
   );
 };

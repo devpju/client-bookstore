@@ -71,9 +71,7 @@ export const CategoriesTableColumns = ({ handleUpdateCategory }) => [
   {
     id: 'actions',
     size: 30,
-    cell: ({ row }) => (
-      <CategoriesTableRowActions row={row} handleUpdateCategory={handleUpdateCategory} />
-    )
+    cell: ({ row }) => <CategoriesTableRowActions row={row} />
   }
 ];
 

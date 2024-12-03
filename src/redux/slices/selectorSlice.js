@@ -9,10 +9,12 @@ const selectorSlice = createSlice({
   initialState,
   reducers: {
     addId: (state, action) => {
+      state.selectedIds = [];
       state.selectedIds = [action.payload];
     },
     addIds: (state, action) => {
-      state.selectedIds = [...new Set([...state.selectedIds, ...action.payload])];
+      state.selectedIds = [];
+      state.selectedIds = [...new Set([...action.payload])];
     },
     clearIds: (state) => {
       state.selectedIds = [];
