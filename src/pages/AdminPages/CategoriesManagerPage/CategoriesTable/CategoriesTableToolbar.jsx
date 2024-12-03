@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
 import DeleteMultiButton from '@/components/buttons/DeleteMultiButton';
-import { addIds, clearIds } from '@/redux/slices/selectorSlice';
+import { addIds } from '@/redux/slices/selectorSlice';
 
 export default function CategoriesTableToolbar({ rowSelection, table, globalFilterPlaceholder }) {
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -16,7 +16,6 @@ export default function CategoriesTableToolbar({ rowSelection, table, globalFilt
   const selectedIds = Object.keys(rowSelection);
   const handleDeleteCategories = () => {
     if (selectedIds.length > 0) {
-      dispatch(clearIds());
       dispatch(addIds(selectedIds));
     }
 

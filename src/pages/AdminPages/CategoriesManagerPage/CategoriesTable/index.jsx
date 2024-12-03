@@ -19,11 +19,17 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/table/DataTablePagination';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import CategoriesTableToolbar from './CategoriesTableToolbar';
 
-export default function CategoriesTable({ columns, data, loading, handleCreateNewCategory }) {
+export default function CategoriesTable({
+  onResetRowSelection,
+  columns,
+  data,
+  loading,
+  handleCreateNewCategory
+}) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
@@ -64,6 +70,11 @@ export default function CategoriesTable({ columns, data, loading, handleCreateNe
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     getFacetedUniqueValues: getFacetedUniqueValues()
   });
+  useEffect(() => {
+    if (onResetRowSelection) {
+      onResetRowSelection(() => table.resetRowSelection());
+    }
+  }, [onResetRowSelection, table]);
   return (
     <div className='space-y-4'>
       <CategoriesTableToolbar
