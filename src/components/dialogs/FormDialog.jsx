@@ -12,7 +12,7 @@ import CancelButton from '../buttons/CancelButton';
 import { useDispatch } from 'react-redux';
 import { closeDialog } from '@/redux/slices/dialogSlice';
 
-const AddNewDialog = ({ open, setOpen, children, form, onSubmit, title = 'Thêm mới' }) => {
+const FormDialog = ({ open, setOpen, children, form, onSubmit, title = 'Thêm mới' }) => {
   const dispatch = useDispatch();
 
   return (
@@ -43,4 +43,4 @@ const AddNewDialog = ({ open, setOpen, children, form, onSubmit, title = 'Thêm 
   );
 };
 
-export default AddNewDialog;
+export default FormDialog;

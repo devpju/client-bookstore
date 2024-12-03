@@ -1,8 +1,8 @@
 import {
   useCreateNewCategoryMutation,
-  useGetFullCategoriesQuery
+  useGetFullCategoriesQuery,
+  useUpdateCategoryMutation
 } from '@/redux/apis/categoriesApi';
-import AddNewDialog from '@/components/dialogs/AddNewDialog';
 import { FormField } from '@/components/ui/form';
 import { normalTextSchema } from '@/lib/validations';
 import { z } from 'zod';
@@ -16,21 +16,27 @@ import CategoriesTableColumns from './CategoriesTable/CategoriesTableColumns';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
+import FormDialog from '@/components/dialogs/FormDialog';
+import { FormItem, FormControl, FormLabel } from '@/components/ui/form';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-// Schema validation for form
-const categoryFormSchema = z.object({
+const addCategoryFormSchema = z.object({
   name: normalTextSchema
 });
 
+const editCategoryFormSchema = z.object({
+  name: normalTextSchema,
+  isDeleted: z.boolean()
+});
+
 const CategoriesManagerPage = () => {
-  const { isDialogOpen, triggeredBy } = useSelector((state) => state.dialog);
+  const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
   const dispatch = useDispatch();
 
-  // API Queries & Mutations
-  const { data: getFullCategoriesData, ...getFullCategoriesState } = useGetFullCategoriesQuery();
+  const { data: categoriesData, ...categoriesState } = useGetFullCategoriesQuery();
   const [createNewCategory, createNewCategoryState] = useCreateNewCategoryMutation();
+  const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
 
-  // Handle toast notifications for mutation state changes
   useEffect(() => {
     if (createNewCategoryState.isSuccess) {
       toast.success(createNewCategoryState.data.message);
@@ -39,53 +45,117 @@ const CategoriesManagerPage = () => {
     }
   }, [createNewCategoryState]);
 
-  // Handlers
-  const handleCreateNewCategory = (values) => {
-    createNewCategory({ ...values });
-  };
+  useEffect(() => {
+    if (updateCategoryState.isSuccess) {
+      toast.success('Cập nhật thành công');
+    } else if (updateCategoryState.isError) {
+      toast.error(updateCategoryState.error.data.message);
+    }
+  }, [updateCategoryState]);
 
-  const handleUpdateCategory = (values) => {
-    console.log('Update Category:', values);
-  };
+  const handleCreateNewCategory = (values) => createNewCategory(values);
+  const handleUpdateCategory = (values) => updateCategory(values);
 
-  // Form initialization
-  const form = useForm({
-    resolver: zodResolver(categoryFormSchema),
+  const addCategoryForm = useForm({
+    resolver: zodResolver(addCategoryFormSchema),
+    defaultValues: { name: '' }
+  });
+
+  const editCategoryForm = useForm({
+    resolver: zodResolver(editCategoryFormSchema),
     defaultValues: {
-      name: ''
+      name: dialogData?.rowData.name || '',
+      isDeleted: dialogData?.rowData.isDeleted || false
     }
   });
 
+  useEffect(() => {
+    if (dialogData?.rowData) {
+      editCategoryForm.reset({
+        name: dialogData.rowData.name,
+        isDeleted: dialogData.rowData.isDeleted
+      });
+    }
+  }, [dialogData, editCategoryForm]);
+
   return (
     <div>
-      {/* Categories Table */}
       <CategoriesTable
-        data={getFullCategoriesData?.results}
-        loading={getFullCategoriesState.isFetching}
+        data={categoriesData?.results}
+        loading={categoriesState.isFetching}
         columns={CategoriesTableColumns(handleUpdateCategory)}
       />
 
-      {/* Add New Dialog */}
-      <AddNewDialog
-        form={form}
+      <FormDialog
+        form={addCategoryForm}
         onSubmit={handleCreateNewCategory}
         title='Thêm mới danh mục'
         open={isDialogOpen && triggeredBy === DialogActionType.AddNewCategory}
         setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
       >
         <FormField
-          control={form.control}
+          control={addCategoryForm.control}
           name='name'
           render={({ field }) => (
             <TextField
               field={field}
               placeholder='Nhập tên danh mục'
               label='Tên danh mục'
-              isError={form.formState.errors.email}
+              isError={!!addCategoryForm.formState.errors.name}
             />
           )}
         />
-      </AddNewDialog>
+      </FormDialog>
+
+      <FormDialog
+        form={editCategoryForm}
+        onSubmit={handleUpdateCategory}
+        title='Chỉnh sửa danh mục'
+        open={isDialogOpen && triggeredBy === DialogActionType.UpdateCategory}
+        setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+      >
+        <FormField
+          control={editCategoryForm.control}
+          name='name'
+          render={({ field }) => (
+            <TextField
+              field={field}
+              placeholder='Nhập tên danh mục'
+              label='Tên danh mục'
+              isError={!!editCategoryForm.formState.errors.name}
+            />
+          )}
+        />
+        <FormField
+          control={editCategoryForm.control}
+          name='isDeleted'
+          render={({ field }) => (
+            <FormItem className='space-y-3'>
+              <FormLabel>Trạng thái</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={(value) => field.onChange(value === 'true')}
+                  defaultValue={String(field.value)}
+                  className='flex flex-col space-y-1'
+                >
+                  <FormItem className='flex items-center space-x-3'>
+                    <FormControl>
+                      <RadioGroupItem value='true' />
+                    </FormControl>
+                    <FormLabel className='font-normal'>Enable</FormLabel>
+                  </FormItem>
+                  <FormItem className='flex items-center space-x-3'>
+                    <FormControl>
+                      <RadioGroupItem value='false' />
+                    </FormControl>
+                    <FormLabel className='font-normal'>Disable</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </FormDialog>
     </div>
   );
 };
