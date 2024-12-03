@@ -1,25 +1,59 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  selectedIds: []
+  accessToken: localStorage.getItem('accessToken') || null,
+  userInfo: JSON.parse(localStorage.getItem('userInfo')) || null
 };
 
-const selectorSlice = createSlice({
-  name: 'selector',
+const localStorageHandler = {
+  save: ({ accessToken, userInfo }) => {
+    try {
+      accessToken && localStorage.setItem('accessToken', accessToken);
+      userInfo && localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    } catch (error) {
+      console.error('Failed to save auth data to localStorage:', error);
+    }
+  },
+  clear: () => {
+    try {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('userInfo');
+    } catch (error) {
+      console.error('Failed to clear auth data from localStorage:', error);
+    }
+  }
+};
+
+const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
-    addId: (state, action) => {
-      state.selectedIds = [action.payload];
+    addAuth: (state, { payload }) => {
+      const { accessToken, userInfo } = payload || {};
+      if (!accessToken || !userInfo) {
+        console.warn('Invalid payload for addAuth:', payload);
+        return;
+      }
+      state.accessToken = accessToken;
+      state.userInfo = userInfo;
+      localStorageHandler.save({ accessToken, userInfo });
     },
-    addIds: (state, action) => {
-      state.selectedIds = [...new Set([...state.selectedIds, ...action.payload])];
+    removeAuth: (state) => {
+      state.accessToken = null;
+      state.userInfo = null;
+      localStorageHandler.clear();
     },
-    clearIds: (state) => {
-      state.selectedIds = [];
+    updateToken: (state, { payload }) => {
+      const { accessToken } = payload || {};
+      if (!accessToken) {
+        console.warn('Invalid payload for updateToken:', payload);
+        return;
+      }
+      state.accessToken = accessToken;
+      localStorageHandler.save({ accessToken });
     }
   }
 });
 
-export const { addId, addIds, clearIds } = selectorSlice.actions;
-
-export default selectorSlice.reducer;
+export const { addAuth, removeAuth, updateToken } = authSlice.actions;
+export default authSlice.reducer;
