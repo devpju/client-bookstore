@@ -40,9 +40,9 @@ export function DataTableViewOptions({ table }) {
         onCloseAutoFocus={() => triggerRef.current?.focus()}
       >
         <Command>
-          <CommandInput placeholder='Search columns...' />
+          <CommandInput placeholder='Tìm kiếm cột...' />
           <CommandList>
-            <CommandEmpty>No columns found.</CommandEmpty>
+            <CommandEmpty>Không tìm thấy cột</CommandEmpty>
             <CommandGroup>
               {table
                 .getAllColumns()

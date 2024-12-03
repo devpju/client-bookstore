@@ -72,3 +72,10 @@ export function toSentenceCase(str) {
     .replace(/\s+/g, ' ')
     .trim();
 }
+export function convertToDDMMYYYY(isoDate) {
+  const date = new Date(isoDate); // Chuyển chuỗi ISO 8601 thành đối tượng Date
+  const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày, đảm bảo 2 chữ số
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+  const year = date.getFullYear(); // Lấy năm
+  return `${day}/${month}/${year}`; // Ghép thành định dạng dd/mm/yyyy
+}
