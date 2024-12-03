@@ -7,8 +7,9 @@ import AddNewButton from '@/components/buttons/AddNewButton';
 import { useDispatch } from 'react-redux';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
+import DeleteMultiButton from '@/components/buttons/DeleteMultiButton';
 
-export default function CategoriesTableToolbar({ table, globalFilterPlaceholder }) {
+export default function CategoriesTableToolbar({ rowSelection, table, globalFilterPlaceholder }) {
   const isFiltered = table.getState().columnFilters.length > 0;
   const dispatch = useDispatch();
   const onClickAddNewButton = () => {
@@ -22,6 +23,7 @@ export default function CategoriesTableToolbar({ table, globalFilterPlaceholder 
     <div className='flex items-center justify-between'>
       <div className='flex flex-1 items-center space-x-2'>
         <AddNewButton onClick={onClickAddNewButton} />
+        {Object.keys(rowSelection) > 0 && <DeleteMultiButton />}
         <Input
           placeholder={globalFilterPlaceholder ? globalFilterPlaceholder : 'Tìm kiếm...'}
           value={table.getColumn('name')?.getFilterValue() ?? ''}

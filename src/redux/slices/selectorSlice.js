@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  selectedIds: []
+  SelectedIds: []
 };
 
 const selectorSlice = createSlice({
@@ -9,13 +9,13 @@ const selectorSlice = createSlice({
   initialState,
   reducers: {
     addId: (state, action) => {
-      state.selectedIds = [action.payload];
+      state.SelectedIds = [action.payload];
     },
     addIds: (state, action) => {
-      state.selectedIds = [...new Set([...state.selectedIds, ...action.payload])];
+      state.SelectedIds = [...new Set([...state.SelectedIds, ...action.payload])];
     },
     clearIds: (state) => {
-      state.selectedIds = [];
+      state.SelectedIds = [];
     }
   }
 });
