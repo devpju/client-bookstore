@@ -16,13 +16,9 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRef } from 'react';
 
-export function DataTableViewOptions({ table }) {
+export function DataTableViewOptions({ table, dataViewOptions }) {
   const triggerRef = useRef(null);
-  const dataViewOptions = {
-    createdAt: 'Ngày tạo',
-    isDeleted: 'Trạng thái',
-    name: 'Tên danh mục'
-  };
+
   return (
     <Popover modal>
       <PopoverTrigger asChild>
@@ -34,7 +30,7 @@ export function DataTableViewOptions({ table }) {
           size='sm'
           className='ml-auto hidden h-8 gap-2 lg:flex'
         >
-          <Settings2 className='size-4' />
+          <Settings2 className='size-3' />
           Hiển thị
           <ChevronsUpDown className='ml-auto size-4 shrink-0 opacity-50' />
         </Button>

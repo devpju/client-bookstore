@@ -10,7 +10,7 @@ const selectorSlice = createSlice({
   reducers: {
     addId: (state, action) => {
       state.selectedIds = [];
-      state.selectedIds = [action.payload];
+      state.selectedIds = [action.payload.toString()];
     },
     addIds: (state, action) => {
       state.selectedIds = [];

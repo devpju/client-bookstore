@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from 'lucide-react';
+import { ArrowDown, ArrowUp, Ban, ChevronsUpDown, EyeOff } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -19,31 +19,31 @@ export function DataTableColumnHeader({ column, title, className }) {
     <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' size='sm' className='-ml-3 h-8 data-[state=open]:bg-accent'>
+          <Button variant='ghost' size='sm' className='-ml-3 py-1 data-[state=open]:bg-accent'>
             <span>{title}</span>
             {column.getIsSorted() === 'desc' ? (
-              <ArrowDown />
+              <ArrowDown className='!size-4' />
             ) : column.getIsSorted() === 'asc' ? (
-              <ArrowUp />
+              <ArrowUp className='!size-4' />
             ) : (
-              <ChevronsUpDown />
+              <ChevronsUpDown className='!size-4' />
             )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='start'>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUp className='h-3.5 w-3.5 text-muted-foreground/70' />
+            <ArrowUp className='h-3.5 w-3.5 text-green-600/70' />
             Tăng dần
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDown className='h-3.5 w-3.5 text-muted-foreground/70' />
+            <ArrowDown className='h-3.5 w-3.5 text-red-600/70' />
             Giảm dần
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.clearSorting()}>
-            <ArrowDown className='h-3.5 w-3.5 text-muted-foreground/70' />
+            <Ban className='h-3.5 w-3.5 text-muted-foreground/70' />
             Huỷ bỏ
           </DropdownMenuItem>
-          <DropdownMenuSeparator className='bg-red-200' />
+          <DropdownMenuSeparator className='bg-slate-300' />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
             <EyeOff className='h-3.5 w-3.5 text-muted-foreground/70' />
             Ẩn cột

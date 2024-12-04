@@ -5,7 +5,7 @@ const EditButton = ({ onClick }) => {
   return (
     <Button
       size='sm'
-      className='border-none bg-warning p-2 hover:border-none hover:bg-warning/80 hover:text-white'
+      className='border-none bg-warning p-1 hover:border-none hover:bg-warning/80 hover:text-white'
       onClick={onClick}
     >
       <Pencil className='!size-4' />

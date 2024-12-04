@@ -1,27 +1,29 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { toast } from 'sonner';
+
 import {
   useAddCategoryMutation,
   useEditCategoryMutation,
   useFetchCategoriesQuery,
   useRemoveCategoriesMutation
 } from '@/redux/apis/categoriesApi';
-import { FormField } from '@/components/ui/form';
-import { normalBooleanSchema, normalTextSchema } from '@/lib/validations';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import TextField from '@/components/inputs/TextField';
-import CategoriesTable from './CategoriesTable';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
-import CategoriesTableColumns from './CategoriesTable/CategoriesTableColumns';
-import { useDispatch, useSelector } from 'react-redux';
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
-import FormDialog from '@/components/dialogs/FormDialog';
-import { FormItem, FormControl, FormLabel } from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
+import { normalBooleanSchema, normalTextSchema } from '@/lib/validations';
 
+import CategoriesTable from './CategoriesTable';
+import categoriesTableColumns from './CategoriesTable/categoriesTableColumns';
+import FormDialog from '@/components/dialogs/FormDialog';
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
+import TextField from '@/components/inputs/TextField';
+import { FormField, FormItem, FormControl, FormLabel } from '@/components/ui/form';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
+// Form validation schemas
 const addCategoryFormSchema = z.object({
   name: normalTextSchema
 });
@@ -32,38 +34,19 @@ const editCategoryFormSchema = z.object({
 });
 
 const CategoriesManagerPage = () => {
-  const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
-  const { selectedIds } = useSelector((state) => state.selector);
   const dispatch = useDispatch();
 
-  const { data: categoriesData, ...categoriesState } = useFetchCategoriesQuery();
+  // State management
+  const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
+  const { selectedIds } = useSelector((state) => state.selector);
+
+  // API hooks
+  const { data: categoriesData, isFetching } = useFetchCategoriesQuery();
   const [addCategory, addCategoryState] = useAddCategoryMutation();
   const [editCategory, editCategoryState] = useEditCategoryMutation();
   const [removeCategories, removeCategoriesState] = useRemoveCategoriesMutation();
 
-  let resetRowSelectionCallback;
-
-  useEffect(() => {
-    const handleToast = (state, successMessage) => {
-      if (state.isSuccess) {
-        toast.success(successMessage || state.data?.message);
-        resetRowSelectionCallback && resetRowSelectionCallback();
-      } else if (state.isError) {
-        toast.error(state.error?.data?.message);
-      }
-    };
-
-    handleToast(addCategoryState, 'Thêm danh mục thành công');
-    handleToast(editCategoryState, 'Cập nhật thành công');
-    handleToast(removeCategoriesState, 'Xóa danh mục thành công');
-  }, [addCategoryState, editCategoryState, removeCategoriesState, resetRowSelectionCallback]);
-
-  const handleAddCategory = (values) => addCategory(values);
-  const handleEditCategory = (values) => editCategory({ id: selectedIds[0], ...values });
-  const handleRemoveCategories = () => {
-    removeCategories({ categoryIds: selectedIds });
-  };
-
+  // Form configurations
   const addCategoryForm = useForm({
     resolver: zodResolver(addCategoryFormSchema),
     defaultValues: { name: '' }
@@ -77,6 +60,7 @@ const CategoriesManagerPage = () => {
     }
   });
 
+  // Update edit form when dialog data changes
   useEffect(() => {
     if (dialogData?.rowData) {
       editCategoryForm.reset({
@@ -85,21 +69,47 @@ const CategoriesManagerPage = () => {
       });
     }
   }, [dialogData, editCategoryForm]);
+
+  // API success/error handling
+  const handleAPISuccess = (message) => toast.success(message);
+  const handleAPIError = (error) => toast.error(error?.data?.message);
+
+  useEffect(() => {
+    if (addCategoryState.isSuccess) handleAPISuccess('Thêm danh mục thành công!');
+    else if (addCategoryState.isError) handleAPIError(addCategoryState.error);
+  }, [addCategoryState]);
+
+  useEffect(() => {
+    if (editCategoryState.isSuccess) handleAPISuccess('Chỉnh sửa danh mục thành công!');
+    else if (editCategoryState.isError) handleAPIError(editCategoryState.error);
+  }, [editCategoryState]);
+
+  useEffect(() => {
+    if (removeCategoriesState.isSuccess) handleAPISuccess('Xóa danh mục thành công!');
+    else if (removeCategoriesState.isError) handleAPIError(removeCategoriesState.error);
+  }, [removeCategoriesState]);
+
+  // Handlers
+  const handleAddCategory = (values) => addCategory(values);
+  const handleEditCategory = (values) => editCategory({ id: selectedIds[0], ...values });
+  const handleRemoveCategories = () => removeCategories({ categoryIds: selectedIds });
+
   return (
     <div>
+      {/* Categories Table */}
       <CategoriesTable
         data={categoriesData?.results}
-        loading={categoriesState.isFetching}
-        columns={CategoriesTableColumns(handleEditCategory)}
-        onResetRowSelection={(callback) => (resetRowSelectionCallback = callback)}
+        loading={isFetching}
+        columns={categoriesTableColumns}
       />
 
+      {/* Add Category Dialog */}
       {triggeredBy === DialogActionType.AddNewCategory && (
         <FormDialog
           form={addCategoryForm}
           onSubmit={handleAddCategory}
           title='Thêm mới danh mục'
-          open={isDialogOpen && triggeredBy === DialogActionType.AddNewCategory}
+          open={isDialogOpen}
           setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
         >
           <FormField
@@ -116,12 +126,14 @@ const CategoriesManagerPage = () => {
           />
         </FormDialog>
       )}
+
+      {/* Edit Category Dialog */}
       {triggeredBy === DialogActionType.UpdateCategory && (
         <FormDialog
           form={editCategoryForm}
           onSubmit={handleEditCategory}
           title='Chỉnh sửa danh mục'
-          open={isDialogOpen && triggeredBy === DialogActionType.UpdateCategory}
+          open={isDialogOpen}
           setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
         >
           <FormField
@@ -167,9 +179,11 @@ const CategoriesManagerPage = () => {
           />
         </FormDialog>
       )}
+
+      {/* Delete Confirmation Dialog */}
       {triggeredBy === DialogActionType.DeleteCategory && (
         <DeleteConfirmDialog
-          open={isDialogOpen && triggeredBy === DialogActionType.DeleteCategory}
+          open={isDialogOpen}
           setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
           onClick={handleRemoveCategories}
         />

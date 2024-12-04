@@ -18,7 +18,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   if (
     result.error &&
     result.error.status === 401 &&
-    result.error.message === 'Không đúng mật khẩu'
+    result.error.data.message === 'Token đã hết hạn'
   ) {
     const refreshResult = await baseQuery(
       { url: '/refresh-token', method: 'POST' },
