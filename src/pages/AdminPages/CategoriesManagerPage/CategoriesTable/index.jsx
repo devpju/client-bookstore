@@ -29,6 +29,7 @@ export default function CategoriesTable({ columns, data, loading, handleCreateNe
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
   const tableData = useMemo(() => (loading ? Array(10).fill({}) : data), [loading, data]);
+  console.log(columnFilters);
   const tableColumns = useMemo(
     () =>
       loading
