@@ -2,7 +2,7 @@ import { convertToShortenedNumber } from '@/lib/utils';
 import StarIcon from '@/assets/icons/star.svg?react';
 import { Separator } from '@/components/ui/separator';
 
-const BookCardStats = ({ rating, sold, reviewCount }) => {
+const BookCardStats = ({ rating, sold = 0, reviewCount, starSize = 3, showRatingOnly = false }) => {
   const fullStars = Math.floor(rating);
   const emptyStars = 5 - fullStars;
 
@@ -12,19 +12,23 @@ const BookCardStats = ({ rating, sold, reviewCount }) => {
         <div className='flex items-center'>
           {Array.from({ length: fullStars }).map((_, index) => (
             <span key={index} className='text-yellow-500'>
-              <StarIcon className='size-3' />
+              <StarIcon className={`size-${starSize}`} />
             </span>
           ))}
           {Array.from({ length: emptyStars }).map((_, index) => (
             <span key={index + fullStars} className='text-gray-300'>
-              <StarIcon className='size-3' />
+              <StarIcon className={`size-${starSize}`} />
             </span>
           ))}
         </div>
-        <span>({reviewCount})</span>
+        {showRatingOnly ? null : <span>({reviewCount})</span>}
       </div>
-      <Separator orientation='vertical' className='h-3 bg-slate-400' />
-      <span>Đã bán {convertToShortenedNumber(sold)}</span>
+      {showRatingOnly ? null : (
+        <>
+          <Separator orientation='vertical' className='h-3 bg-slate-400' />
+          <span>Đã bán {convertToShortenedNumber(sold)}</span>
+        </>
+      )}
     </div>
   );
 };

@@ -1,11 +1,13 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/DataTableColumnHeader';
 import { convertToDDMMYYYY } from '@/lib/utils';
-import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/CategoriesTable/CategoriesTableRowActions';
+import BookCardStats from '@/components/cards/BookCard/BookCardStats';
+import ReviewsTableRowActions from './ReviewsTableRowActions';
 
-const categoriesTableColumns = [
+const reviewsTableColumns = [
   {
     id: 'select',
+    size: 50,
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -29,26 +31,53 @@ const categoriesTableColumns = [
   },
   {
     accessorKey: 'index',
+    size: 50,
     header: () => <span>STT</span>,
     cell: ({ row }) => <div className='m-w-[10px]'>{row.index + 1}</div>
   },
   {
-    accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Tên danh mục' />,
-    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('name')}</div>,
+    accessorKey: 'reviewerName',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Họ tên' />,
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('reviewerName')}</div>,
     enableSorting: true,
     enableHiding: true
   },
   {
-    accessorKey: 'isDeleted',
+    accessorKey: 'bookName',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Tên sách' />,
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('bookName')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'description',
+    size: 300,
+    header: () => <span>Nội dung</span>,
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('description')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'rating',
+    header: () => <span>Đánh giá</span>,
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>
+        {<BookCardStats rating={row.getValue('rating')} showRatingOnly={true} starSize={4} />}
+      </div>
+    )
+  },
+  {
+    accessorKey: 'isHidden',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Trạng thái' />,
     cell: ({ row }) => (
       <div className='m-w-[30px]'>
-        {!row.getValue('isDeleted') ? (
-          <div className='flex w-20 justify-center rounded-lg bg-info py-1 text-white'>Enabled</div>
+        {!row.getValue('isHidden') ? (
+          <div className='flex w-24 justify-center rounded-lg bg-info py-1 text-white'>
+            Đang hiện
+          </div>
         ) : (
-          <div className='flex w-20 justify-center rounded-lg bg-danger py-1 text-white'>
-            Disabled
+          <div className='flex w-24 justify-center rounded-lg bg-danger py-1 text-white'>
+            Đang ẩn
           </div>
         )}
       </div>
@@ -65,12 +94,11 @@ const categoriesTableColumns = [
     enableSorting: true,
     enableHiding: true
   },
-
   {
     id: 'actions',
     size: 30,
-    cell: ({ row }) => <CategoriesTableRowActions row={row} />
+    cell: ({ row }) => <ReviewsTableRowActions row={row} />
   }
 ];
 
-export default categoriesTableColumns;
+export default reviewsTableColumns;

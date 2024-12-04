@@ -12,7 +12,7 @@ import { Link, useLocation } from 'react-router';
 const breadcrumbNameMap = {
   '/dashboard': 'Dashboard',
   '/users': 'Quản lý Người dùng',
-  '/vouchers': 'Quản lý Voucher',
+  '/vouchers': 'Quản lý Mã giảm giá',
   '/reviews': 'Quản lý Đánh giá',
   '/orders': 'Quản lý Đơn hàng',
   '/books': 'Quản lý Sách',

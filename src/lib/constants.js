@@ -24,7 +24,8 @@ export const DialogActionType = {
   UpdateCategory: 'update-category',
   DeleteCategory: 'delete-category',
   UpdateUser: 'update-user',
-  DeleteUser: 'delete-user'
+  DeleteUser: 'delete-user',
+  DeleteReview: 'delete-review'
 };
 
 export const rolesList = [

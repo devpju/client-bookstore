@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
  * @param {string} inputClassName - Class name for the input element
  * @param {string} buttonClassName - Class name for the button element
  */
-const GlobalCategoriesSearchInput = ({
+const GlobalReviewsSearchInput = ({
   filters = {},
   onFiltersChange,
   isFiltered = false,
@@ -37,8 +37,8 @@ const GlobalCategoriesSearchInput = ({
   };
 
   const getStatusLabel = () => {
-    if (statusValue === false) return 'Enable';
-    if (statusValue === true) return 'Disable';
+    if (statusValue === true) return 'Đang ẩn';
+    if (statusValue === false) return 'Đang hiện';
     return 'Trạng thái';
   };
 
@@ -53,10 +53,9 @@ const GlobalCategoriesSearchInput = ({
 
       <Select value={statusValue.toString()} onValueChange={handleStatusChange}>
         <SelectTrigger className='h-8 w-[120px] border-slate-400'>{getStatusLabel()}</SelectTrigger>
-
         <SelectContent>
-          <SelectItem value='false'>Enable</SelectItem>
-          <SelectItem value='true'>Disable</SelectItem>
+          <SelectItem value='true'>Đang ẩn</SelectItem>
+          <SelectItem value='false'>Đang hiện</SelectItem>
         </SelectContent>
       </Select>
 
@@ -74,4 +73,4 @@ const GlobalCategoriesSearchInput = ({
   );
 };
 
-export default GlobalCategoriesSearchInput;
+export default GlobalReviewsSearchInput;
