@@ -6,7 +6,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
-import { Link, useLocation } from 'react-router'; // Đảm bảo dùng react-router-dom
+import { Fragment } from 'react';
+import { Link, useLocation } from 'react-router';
 
 const breadcrumbNameMap = {
   '/dashboard': 'Dashboard',
@@ -19,7 +20,7 @@ const breadcrumbNameMap = {
 };
 
 const AdminBreadcrumb = () => {
-  const location = useLocation(); // Lấy đường dẫn hiện tại.
+  const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x && x !== 'admin'); // Bỏ qua "admin"
 
   return (
@@ -40,23 +41,21 @@ const AdminBreadcrumb = () => {
           const to = `/admin/${pathnames.slice(0, index + 1).join('/')}`;
           const name = breadcrumbNameMap[`/${value}`] || value;
 
-          // Nếu là phần cuối, hiển thị dưới dạng Page, không có Separator sau
-          if (index === pathnames.length - 1) {
-            return (
-              <BreadcrumbItem key={to}>
-                <BreadcrumbPage>{name}</BreadcrumbPage>
-              </BreadcrumbItem>
-            );
-          }
+          const isLast = index === pathnames.length - 1;
 
-          // Các mục không phải cuối cùng, hiển thị với Separator
           return (
-            <BreadcrumbItem key={to}>
-              <BreadcrumbLink asChild>
-                <Link to={to}>{name}</Link>
-              </BreadcrumbLink>
-              <BreadcrumbSeparator />
-            </BreadcrumbItem>
+            <Fragment key={to}>
+              <BreadcrumbItem>
+                {isLast ? (
+                  <BreadcrumbPage>{name}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link to={to}>{name}</Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+              {!isLast && <BreadcrumbSeparator />} {/* Thêm Separator nếu không phải mục cuối */}
+            </Fragment>
           );
         })}
       </BreadcrumbList>

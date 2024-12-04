@@ -29,3 +29,5 @@ export const otpSchema = z.string().min(6, 'Vui lòng nhập đầy đủ 6 ký 
 export const normalTextSchema = z.string().min(1, 'Vui lòng nhập đầy đủ thông tin');
 
 export const normalBooleanSchema = z.boolean();
+
+export const stringArraySchema = z.array(z.string());

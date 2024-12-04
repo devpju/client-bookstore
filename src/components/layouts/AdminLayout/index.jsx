@@ -16,10 +16,8 @@ function AdminLayout() {
             <AdminBreadcrumb />
           </div>
         </header>
-        <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
-          <div>
-            <Outlet />
-          </div>
+        <div className='flex justify-center'>
+          <Outlet />
         </div>
       </SidebarInset>
     </SidebarProvider>

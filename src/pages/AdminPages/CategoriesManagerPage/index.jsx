@@ -22,6 +22,7 @@ import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
 import TextField from '@/components/inputs/TextField';
 import { FormField, FormItem, FormControl, FormLabel } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useSidebar } from '@/components/ui/sidebar';
 
 // Form validation schemas
 const addCategoryFormSchema = z.object({
@@ -35,7 +36,7 @@ const editCategoryFormSchema = z.object({
 
 const CategoriesManagerPage = () => {
   const dispatch = useDispatch();
-
+  const { state: sidebarState } = useSidebar();
   // State management
   const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
   const { selectedIds } = useSelector((state) => state.selector);
@@ -96,14 +97,17 @@ const CategoriesManagerPage = () => {
 
   return (
     <div>
-      {/* Categories Table */}
       <CategoriesTable
         data={categoriesData?.results}
         loading={isFetching}
         columns={categoriesTableColumns}
+        className={`transition-width duration-200 ${
+          sidebarState === 'collapsed'
+            ? 'w-[calc(100vw-5rem)]'
+            : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
+        }`}
       />
 
-      {/* Add Category Dialog */}
       {triggeredBy === DialogActionType.AddNewCategory && (
         <FormDialog
           form={addCategoryForm}
@@ -127,7 +131,6 @@ const CategoriesManagerPage = () => {
         </FormDialog>
       )}
 
-      {/* Edit Category Dialog */}
       {triggeredBy === DialogActionType.UpdateCategory && (
         <FormDialog
           form={editCategoryForm}
@@ -180,7 +183,6 @@ const CategoriesManagerPage = () => {
         </FormDialog>
       )}
 
-      {/* Delete Confirmation Dialog */}
       {triggeredBy === DialogActionType.DeleteCategory && (
         <DeleteConfirmDialog
           title='Xác nhận huỷ kích hoạt'

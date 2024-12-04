@@ -22,5 +22,30 @@ export const ACCOUNT_STATUS = {
 export const DialogActionType = {
   AddNewCategory: 'add-new-category',
   UpdateCategory: 'update-category',
-  DeleteCategory: 'delete-category'
+  DeleteCategory: 'delete-category',
+  UpdateUser: 'update-user',
+  DeleteUser: 'delete-user'
 };
+
+export const rolesList = [
+  {
+    value: 'admin',
+    label: 'Admin'
+  },
+  {
+    value: 'customer',
+    label: 'Customer'
+  },
+  {
+    value: 'seller',
+    label: 'Seller'
+  },
+  {
+    value: 'buyer',
+    label: 'Buyer'
+  },
+  {
+    value: 'editor',
+    label: 'Editor'
+  }
+];

@@ -5,16 +5,21 @@ import dialogReducer from './slices/dialogSlice';
 import selectorReducer from './slices/selectorSlice';
 import { authApi } from './apis/authApi';
 import { categoriesApi } from './apis/categoriesApi';
+import { usersApi } from './apis/usersApi';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     dialog: dialogReducer,
     selector: selectorReducer,
     [authApi.reducerPath]: authApi.reducer,
-    [categoriesApi.reducerPath]: categoriesApi.reducer
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware).concat(categoriesApi.middleware)
+    getDefaultMiddleware()
+      .concat(authApi.middleware)
+      .concat(categoriesApi.middleware)
+      .concat(usersApi.middleware)
 });
 
 setupListeners(store.dispatch);

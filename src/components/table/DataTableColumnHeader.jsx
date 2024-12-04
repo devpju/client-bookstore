@@ -19,7 +19,7 @@ export function DataTableColumnHeader({ column, title, className }) {
     <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' size='sm' className='-ml-3 py-1 data-[state=open]:bg-accent'>
+          <Button variant='ghost' size='sm' className='p-0 data-[state=open]:bg-accent'>
             <span>{title}</span>
             {column.getIsSorted() === 'desc' ? (
               <ArrowDown className='!size-4' />

@@ -1,9 +1,9 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/DataTableColumnHeader';
 import { convertToDDMMYYYY } from '@/lib/utils';
-import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/CategoriesTable/CategoriesTableRowActions';
+import UsersTableRowActions from './UsersTableRowActions';
 
-const categoriesTableColumns = [
+const usersTableColumns = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -33,26 +33,61 @@ const categoriesTableColumns = [
     cell: ({ row }) => <div className='m-w-[10px]'>{row.index + 1}</div>
   },
   {
-    accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Tên danh mục' />,
-    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('name')}</div>,
+    accessorKey: 'fullName',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Họ và tên' />,
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('fullName')}</div>,
     enableSorting: true,
     enableHiding: true
   },
   {
-    accessorKey: 'isDeleted',
+    accessorKey: 'phoneNumber',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Số điện thoại' />,
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('phoneNumber')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'email',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Email' />,
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('email')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'roles',
+    header: () => <span>Vai trò</span>,
+    cell: ({ row }) => (
+      <div className='m-w-[100px] flex gap-2'>
+        {row.getValue('roles')?.map((role) => (
+          <div key={role} className='w-fit rounded-sm bg-sky-700 px-2 py-1 text-white'>
+            {role.toUpperCase()}
+          </div>
+        )) ?? []}
+      </div>
+    )
+  },
+  {
+    accessorKey: 'version',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Trạng thái' />,
     cell: ({ row }) => (
       <div className='m-w-[30px]'>
-        {row.getValue('isDeleted') ? (
-          <div className='flex w-20 justify-center rounded-lg bg-info py-1 text-white'>Enabled</div>
+        {row.getValue('version') >= 0 ? (
+          <div className='flex w-20 justify-center rounded-lg bg-info py-1 text-white'>
+            Activating
+          </div>
         ) : (
           <div className='flex w-20 justify-center rounded-lg bg-danger py-1 text-white'>
-            Disabled
+            Banned
           </div>
         )}
       </div>
     ),
+    filterFn: (row, id, filterValue) =>
+      filterValue === -1
+        ? row.getValue(id) === -1
+        : filterValue === 1
+          ? row.getValue(id) >= 0
+          : true,
     enableSorting: true,
     enableHiding: true
   },
@@ -69,8 +104,8 @@ const categoriesTableColumns = [
   {
     id: 'actions',
     size: 30,
-    cell: ({ row }) => <CategoriesTableRowActions row={row} />
+    cell: ({ row }) => <UsersTableRowActions row={row} />
   }
 ];
 
-export default categoriesTableColumns;
+export default usersTableColumns;
