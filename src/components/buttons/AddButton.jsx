@@ -1,6 +1,6 @@
 import { Button } from '../ui/button';
 
-const AddNewButton = ({ onClick }) => {
+const AddButton = ({ onClick }) => {
   return (
     <Button
       size='sm'
@@ -11,4 +11,4 @@ const AddNewButton = ({ onClick }) => {
     </Button>
   );
 };
-export default AddNewButton;
+export default AddButton;

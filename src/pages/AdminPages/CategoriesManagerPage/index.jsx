@@ -183,6 +183,8 @@ const CategoriesManagerPage = () => {
       {/* Delete Confirmation Dialog */}
       {triggeredBy === DialogActionType.DeleteCategory && (
         <DeleteConfirmDialog
+          title='Xác nhận huỷ kích hoạt'
+          description={`Bạn có muốn huỷ kích hoạt ${selectedIds.length > 1 ? 'các' : ''} danh mục đã chọn không?`}
           open={isDialogOpen}
           setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
           onClick={handleRemoveCategories}

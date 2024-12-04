@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
-import AddNewButton from '@/components/buttons/AddNewButton';
-import DeleteMultiButton from '@/components/buttons/DeleteMultiButton';
 import { addIds } from '@/redux/slices/selectorSlice';
 import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
 import GlobalCategoriesSearchInput from './GlobalCategoriesSearchInput';
+import DangerTextButton from '@/components/buttons/DangerTextButton';
+import AddButton from '@/components/buttons/AddButton';
 
 export default function CategoriesTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -48,8 +48,10 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
   return (
     <div className='flex flex-col gap-2'>
       <div className='space-x-3'>
-        <AddNewButton onClick={onClickAddNewButton} />
-        {selectedIds.length > 0 && <DeleteMultiButton onClick={handleDeleteCategories} />}
+        <AddButton onClick={onClickAddNewButton} />
+        {selectedIds.length > 0 && (
+          <DangerTextButton name='Huỷ kích hoạt' onClick={handleDeleteCategories} />
+        )}
       </div>
       <div className='flex items-center justify-between space-x-2'>
         <GlobalCategoriesSearchInput

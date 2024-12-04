@@ -7,25 +7,22 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 import CancelButton from '../buttons/CancelButton';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { closeDialog } from '@/redux/slices/dialogSlice';
-import DeleteMultiButton from '../buttons/DeleteMultiButton';
+import DangerTextButton from '../buttons/DangerTextButton';
 
-const DeleteConfirmDialog = ({ open, setOpen, title = 'Xác nhận xoá', onClick }) => {
+const DeleteConfirmDialog = ({ open, setOpen, description, title = 'Xác nhận xoá', onClick }) => {
   const dispatch = useDispatch();
-  const { selectedIds } = useSelector((state) => state.selector);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>
-            Bạn có đồng ý xoá {selectedIds.length >= 2 && 'các'} danh mục này không?
-          </DialogDescription>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <CancelButton onClick={() => dispatch(closeDialog())} />
-          <DeleteMultiButton
+          <DangerTextButton
             name='Đồng ý'
             size='lg'
             onClick={() => {

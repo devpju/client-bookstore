@@ -1,6 +1,6 @@
 import { Button } from '../ui/button';
 
-const DeleteMultiButton = ({ onClick, name = 'Xoá', size }) => {
+const DangerTextButton = ({ onClick, name = 'Xoá', size }) => {
   return (
     <Button
       onClick={onClick}
@@ -11,4 +11,4 @@ const DeleteMultiButton = ({ onClick, name = 'Xoá', size }) => {
     </Button>
   );
 };
-export default DeleteMultiButton;
+export default DangerTextButton;

@@ -1,8 +1,9 @@
-import DeleteButton from '@/components/buttons/DeleteButton';
-import EditButton from '@/components/buttons/EditButton';
+import DangerIconButton from '@/components/buttons/DangerIconButton';
+import WarningIconButton from '@/components/buttons/WarningIconButton';
 import { DialogActionType } from '@/lib/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
+import { Ban } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 
 export default function CategoriesTableRowActions({ row }) {
@@ -27,8 +28,8 @@ export default function CategoriesTableRowActions({ row }) {
 
   return (
     <div className='flex items-center gap-2'>
-      <EditButton onClick={onClickEditButton} />
-      <DeleteButton onClick={onClickDeleteButton} />
+      <WarningIconButton onClick={onClickEditButton} />
+      <DangerIconButton icon={Ban} onClick={onClickDeleteButton} />
     </div>
   );
 }
