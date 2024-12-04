@@ -79,3 +79,43 @@ export function convertToDDMMYYYY(isoDate) {
   const year = date.getFullYear(); // Lấy năm
   return `${day}/${month}/${year}`; // Ghép thành định dạng dd/mm/yyyy
 }
+/**
+ * Lấy trạng thái mới nhất từ danh sách log.
+ * @param {Array} logs - Danh sách các log, mỗi log có `id`, `status`, và `date`.
+ * @returns {string | null} - Trạng thái mới nhất hoặc null nếu không có log.
+ */
+export const getLatestStatus = (logs) => {
+  if (!Array.isArray(logs) || logs.length === 0) return null;
+
+  // Tìm log có ngày mới nhất
+  const latestLog = logs.reduce((latest, current) =>
+    new Date(current.date) > new Date(latest.date) ? current : latest
+  );
+
+  return latestLog.status;
+};
+
+/**
+ * Tính tổng số tiền của tất cả các đơn hàng.
+ * @param {Array} orders - Danh sách các đơn hàng.
+ * @returns {number} - Tổng số tiền của tất cả các đơn hàng.
+ */
+export const calculateTotalAmount = (orders) => {
+  if (!Array.isArray(orders) || orders.length === 0) return 0;
+
+  return orders.reduce((total, order) => total + (order.totalAmount || 0), 0);
+};
+/**
+ * Format address object into "ward-district-province" format.
+ * @param {Object} address - The address object.
+ * @param {Object} address.ward - Ward object with a name property.
+ * @param {Object} address.district - District object with a name property.
+ * @param {Object} address.province - Province object with a name property.
+ * @returns {string} - The formatted address string.
+ */
+export function formatAddress(address) {
+  if (!address || !address.ward || !address.district || !address.province) {
+    throw new Error('Invalid address object');
+  }
+  return `${address.ward.name} - ${address.district.name} - ${address.province.name}`;
+}

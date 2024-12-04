@@ -12,11 +12,6 @@ export const usersApi = createApi({
       }),
       providesTags: ['Users']
     }),
-    fetchDetailUsers: builder.query({
-      query: ({ id }) => ({
-        url: `/admin/users/${id}`
-      })
-    }),
     editUserRoles: builder.mutation({
       query: ({ id, roles }) => ({
         url: `/admin/users/${id}`,
@@ -24,6 +19,11 @@ export const usersApi = createApi({
         body: { roles }
       }),
       invalidatesTags: ['Users']
+    }),
+    fetchDetailUser: builder.query({
+      query: ({ id }) => ({
+        url: `/admin/users/${id}`
+      })
     }),
     removeUsers: builder.mutation({
       query: ({ userIds }) => ({
@@ -37,8 +37,8 @@ export const usersApi = createApi({
 });
 
 export const {
-  useFetchDetailUsersQuery,
   useFetchUsersQuery,
   useEditUserRolesMutation,
-  useRemoveUsersMutation
+  useRemoveUsersMutation,
+  useFetchDetailUserQuery
 } = usersApi;
