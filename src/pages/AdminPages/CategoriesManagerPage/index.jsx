@@ -20,9 +20,9 @@ import categoriesTableColumns from './CategoriesTable/categoriesTableColumns';
 import FormDialog from '@/components/dialogs/FormDialog';
 import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
 import TextField from '@/components/inputs/TextField';
-import { FormField, FormItem, FormControl, FormLabel } from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { FormField } from '@/components/ui/form';
 import { useSidebar } from '@/components/ui/sidebar';
+import RadioGroupField from '@/components/inputs/RadioGroupField';
 
 // Form validation schemas
 const addCategoryFormSchema = z.object({
@@ -60,7 +60,7 @@ const CategoriesManagerPage = () => {
       isDeleted: dialogData?.rowData?.isDeleted || false
     }
   });
-
+  console.log(editCategoryForm);
   // Update edit form when dialog data changes
   useEffect(() => {
     if (dialogData?.rowData) {
@@ -155,29 +155,15 @@ const CategoriesManagerPage = () => {
             control={editCategoryForm.control}
             name='isDeleted'
             render={({ field }) => (
-              <FormItem className='space-y-3'>
-                <FormLabel>Trạng thái</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={(value) => field.onChange(value === 'true')}
-                    defaultValue={String(field.value)}
-                    className='flex flex-col space-y-1'
-                  >
-                    <FormItem className='flex items-center space-x-3'>
-                      <FormControl>
-                        <RadioGroupItem value='true' />
-                      </FormControl>
-                      <FormLabel className='font-normal'>Enable</FormLabel>
-                    </FormItem>
-                    <FormItem className='flex items-center space-x-3'>
-                      <FormControl>
-                        <RadioGroupItem value='false' />
-                      </FormControl>
-                      <FormLabel className='font-normal'>Disable</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-              </FormItem>
+              <RadioGroupField
+                field={field}
+                label='Trạng thái'
+                onValueChange={(value, field) => field.onChange(value === 'true')}
+                options={[
+                  { value: true, label: 'Disable' },
+                  { value: false, label: 'Enable' }
+                ]}
+              />
             )}
           />
         </FormDialog>
