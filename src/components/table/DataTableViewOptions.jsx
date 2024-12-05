@@ -28,7 +28,7 @@ export function DataTableViewOptions({ table, dataViewOptions }) {
           variant='outline'
           role='combobox'
           size='sm'
-          className='ml-auto h-8 gap-2 border-dotted border-slate-400 hover:bg-white hover:text-primary lg:flex'
+          className='ml-auto h-8 gap-2 border-dashed border-slate-400 hover:bg-white hover:text-primary lg:flex'
         >
           <Settings2 className='size-3' />
           Hiển thị

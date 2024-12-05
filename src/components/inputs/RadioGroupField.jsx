@@ -18,12 +18,12 @@ const RadioGroupField = ({
   };
   return (
     <FormItem className={containerClassName}>
-      {label && <FormLabel className='mb-[5px] block font-medium text-primary'>{label}</FormLabel>}
+      {label && <FormLabel className='mb-3 block font-medium text-primary'>{label}</FormLabel>}
       <FormControl>
         <RadioGroup
           onValueChange={handleValueChange}
           defaultValue={String(field.value)}
-          className={`flex flex-col space-y-1 ${radioGroupClassName}`}
+          className={`flex ${radioGroupClassName}`}
         >
           {options.map((option) => (
             <FormItem key={option.value} className='flex items-center space-x-3'>

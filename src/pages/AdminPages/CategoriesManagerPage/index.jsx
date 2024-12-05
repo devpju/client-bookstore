@@ -7,93 +7,85 @@ import { toast } from 'sonner';
 
 import {
   useAddCategoryMutation,
-  useEditCategoryMutation,
-  useFetchCategoriesQuery,
-  useRemoveCategoriesMutation
+  useUpdateCategoryMutation,
+  useGetCategoriesQuery,
+  useToggleCategoriesVisibilityMutation
 } from '@/redux/apis/categoriesApi';
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
-import { normalBooleanSchema, normalTextSchema } from '@/lib/validations';
+import { normalTextSchema } from '@/lib/validations';
 
 import CategoriesTable from './CategoriesTable';
 import categoriesTableColumns from './CategoriesTable/categoriesTableColumns';
 import FormDialog from '@/components/dialogs/FormDialog';
-import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
 import TextField from '@/components/inputs/TextField';
 import { FormField } from '@/components/ui/form';
 import { useSidebar } from '@/components/ui/sidebar';
-import RadioGroupField from '@/components/inputs/RadioGroupField';
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 
-// Form validation schemas
 const addCategoryFormSchema = z.object({
   name: normalTextSchema
-});
-
-const editCategoryFormSchema = z.object({
-  name: normalTextSchema,
-  isDeleted: normalBooleanSchema
 });
 
 const CategoriesManagerPage = () => {
   const dispatch = useDispatch();
   const { state: sidebarState } = useSidebar();
-  // State management
-  const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
+  const { isDialogOpen, triggeredBy, dialogData } = useSelector(
+    (state) => state.dialog
+  );
   const { selectedIds } = useSelector((state) => state.selector);
 
-  // API hooks
-  const { data: categoriesData, isFetching } = useFetchCategoriesQuery();
+  const { data: categoriesData, isFetching } = useGetCategoriesQuery();
   const [addCategory, addCategoryState] = useAddCategoryMutation();
-  const [editCategory, editCategoryState] = useEditCategoryMutation();
-  const [removeCategories, removeCategoriesState] = useRemoveCategoriesMutation();
+  const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
+  const [toggleVisibilityCategories, toggleVisibilityCategoriesState] =
+    useToggleCategoriesVisibilityMutation();
 
-  // Form configurations
-  const addCategoryForm = useForm({
+  const categoryForm = useForm({
     resolver: zodResolver(addCategoryFormSchema),
     defaultValues: { name: '' }
   });
 
-  const editCategoryForm = useForm({
-    resolver: zodResolver(editCategoryFormSchema),
-    defaultValues: {
-      name: dialogData?.rowData?.name || '',
-      isDeleted: dialogData?.rowData?.isDeleted || false
-    }
-  });
-  console.log(editCategoryForm);
-  // Update edit form when dialog data changes
   useEffect(() => {
     if (dialogData?.rowData) {
-      editCategoryForm.reset({
+      categoryForm.reset({
         name: dialogData.rowData.name,
         isDeleted: dialogData.rowData.isDeleted
       });
     }
-  }, [dialogData, editCategoryForm]);
+  }, [dialogData, categoryForm]);
 
-  // API success/error handling
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
 
   useEffect(() => {
-    if (addCategoryState.isSuccess) handleAPISuccess('Thêm danh mục thành công!');
+    if (addCategoryState.isSuccess)
+      handleAPISuccess('Thêm danh mục thành công!');
     else if (addCategoryState.isError) handleAPIError(addCategoryState.error);
   }, [addCategoryState]);
 
   useEffect(() => {
-    if (editCategoryState.isSuccess) handleAPISuccess('Chỉnh sửa danh mục thành công!');
-    else if (editCategoryState.isError) handleAPIError(editCategoryState.error);
-  }, [editCategoryState]);
+    if (updateCategoryState.isSuccess)
+      handleAPISuccess('Cập nhật thông tin danh mục thành công!');
+    else if (updateCategoryState.isError)
+      handleAPIError(updateCategoryState.error);
+  }, [updateCategoryState]);
 
   useEffect(() => {
-    if (removeCategoriesState.isSuccess) handleAPISuccess('Xóa danh mục thành công!');
-    else if (removeCategoriesState.isError) handleAPIError(removeCategoriesState.error);
-  }, [removeCategoriesState]);
+    if (toggleVisibilityCategoriesState.isSuccess)
+      handleAPISuccess('Cập nhật trạng thái danh mục thành công!');
+    else if (toggleVisibilityCategoriesState.isError)
+      handleAPIError(toggleVisibilityCategoriesState.error);
+  }, [toggleVisibilityCategoriesState]);
 
-  // Handlers
   const handleAddCategory = (values) => addCategory(values);
-  const handleEditCategory = (values) => editCategory({ id: selectedIds[0], ...values });
-  const handleRemoveCategories = () => removeCategories({ categoryIds: selectedIds });
+  const handleUpdateCategory = (values) =>
+    updateCategory({ id: selectedIds[0], ...values });
+  const handleToggleVisibilityCategory = () =>
+    toggleVisibilityCategories({
+      categoryIds: selectedIds,
+      visible: dialogData.isCategoryHidden
+    });
 
   return (
     <div>
@@ -101,81 +93,71 @@ const CategoriesManagerPage = () => {
         data={categoriesData?.results}
         loading={isFetching}
         columns={categoriesTableColumns}
-        className={`transition-width duration-200 ${
+        className={`mt-3 transition-width duration-200 ${
           sidebarState === 'collapsed'
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}
       />
 
-      {triggeredBy === DialogActionType.AddNewCategory && (
+      {triggeredBy === DialogActionType.ADD_NEW_CATEGORY && (
         <FormDialog
-          form={addCategoryForm}
+          form={categoryForm}
           onSubmit={handleAddCategory}
           title='Thêm mới danh mục'
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
         >
           <FormField
-            control={addCategoryForm.control}
+            control={categoryForm.control}
             name='name'
             render={({ field }) => (
               <TextField
                 field={field}
                 placeholder='Nhập tên danh mục'
                 label='Tên danh mục'
-                isError={!!addCategoryForm.formState.errors.name}
+                isError={!!categoryForm.formState.errors.name}
               />
             )}
           />
         </FormDialog>
       )}
-
-      {triggeredBy === DialogActionType.UpdateCategory && (
+      {triggeredBy === DialogActionType.UPDATE_CATEGORY && (
         <FormDialog
-          form={editCategoryForm}
-          onSubmit={handleEditCategory}
+          form={categoryForm}
+          onSubmit={handleUpdateCategory}
           title='Chỉnh sửa danh mục'
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
         >
           <FormField
-            control={editCategoryForm.control}
+            control={categoryForm.control}
             name='name'
             render={({ field }) => (
               <TextField
                 field={field}
                 placeholder='Nhập tên danh mục'
                 label='Tên danh mục'
-                isError={!!editCategoryForm.formState.errors.name}
-              />
-            )}
-          />
-          <FormField
-            control={editCategoryForm.control}
-            name='isDeleted'
-            render={({ field }) => (
-              <RadioGroupField
-                field={field}
-                label='Trạng thái'
-                onValueChange={(value, field) => field.onChange(value === 'true')}
-                options={[
-                  { value: true, label: 'Disable' },
-                  { value: false, label: 'Enable' }
-                ]}
+                isError={!!categoryForm.formState.errors.name}
               />
             )}
           />
         </FormDialog>
       )}
-
-      {triggeredBy === DialogActionType.DeleteCategory && (
-        <DeleteConfirmDialog
-          title='Xác nhận huỷ kích hoạt'
-          description={`Bạn có muốn huỷ kích hoạt ${selectedIds.length > 1 ? 'các' : ''} danh mục đã chọn không?`}
+      {triggeredBy === DialogActionType.TOGGLE_VISIBILITY_CATEGORY && (
+        <ConfirmDialog
+          title={`Xác nhận ${dialogData?.isCategoryHidden ? 'hiển thị' : 'ẩn'} danh mục`}
+          description={`Bạn có muốn ${dialogData?.isCategoryHidden ? 'hiển thị' : 'ẩn'} 
+          ${selectedIds.length > 1 ? 'các' : ''} danh mục đã chọn không?`}
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-          onClick={handleRemoveCategories}
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
+          onClick={handleToggleVisibilityCategory}
         />
       )}
     </div>

@@ -20,9 +20,9 @@ export const ACCOUNT_STATUS = {
 };
 
 export const DialogActionType = {
-  AddNewCategory: 'add-new-category',
-  UpdateCategory: 'update-category',
-  DeleteCategory: 'delete-category',
+  ADD_NEW_CATEGORY: 'add-new-category',
+  UPDATE_CATEGORY: 'update-category',
+  TOGGLE_VISIBILITY_CATEGORY: 'delete-category',
   AddNewVoucher: 'add-new-voucher',
   UpdateVoucher: 'update-voucher',
   DeleteVoucher: 'delete-voucher',

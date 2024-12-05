@@ -1,6 +1,6 @@
 import { Button } from '../ui/button';
 
-const DangerTextButton = ({ onClick, name = 'Xoá', size, className }) => {
+const DangerTextButton = ({ onClick, name = 'Xoá', size = 'sm', className }) => {
   return (
     <Button
       onClick={onClick}

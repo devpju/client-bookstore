@@ -48,11 +48,11 @@ const GlobalCategoriesSearchInput = ({
         placeholder='Tìm kiếm theo tên...'
         value={filterValue}
         onChange={handleInputChange}
-        className={`h-8 w-[150px] border-slate-400 hover:border-slate-500 focus-visible:ring-0 lg:w-[250px] ${inputClassName}`}
+        className={`h-8 w-[150px] border-dashed border-slate-400 hover:border-slate-500 focus-visible:ring-0 lg:w-[250px] ${inputClassName}`}
       />
 
       <Select value={statusValue.toString()} onValueChange={handleStatusChange}>
-        <SelectTrigger className='h-8 w-[120px] border-dotted border-slate-400 focus:ring-0'>
+        <SelectTrigger className='h-8 w-[120px] border-dashed border-slate-400 focus:ring-0'>
           {getStatusLabel()}
         </SelectTrigger>
         <SelectContent>

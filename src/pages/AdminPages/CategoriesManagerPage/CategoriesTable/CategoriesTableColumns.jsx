@@ -6,11 +6,12 @@ import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/
 const categoriesTableColumns = [
   {
     id: 'select',
-    size: 50,
+    size: 30,
     header: ({ table }) => (
       <Checkbox
         checked={
-          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
@@ -30,28 +31,34 @@ const categoriesTableColumns = [
   },
   {
     accessorKey: 'index',
-    size: 50,
+    size: 30,
     header: () => <span>STT</span>,
-    cell: ({ row }) => <div className='m-w-[10px]'>{row.index + 1}</div>
+    cell: ({ row }) => <div className='m-w-[10px]'>{row.index + 1}</div>,
+    enableSorting: false,
+    enableHiding: false
   },
   {
     accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Tên danh mục' />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tên danh mục' />
+    ),
     cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('name')}</div>,
     enableSorting: true,
     enableHiding: true
   },
   {
-    accessorKey: 'isDeleted',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Trạng thái' />,
+    accessorKey: 'isHidden',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Trạng thái' />
+    ),
     cell: ({ row }) => (
       <div className='m-w-[30px]'>
-        {!row.getValue('isDeleted') ? (
-          <div className='flex w-24 justify-center rounded-lg bg-info py-1 text-white'>
+        {!row.getValue('isHidden') ? (
+          <div className='flex w-24 justify-center rounded-sm border border-info font-semibold text-info'>
             Đang hiện
           </div>
         ) : (
-          <div className='flex w-24 justify-center rounded-lg bg-danger py-1 text-white'>
+          <div className='flex w-24 justify-center rounded-sm border border-danger font-semibold text-danger'>
             Đang ẩn
           </div>
         )}
@@ -62,9 +69,13 @@ const categoriesTableColumns = [
   },
   {
     accessorKey: 'createdAt',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Ngày tạo' />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Ngày tạo' />
+    ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{convertToDDMMYYYY(row.getValue('createdAt'))}</div>
+      <div className='m-w-[30px]'>
+        {convertToDDMMYYYY(row.getValue('createdAt'))}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true
@@ -72,7 +83,7 @@ const categoriesTableColumns = [
 
   {
     id: 'actions',
-    size: 50,
+    size: 100,
     cell: ({ row }) => <CategoriesTableRowActions row={row} />
   }
 ];
