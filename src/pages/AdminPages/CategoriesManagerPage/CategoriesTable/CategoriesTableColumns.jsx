@@ -72,6 +72,18 @@ const categoriesTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Ngày tạo' />
     ),
+    filterFn: (row, id, filterValue) => {
+      const rowValue = new Date(row.getValue(id)); // Lấy giá trị `createdAt` của dòng và chuyển thành Date
+      const { from, to } = filterValue || {}; // Lấy phạm vi ngày từ filterValue
+
+      if (!from || !to) return true; // Không lọc nếu không có giá trị ngày
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+
+      // Kiểm tra nếu rowValue nằm trong khoảng từ `from` đến `to`
+      return rowValue >= fromDate && rowValue <= toDate;
+    },
+
     cell: ({ row }) => (
       <div className='m-w-[30px]'>
         {convertToDDMMYYYY(row.getValue('createdAt'))}

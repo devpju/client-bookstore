@@ -4,21 +4,25 @@ import { openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
 import { addIds } from '@/redux/slices/selectorSlice';
 import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
-import GlobalCategoriesSearchInput from './GlobalCategoriesSearchInput';
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import NormalButton from '@/components/buttons/NormalButton';
+import FiltersInput from './FiltersInput';
 
 export default function CategoriesTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
   const selectedIds = Object.keys(rowSelection);
 
   const [filters, setFilters] = useState({
-    filterValue: '',
-    statusValue: ''
+    searchText: '',
+    status: '',
+    dateRange: null
   });
 
-  const isFiltered = filters.filterValue !== '' || filters.statusValue !== '';
+  const isFiltered =
+    filters.searchText !== '' ||
+    filters.status !== '' ||
+    filters.dateRange !== null;
 
   const handleToggleVisibilityCategory = ({ isHidden }) => {
     if (selectedIds.length > 0) {
@@ -44,8 +48,9 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
-    table.getColumn('name')?.setFilterValue(newFilters.filterValue);
-    table.getColumn('isHidden')?.setFilterValue(newFilters.statusValue);
+    table.getColumn('name')?.setFilterValue(newFilters.searchText);
+    table.getColumn('isHidden')?.setFilterValue(newFilters.status);
+    table.getColumn('createdAt')?.setFilterValue(newFilters.dateRange);
   };
 
   return (
@@ -74,7 +79,7 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
         )}
       </div>
       <div className='flex items-center justify-between space-x-2'>
-        <GlobalCategoriesSearchInput
+        <FiltersInput
           filters={filters}
           onFiltersChange={handleFiltersChange}
           isFiltered={isFiltered}
