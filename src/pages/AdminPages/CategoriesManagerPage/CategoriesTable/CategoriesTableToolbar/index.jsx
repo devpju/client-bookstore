@@ -5,8 +5,9 @@ import { DialogActionType } from '@/lib/constants';
 import { addIds } from '@/redux/slices/selectorSlice';
 import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
 import GlobalCategoriesSearchInput from './GlobalCategoriesSearchInput';
-import DangerTextButton from '@/components/buttons/DangerTextButton';
-import AddButton from '@/components/buttons/AddButton';
+import DangerButton from '@/components/buttons/DangerButton';
+import InfoButton from '@/components/buttons/InfoButton';
+import NormalButton from '@/components/buttons/NormalButton';
 
 export default function CategoriesTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -19,22 +20,24 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
 
   const isFiltered = filters.filterValue !== '' || filters.statusValue !== '';
 
-  const handleDeleteCategories = () => {
+  const handleToggleVisibilityCategory = ({ isHidden }) => {
     if (selectedIds.length > 0) {
       dispatch(addIds(selectedIds));
     }
-
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.DeleteCategory
+        triggeredBy: DialogActionType.TOGGLE_VISIBILITY_CATEGORY,
+        data: {
+          isCategoryHidden: isHidden
+        }
       })
     );
   };
 
-  const onClickAddNewButton = () => {
+  const handleAddNewCategory = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.AddNewCategory
+        triggeredBy: DialogActionType.ADD_NEW_CATEGORY
       })
     );
   };
@@ -48,9 +51,26 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
   return (
     <div className='flex flex-col gap-2'>
       <div className='space-x-3'>
-        <AddButton onClick={onClickAddNewButton} />
+        <NormalButton
+          name='Thêm mới'
+          className='px-3 py-2'
+          onClick={handleAddNewCategory}
+        />
         {selectedIds.length > 0 && (
-          <DangerTextButton name='Ẩn các danh mục đã chọn' onClick={handleDeleteCategories} />
+          <>
+            <InfoButton
+              className='px-3 py-2'
+              name='Hiển thị các DM đã chọn'
+              onClick={() => handleToggleVisibilityCategory({ isHidden: true })}
+            />
+            <DangerButton
+              className='px-3 py-2'
+              name='Ẩn các DM đã chọn'
+              onClick={() =>
+                handleToggleVisibilityCategory({ isHidden: false })
+              }
+            />
+          </>
         )}
       </div>
       <div className='flex items-center justify-between space-x-2'>
@@ -64,7 +84,7 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
           dataViewOptions={{
             index: 'STT',
             createdAt: 'Ngày tạo',
-            isDeleted: 'Trạng thái',
+            isHidden: 'Trạng thái',
             name: 'Tên danh mục'
           }}
         />

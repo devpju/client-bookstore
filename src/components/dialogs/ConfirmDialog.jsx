@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { closeDialog } from '@/redux/slices/dialogSlice';
 import DangerTextButton from '../buttons/DangerTextButton';
 
-const DeleteConfirmDialog = ({ open, setOpen, description, title = 'Xác nhận xoá', onClick }) => {
+const ConfirmDialog = ({ open, setOpen, description, title, onClick }) => {
   const dispatch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -36,4 +36,4 @@ const DeleteConfirmDialog = ({ open, setOpen, description, title = 'Xác nhận 
   );
 };
 
-export default DeleteConfirmDialog;
+export default ConfirmDialog;
