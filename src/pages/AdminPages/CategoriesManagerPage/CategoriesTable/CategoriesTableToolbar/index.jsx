@@ -7,7 +7,7 @@ import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import NormalButton from '@/components/buttons/NormalButton';
-import FiltersInput from './FiltersInput';
+import CategoriesFiltersInput from './CategoriesFiltersInput';
 
 export default function CategoriesTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
     filters.status !== '' ||
     filters.dateRange !== null;
 
-  const handleToggleVisibilityCategory = ({ isHidden }) => {
+  const handleToggleVisibilityCategories = ({ isHidden }) => {
     if (selectedIds.length > 0) {
       dispatch(addIds(selectedIds));
     }
@@ -55,31 +55,31 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
 
   return (
     <div className='flex flex-col gap-2'>
-      <div className='space-x-3'>
+      <div className='flex gap-3'>
         <NormalButton
           name='Thêm mới'
           className='px-3 py-2'
           onClick={handleAddNewCategory}
         />
-        {selectedIds.length > 0 && (
-          <>
-            <InfoButton
-              className='px-3 py-2'
-              name='Hiển thị các DM đã chọn'
-              onClick={() => handleToggleVisibilityCategory({ isHidden: true })}
-            />
-            <DangerButton
-              className='px-3 py-2'
-              name='Ẩn các DM đã chọn'
-              onClick={() =>
-                handleToggleVisibilityCategory({ isHidden: false })
-              }
-            />
-          </>
-        )}
+        <div
+          className={`space-x-3 transition-opacity duration-200 ${selectedIds.length > 0 ? 'visible opacity-100' : 'invisible opacity-0'}`}
+        >
+          <InfoButton
+            className='px-3 py-2'
+            name='Hiển thị các DM đã chọn'
+            onClick={() => handleToggleVisibilityCategories({ isHidden: true })}
+          />
+          <DangerButton
+            className='px-3 py-2'
+            name='Ẩn các DM đã chọn'
+            onClick={() =>
+              handleToggleVisibilityCategories({ isHidden: false })
+            }
+          />
+        </div>
       </div>
       <div className='flex items-center justify-between space-x-2'>
-        <FiltersInput
+        <CategoriesFiltersInput
           filters={filters}
           onFiltersChange={handleFiltersChange}
           isFiltered={isFiltered}

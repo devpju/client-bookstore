@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 
-const FiltersInput = ({
+const CategoriesFiltersInput = ({
   filters = {},
   onFiltersChange,
   isFiltered = false
@@ -90,4 +90,4 @@ const FiltersInput = ({
   );
 };
 
-export default FiltersInput;
+export default CategoriesFiltersInput;

@@ -18,7 +18,6 @@ import { cn } from '@/lib/utils';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
 const formatDate = (date, locale = 'vi-VN') => {
-  console.log(date); //
   return date.toLocaleDateString(locale, {
     month: 'short',
     day: 'numeric',

@@ -21,15 +21,9 @@ import {
 import { DataTablePagination } from '@/components/table/DataTablePagination';
 import { useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import CategoriesTableToolbar from './CategoriesTableToolbar';
+import ReviewsTableToolbar from './ReviewsTableToolbar';
 
-export default function CategoriesTable({
-  columns,
-  data,
-  loading,
-  handleCreateNewCategory,
-  className
-}) {
+export default function ReviewsTable({ columns, data, loading, className }) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
@@ -74,11 +68,7 @@ export default function CategoriesTable({
   });
   return (
     <div className={`space-y-4 ${className}`}>
-      <CategoriesTableToolbar
-        rowSelection={rowSelection}
-        table={table}
-        handleCreateNewCategory={handleCreateNewCategory}
-      />
+      <ReviewsTableToolbar rowSelection={rowSelection} table={table} />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>

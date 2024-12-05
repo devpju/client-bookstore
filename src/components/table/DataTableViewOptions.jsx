@@ -13,12 +13,16 @@ import {
   CommandItem,
   CommandList
 } from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
 import { useRef } from 'react';
 
 export function DataTableViewOptions({ table, dataViewOptions }) {
   const triggerRef = useRef(null);
-
+  console.log(table.getAllColumns());
   return (
     <Popover modal>
       <PopoverTrigger asChild>
@@ -47,15 +51,23 @@ export function DataTableViewOptions({ table, dataViewOptions }) {
             <CommandGroup>
               {table
                 .getAllColumns()
-                .filter((column) => typeof column.accessorFn !== 'undefined' && column.getCanHide())
+                .filter(
+                  (column) =>
+                    (typeof column.accessorFn !== 'undefined' ||
+                      column.id === 'index') &&
+                    column.getCanHide()
+                )
                 .map((column) => {
                   return (
                     <CommandItem
                       key={column.id}
-                      onSelect={() => column.toggleVisibility(!column.getIsVisible())}
+                      onSelect={() =>
+                        column.toggleVisibility(!column.getIsVisible())
+                      }
                     >
                       <span className='truncate'>
-                        {dataViewOptions[column.id] ?? toSentenceCase(column.id)}
+                        {dataViewOptions[column.id] ??
+                          toSentenceCase(column.id)}
                       </span>
                       <Check
                         className={cn(

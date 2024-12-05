@@ -1,9 +1,9 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/DataTableColumnHeader';
 import { convertToDDMMYYYY } from '@/lib/utils';
-import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/CategoriesTable/CategoriesTableRowActions';
-
-const categoriesTableColumns = [
+import ReviewsTableRowActions from './ReviewsTableRowActions';
+import RatingStars from '@/components/cards/BookCard/BookCardStats/RatingStars';
+const reviewsTableColumns = [
   {
     id: 'select',
     size: 30,
@@ -30,26 +30,64 @@ const categoriesTableColumns = [
     enableHiding: false
   },
   {
-    accessorKey: 'index',
+    id: 'index',
     size: 30,
     header: () => <div className='w-full text-center'>STT</div>,
     cell: ({ row }) => (
       <div className='w-full text-center'>{row.index + 1}</div>
     ),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: true
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'bookName',
+    size: 150,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tên danh mục' />
+      <DataTableColumnHeader column={column} title='Tên sách' />
     ),
-    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('name')}</div>,
+    cell: ({ row }) => (
+      <div className='line-clamp-2'>{row.getValue('bookName')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'reviewerName',
+    size: 100,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Họ và tên' />
+    ),
+    cell: ({ row }) => <div>{row.getValue('reviewerName')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'rating',
+    size: 80,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Đánh giá' />
+    ),
+    cell: ({ row }) => (
+      <div>
+        <RatingStars rating={row.getValue('rating')} starSize={4} />
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'description',
+    size: 250,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Nội dung' />
+    ),
+    cell: ({ row }) => <div>{row.getValue('description')}</div>,
     enableSorting: true,
     enableHiding: true
   },
   {
     accessorKey: 'isHidden',
+    size: 100,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Trạng thái' />
     ),
@@ -71,6 +109,7 @@ const categoriesTableColumns = [
   },
   {
     accessorKey: 'createdAt',
+    size: 80,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Ngày tạo' />
     ),
@@ -95,9 +134,9 @@ const categoriesTableColumns = [
   {
     id: 'actions',
     header: () => <div className='w-full text-center'>Thao tác</div>,
-    size: 100,
-    cell: ({ row }) => <CategoriesTableRowActions row={row} />
+    size: 60,
+    cell: ({ row }) => <ReviewsTableRowActions row={row} />
   }
 ];
 
-export default categoriesTableColumns;
+export default reviewsTableColumns;

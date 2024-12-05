@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 
-const FiltersInput = ({
+const ReviewsFiltersInput = ({
   filters = {},
   onFiltersChange,
   isFiltered = false
@@ -52,10 +52,10 @@ const FiltersInput = ({
   return (
     <div className='flex items-center gap-5'>
       <Input
-        placeholder='Tìm kiếm theo tên...'
+        placeholder='Tìm kiếm theo tên sách...'
         value={searchText}
         onChange={handleSearchTextChange}
-        className='h-8 w-48 border-dashed border-slate-400 focus-visible:ring-0'
+        className='h-8 w-52 border-dashed border-slate-400 focus-visible:ring-0'
       />
 
       <Select value={status.toString()} onValueChange={handleStatusChange}>
@@ -90,4 +90,4 @@ const FiltersInput = ({
   );
 };
 
-export default FiltersInput;
+export default ReviewsFiltersInput;

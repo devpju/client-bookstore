@@ -37,7 +37,7 @@ const categoriesTableColumns = [
       <div className='w-full text-center'>{row.index + 1}</div>
     ),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: true
   },
   {
     accessorKey: 'name',
