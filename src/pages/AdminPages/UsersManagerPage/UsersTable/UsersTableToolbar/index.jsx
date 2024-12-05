@@ -53,12 +53,12 @@ export default function UsersTableToolbar({ rowSelection, table }) {
         <DataTableViewOptions
           table={table}
           dataViewOptions={{
+            index: 'STT',
             createdAt: 'Ngày tạo',
             version: 'Trạng thái',
             fullName: 'Họ và tên',
             phoneNumber: 'Số điện thoại',
-            email: 'Email',
-            index: 'Số thứ tự'
+            email: 'Email'
           }}
         />
       </div>

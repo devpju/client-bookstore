@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
  * @param {string} inputClassName - Class name for the input element
  * @param {string} buttonClassName - Class name for the button element
  */
-const GlobalCategoriesSearchInput = ({
+const GlobalVouchersSearchInput = ({
   filters = {},
   onFiltersChange,
   isFiltered = false,
@@ -37,27 +37,26 @@ const GlobalCategoriesSearchInput = ({
   };
 
   const getStatusLabel = () => {
-    if (statusValue === false) return 'Đang hiện';
-    if (statusValue === true) return 'Đang ẩn';
+    if (statusValue === false) return 'Đã huỷ';
+    if (statusValue === true) return 'Đang kích hoạt';
     return 'Trạng thái';
   };
 
   return (
     <div className='flex items-center gap-5'>
       <Input
-        placeholder='Tìm kiếm theo tên...'
+        placeholder='Tìm kiếm...'
         value={filterValue}
         onChange={handleInputChange}
         className={`h-8 w-[150px] border-slate-400 hover:border-slate-500 focus-visible:ring-0 lg:w-[250px] ${inputClassName}`}
       />
 
       <Select value={statusValue.toString()} onValueChange={handleStatusChange}>
-        <SelectTrigger className='h-8 w-[120px] border-dotted border-slate-400 focus:ring-0'>
-          {getStatusLabel()}
-        </SelectTrigger>
+        <SelectTrigger className='h-8 w-[140px] border-slate-400'>{getStatusLabel()}</SelectTrigger>
+
         <SelectContent>
-          <SelectItem value='false'>Đang ẩn</SelectItem>
-          <SelectItem value='true'>Đang hiện</SelectItem>
+          <SelectItem value='true'>Đang kích hoạt</SelectItem>
+          <SelectItem value='false'>Đã huỷ</SelectItem>
         </SelectContent>
       </Select>
 
@@ -75,4 +74,4 @@ const GlobalCategoriesSearchInput = ({
   );
 };
 
-export default GlobalCategoriesSearchInput;
+export default GlobalVouchersSearchInput;

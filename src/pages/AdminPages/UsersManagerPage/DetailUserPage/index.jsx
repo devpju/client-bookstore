@@ -102,7 +102,7 @@ const DetailUserPage = () => {
             <span className='m-2 block text-lg font-semibold text-primary'>Địa chỉ</span>
             <Separator className='mb-3' />
             <div className='px-2'>
-              {userInfo.address.map((address) => (
+              {userInfo.addresses.map((address) => (
                 <>
                   <div key={address.id}>
                     <div className='flex items-center justify-between'>

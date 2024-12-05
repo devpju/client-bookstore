@@ -21,9 +21,15 @@ import {
 import { DataTablePagination } from '@/components/table/DataTablePagination';
 import { useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import UsersTableToolbar from './UsersTableToolbar';
+import VouchersTableToolbar from './VouchersTableToolbar';
 
-export default function UsersTable({ columns, data, loading, className }) {
+export default function VouchersTable({
+  columns,
+  data,
+  loading,
+  handleCreateNewVoucher,
+  className
+}) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
@@ -65,7 +71,11 @@ export default function UsersTable({ columns, data, loading, className }) {
   });
   return (
     <div className={`space-y-4 ${className}`}>
-      <UsersTableToolbar rowSelection={rowSelection} table={table} />
+      <VouchersTableToolbar
+        rowSelection={rowSelection}
+        table={table}
+        handleCreateNewVoucher={handleCreateNewVoucher}
+      />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
@@ -83,7 +93,7 @@ export default function UsersTable({ columns, data, loading, className }) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='overflow-y-auto'>
+          <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>

@@ -30,7 +30,7 @@ const RadioGroupField = ({
               <FormControl>
                 <RadioGroupItem value={String(option.value)} />
               </FormControl>
-              <FormLabel className='font-normal'>{option.label}</FormLabel>
+              <FormLabel className='!m-0 !ml-2 font-normal'>{option.label}</FormLabel>
             </FormItem>
           ))}
         </RadioGroup>

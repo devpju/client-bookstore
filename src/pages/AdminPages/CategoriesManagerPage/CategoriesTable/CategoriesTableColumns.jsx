@@ -6,6 +6,7 @@ import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/
 const categoriesTableColumns = [
   {
     id: 'select',
+    size: 50,
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -29,6 +30,7 @@ const categoriesTableColumns = [
   },
   {
     accessorKey: 'index',
+    size: 50,
     header: () => <span>STT</span>,
     cell: ({ row }) => <div className='m-w-[10px]'>{row.index + 1}</div>
   },
@@ -45,10 +47,12 @@ const categoriesTableColumns = [
     cell: ({ row }) => (
       <div className='m-w-[30px]'>
         {!row.getValue('isDeleted') ? (
-          <div className='flex w-20 justify-center rounded-lg bg-info py-1 text-white'>Enabled</div>
+          <div className='flex w-24 justify-center rounded-lg bg-info py-1 text-white'>
+            Đang hiện
+          </div>
         ) : (
-          <div className='flex w-20 justify-center rounded-lg bg-danger py-1 text-white'>
-            Disabled
+          <div className='flex w-24 justify-center rounded-lg bg-danger py-1 text-white'>
+            Đang ẩn
           </div>
         )}
       </div>
@@ -68,7 +72,7 @@ const categoriesTableColumns = [
 
   {
     id: 'actions',
-    size: 30,
+    size: 50,
     cell: ({ row }) => <CategoriesTableRowActions row={row} />
   }
 ];

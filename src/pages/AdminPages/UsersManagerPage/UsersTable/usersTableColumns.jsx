@@ -56,8 +56,9 @@ const usersTableColumns = [
   {
     accessorKey: 'roles',
     header: () => <span>Vai trò</span>,
+    size: 350,
     cell: ({ row }) => (
-      <div className='m-w-[100px] flex gap-2'>
+      <div className='m-w-[100px] flex flex-wrap gap-2'>
         {row.getValue('roles')?.map((role) => (
           <div key={role} className='w-fit rounded-sm bg-sky-700 px-2 py-1 text-white'>
             {role.toUpperCase()}

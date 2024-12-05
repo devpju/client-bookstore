@@ -6,12 +6,12 @@ import { addId } from '@/redux/slices/selectorSlice';
 import { Ban } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 
-export default function CategoriesTableRowActions({ row }) {
+export default function VouchersTableRowActions({ row }) {
   const dispatch = useDispatch();
   const onClickEditButton = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.UpdateCategory,
+        triggeredBy: DialogActionType.UpdateVoucher,
         data: { rowData: row.original }
       })
     );
@@ -20,7 +20,7 @@ export default function CategoriesTableRowActions({ row }) {
   const onClickDeleteButton = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.DeleteCategory
+        triggeredBy: DialogActionType.DeleteVoucher
       })
     );
     dispatch(addId(row.original.id));
@@ -29,9 +29,7 @@ export default function CategoriesTableRowActions({ row }) {
   return (
     <div className='flex items-center gap-2'>
       <WarningIconButton onClick={onClickEditButton} />
-      {row.original.isDeleted === false ? (
-        <DangerIconButton icon={Ban} onClick={onClickDeleteButton} />
-      ) : null}
+      <DangerIconButton icon={Ban} onClick={onClickDeleteButton} />
     </div>
   );
 }

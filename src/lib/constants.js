@@ -23,6 +23,9 @@ export const DialogActionType = {
   AddNewCategory: 'add-new-category',
   UpdateCategory: 'update-category',
   DeleteCategory: 'delete-category',
+  AddNewVoucher: 'add-new-voucher',
+  UpdateVoucher: 'update-voucher',
+  DeleteVoucher: 'delete-voucher',
   UpdateUser: 'update-user',
   DeleteUser: 'delete-user',
   DeleteReview: 'delete-review'

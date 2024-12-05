@@ -4,11 +4,11 @@ import { openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
 import { addIds } from '@/redux/slices/selectorSlice';
 import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
-import GlobalCategoriesSearchInput from './GlobalCategoriesSearchInput';
+import GlobalVouchersSearchInput from './GlobalVouchersSearchInput';
 import DangerTextButton from '@/components/buttons/DangerTextButton';
 import AddButton from '@/components/buttons/AddButton';
 
-export default function CategoriesTableToolbar({ rowSelection, table }) {
+export default function VouchersTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
   const selectedIds = Object.keys(rowSelection);
 
@@ -19,14 +19,14 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
 
   const isFiltered = filters.filterValue !== '' || filters.statusValue !== '';
 
-  const handleDeleteCategories = () => {
+  const handleDeactivateVouchers = () => {
     if (selectedIds.length > 0) {
       dispatch(addIds(selectedIds));
     }
 
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.DeleteCategory
+        triggeredBy: DialogActionType.DeleteVoucher
       })
     );
   };
@@ -34,15 +34,15 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
   const onClickAddNewButton = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.AddNewCategory
+        triggeredBy: DialogActionType.AddNewVoucher
       })
     );
   };
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
-    table.getColumn('name')?.setFilterValue(newFilters.filterValue);
-    table.getColumn('isDeleted')?.setFilterValue(newFilters.statusValue);
+    table.getColumn('code')?.setFilterValue(newFilters.filterValue);
+    table.getColumn('isActivated')?.setFilterValue(newFilters.statusValue);
   };
 
   return (
@@ -50,11 +50,11 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
       <div className='space-x-3'>
         <AddButton onClick={onClickAddNewButton} />
         {selectedIds.length > 0 && (
-          <DangerTextButton name='Ẩn các danh mục đã chọn' onClick={handleDeleteCategories} />
+          <DangerTextButton name='Huỷ kích hoạt' onClick={handleDeactivateVouchers} />
         )}
       </div>
       <div className='flex items-center justify-between space-x-2'>
-        <GlobalCategoriesSearchInput
+        <GlobalVouchersSearchInput
           filters={filters}
           onFiltersChange={handleFiltersChange}
           isFiltered={isFiltered}
@@ -62,7 +62,6 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
         <DataTableViewOptions
           table={table}
           dataViewOptions={{
-            index: 'STT',
             createdAt: 'Ngày tạo',
             isDeleted: 'Trạng thái',
             name: 'Tên danh mục'
