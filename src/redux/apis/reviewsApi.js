@@ -6,21 +6,22 @@ export const reviewsApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Reviews'],
   endpoints: (builder) => ({
-    fetchReviews: builder.query({
+    getReviews: builder.query({
       query: () => ({
         url: '/admin/reviews'
       }),
       providesTags: ['Reviews']
     }),
-    hideReviews: builder.mutation({
-      query: ({ reviewIds }) => ({
-        url: `/admin/reviews/hide`,
+    toggleReviewsVisibility: builder.mutation({
+      query: ({ reviewIds, visible }) => ({
+        url: `/admin/reviews/toggle-visibility`,
         method: 'PUT',
-        body: { reviewIds }
+        body: { reviewIds, visible }
       }),
       invalidatesTags: ['Reviews']
     })
   })
 });
 
-export const { useFetchReviewsQuery, useHideReviewsMutation } = reviewsApi;
+export const { useGetReviewsQuery, useToggleReviewsVisibilityMutation } =
+  reviewsApi;

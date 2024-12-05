@@ -16,10 +16,16 @@ export function DataTableColumnHeader({ column, title, className }) {
   }
 
   return (
-    <div className={cn('flex items-center space-x-2', className)}>
+    <div
+      className={cn('flex items-center justify-center space-x-2', className)}
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' size='sm' className='p-0 data-[state=open]:bg-accent'>
+          <Button
+            variant='ghost'
+            size='sm'
+            className='p-0 data-[state=open]:bg-accent'
+          >
             <span>{title}</span>
             {column.getIsSorted() === 'desc' ? (
               <ArrowDown className='!size-4' />
