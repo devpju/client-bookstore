@@ -1,9 +1,9 @@
-import DangerIconButton from '@/components/buttons/DangerIconButton';
-import WarningIconButton from '@/components/buttons/WarningIconButton';
+import DangerButton from '@/components/buttons/DangerButton';
+import InfoButton from '@/components/buttons/InfoButton';
+import WarningButton from '@/components/buttons/WarningButton';
 import { DialogActionType } from '@/lib/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
-import { Ban } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 
 export default function VouchersTableRowActions({ row }) {
@@ -11,25 +11,40 @@ export default function VouchersTableRowActions({ row }) {
   const onClickEditButton = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.UpdateVoucher,
+        triggeredBy: DialogActionType.UPDATE_VOUCHER,
         data: { rowData: row.original }
       })
     );
     dispatch(addId(row.original.id));
   };
-  const onClickDeleteButton = () => {
+  const handleToggleVisibility = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.DeleteVoucher
+        triggeredBy: DialogActionType.TOGGLE_ACTIVE_VOUCHER,
+        data: {
+          isVoucherActivated: row.original.isActivated
+        }
       })
     );
     dispatch(addId(row.original.id));
   };
 
   return (
-    <div className='flex items-center gap-2'>
-      <WarningIconButton onClick={onClickEditButton} />
-      <DangerIconButton icon={Ban} onClick={onClickDeleteButton} />
+    <div className='flex items-center justify-center gap-2'>
+      <WarningButton name='Sửa' onClick={onClickEditButton} />
+      {row.original.isActivated === false ? (
+        <InfoButton
+          name='Kích hoạt'
+          className='w-[120px]'
+          onClick={handleToggleVisibility}
+        />
+      ) : (
+        <DangerButton
+          name='Huỷ kích hoạt'
+          className='w-[120px]'
+          onClick={handleToggleVisibility}
+        />
+      )}
     </div>
   );
 }

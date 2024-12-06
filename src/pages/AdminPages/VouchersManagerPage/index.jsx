@@ -8,205 +8,169 @@ import { toast } from 'sonner';
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
 
-import FormDialog from '@/components/dialogs/FormDialog';
-import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
-import TextField from '@/components/inputs/TextField';
-import { FormField, FormItem, FormControl, FormLabel } from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useSidebar } from '@/components/ui/sidebar';
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import {
   useAddVoucherMutation,
-  useDeactivateVouchersMutation,
-  useEditVoucherMutation,
-  useFetchVouchersQuery
+  useGetVouchersQuery,
+  useToggleActiveVouchersMutation,
+  useUpdateVoucherMutation
 } from '@/redux/apis/vouchersApi';
-import VouchersTable from './VouchersTable';
 import vouchersTableColumns from './VouchersTable/vouchersTableColumns';
-import RadioGroupField from '@/components/inputs/RadioGroupField';
+import VouchersTable from './VouchersTable';
 
-const voucherFormSchema = z.object({
-  type: z.enum(['percentage', 'fixed'], {
-    errorMap: () => ({ message: 'Loại phải là "percentage" hoặc "fixed".' })
-  }),
-  discountValue: z.number().refine(
-    (val, ctx) => {
-      if (ctx.parent.type === 'percentage') {
-        return val >= 1 && val <= 100;
+import { numberSchema } from '@/lib/validations';
+import VoucherFormDialog from './VoucherFormDialog';
+
+const voucherFormSchema = z
+  .object({
+    type: z.enum(['percentage', 'fixed']),
+    discountValue: numberSchema,
+    usageLimit: numberSchema,
+    startDate: z.string(),
+    endDate: z.string()
+  })
+  .refine(
+    (data) => {
+      if (data.type === 'percentage') {
+        return data.discountValue >= 0 && data.discountValue <= 100;
+      } else if (data.type === 'fixed') {
+        return data.discountValue >= 0;
       }
-      return val >= 0;
+      return true;
     },
     {
-      message:
-        'Giá trị giảm giá phải từ 1 đến 100 nếu loại là "percentage", hoặc lớn hơn hoặc bằng 0 nếu loại là "fixed".'
+      message: 'Giá trị giảm giá không hợp lệ cho loại khuyến mãi này',
+      path: ['discountValue']
     }
-  ),
-  usageLimit: z.number().min(1, { message: 'Giới hạn sử dụng phải ít nhất là 1.' }),
-  startDate: z.string().datetime({ message: 'Ngày bắt đầu phải là chuỗi ngày giờ hợp lệ.' }),
-  endDate: z
-    .string()
-    .datetime({ message: 'Ngày kết thúc phải là chuỗi ngày giờ hợp lệ.' })
-    .refine(
-      (val, ctx) => {
-        const startDate = new Date(ctx.parent.startDate);
-        const endDate = new Date(val);
-        return endDate > startDate;
-      },
-      { message: 'Ngày kết thúc phải sau ngày bắt đầu.' }
-    )
-});
-
+  )
+  .refine(
+    (data) => {
+      const startDate = new Date(data.startDate);
+      const endDate = new Date(data.endDate);
+      return startDate <= endDate;
+    },
+    {
+      message: 'Ngày kết thúc không thể nhỏ hơn ngày bắt đầu',
+      path: ['endDate']
+    }
+  );
 const VouchersManagerPage = () => {
   const dispatch = useDispatch();
   const { state: sidebarState } = useSidebar();
-  const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
+  const { isDialogOpen, triggeredBy, dialogData } = useSelector(
+    (state) => state.dialog
+  );
   const { selectedIds } = useSelector((state) => state.selector);
 
-  const { data: vouchersData, isFetching } = useFetchVouchersQuery();
+  const { data: vouchersData, isFetching } = useGetVouchersQuery();
   const [addVoucher, addVoucherState] = useAddVoucherMutation();
-  const [editVoucher, editVoucherState] = useEditVoucherMutation();
-  const [deactivateVouchers, deactivateVouchersState] = useDeactivateVouchersMutation();
+  const [updateVoucher, updateVoucherState] = useUpdateVoucherMutation();
+  const [toggleActiveVouchers, toggleActiveVouchersState] =
+    useToggleActiveVouchersMutation();
 
-  const addVoucherForm = useForm({
+  const voucherForm = useForm({
     resolver: zodResolver(voucherFormSchema),
-    defaultValues: { name: '' }
-  });
-
-  const editVoucherForm = useForm({
-    resolver: zodResolver(voucherFormSchema)
+    defaultValues: {
+      type: 'fixed',
+      discountValue: '',
+      usageLimit: '',
+      startDate: new Date().toISOString(),
+      endDate: new Date().toISOString()
+    }
   });
 
   useEffect(() => {
     if (dialogData?.rowData) {
-      editVoucherForm.reset({
+      voucherForm.reset({
         type: dialogData.rowData.type,
         discountValue: dialogData.rowData.discountValue,
-        usageLimit: dialogData.rowData.usageLimit,
+        usageLimit: dialogData.rowData.usageLimit.toString(),
         startDate: dialogData.rowData.startDate,
         endDate: dialogData.rowData.endDate
       });
     }
-  }, [dialogData, editVoucherForm]);
+  }, [dialogData, voucherForm]);
 
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
 
   useEffect(() => {
-    if (addVoucherState.isSuccess) handleAPISuccess('Thêm mã giảm giá thành công!');
+    if (addVoucherState.isSuccess)
+      handleAPISuccess('Thêm mã giảm giá thành công!');
     else if (addVoucherState.isError) handleAPIError(addVoucherState.error);
   }, [addVoucherState]);
 
   useEffect(() => {
-    if (editVoucherState.isSuccess) handleAPISuccess('Chỉnh sửa mã giảm giá thành công!');
-    else if (editVoucherState.isError) handleAPIError(editVoucherState.error);
-  }, [editVoucherState]);
+    if (updateVoucherState.isSuccess)
+      handleAPISuccess('Cập nhật thông tin mã giảm giá thành công!');
+    else if (updateVoucherState.isError)
+      handleAPIError(updateVoucherState.error);
+  }, [updateVoucherState]);
 
   useEffect(() => {
-    if (deactivateVouchersState.isSuccess) handleAPISuccess('Xóa mã giảm giá thành công!');
-    else if (deactivateVouchersState.isError) handleAPIError(deactivateVouchersState.error);
-  }, [deactivateVouchersState]);
+    if (toggleActiveVouchersState.isSuccess)
+      handleAPISuccess('Cập nhật trạng thái mã giảm giá thành công!');
+    else if (toggleActiveVouchersState.isError)
+      handleAPIError(toggleActiveVouchersState.error);
+  }, [toggleActiveVouchersState]);
 
-  // Handlers
-  const handleAddVoucher = (values) => addVoucher(values);
-  const handleEditVoucher = (values) => editVoucher({ id: selectedIds[0], ...values });
-  const handleDeactivateVouchers = () => deactivateVouchers({ voucherIds: selectedIds });
-
+  const handleAddVoucher = (values) => {
+    addVoucher(values);
+  };
+  const handleUpdateVoucher = (values) =>
+    updateVoucher({ id: selectedIds[0], ...values });
+  const handleActiveVouchers = () =>
+    toggleActiveVouchers({
+      voucherIds: selectedIds,
+      activated: !dialogData.isVoucherActivated
+    });
   return (
     <div>
       <VouchersTable
         data={vouchersData?.results}
         loading={isFetching}
         columns={vouchersTableColumns}
-        className={`transition-width duration-200 ${
+        className={`mt-3 transition-width duration-200 ${
           sidebarState === 'collapsed'
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}
       />
 
-      {triggeredBy === DialogActionType.AddNewVoucher && (
-        <FormDialog
-          form={addVoucherForm}
+      {triggeredBy === DialogActionType.ADD_NEW_VOUCHER && (
+        <VoucherFormDialog
+          form={voucherForm}
           onSubmit={handleAddVoucher}
           title='Thêm mới mã giảm giá'
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-        >
-          <FormField
-            control={addVoucherForm.control}
-            name='type'
-            render={({ field }) => (
-              <RadioGroupField
-                field={field}
-                label='Loại'
-                options={[
-                  { value: 'percentage', label: 'Phần trăm' },
-                  { value: 'fixed', label: 'Cố định' }
-                ]}
-              />
-            )}
-          />
-        </FormDialog>
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
+        />
       )}
-
-      {triggeredBy === DialogActionType.UpdateVoucher && (
-        <FormDialog
-          form={editVoucherForm}
-          onSubmit={handleEditVoucher}
-          title='Chỉnh sửa danh mục'
+      {triggeredBy === DialogActionType.UPDATE_VOUCHER && (
+        <VoucherFormDialog
+          form={voucherForm}
+          onSubmit={handleUpdateVoucher}
+          title='Cập nhật mã giảm giá'
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-        >
-          <FormField
-            control={editVoucherForm.control}
-            name='name'
-            render={({ field }) => (
-              <TextField
-                field={field}
-                placeholder='Nhập tên danh mục'
-                label='Tên danh mục'
-                isError={!!editVoucherForm.formState.errors.name}
-              />
-            )}
-          />
-          <FormField
-            control={editVoucherForm.control}
-            name='isDeleted'
-            render={({ field }) => (
-              <FormItem className='space-y-3'>
-                <FormLabel>Trạng thái</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={(value) => field.onChange(value === 'true')}
-                    defaultValue={String(field.value)}
-                    className='flex flex-col space-y-1'
-                  >
-                    <FormItem className='flex items-center space-x-3'>
-                      <FormControl>
-                        <RadioGroupItem value='true' />
-                      </FormControl>
-                      <FormLabel className='font-normal'>Enable</FormLabel>
-                    </FormItem>
-                    <FormItem className='flex items-center space-x-3'>
-                      <FormControl>
-                        <RadioGroupItem value='false' />
-                      </FormControl>
-                      <FormLabel className='font-normal'>Disable</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </FormDialog>
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
+        />
       )}
-
-      {triggeredBy === DialogActionType.DeleteVoucher && (
-        <DeleteConfirmDialog
-          title='Xác nhận huỷ kích hoạt'
-          description={`Bạn có muốn huỷ kích hoạt ${selectedIds.length > 1 ? 'các' : ''} danh mục đã chọn không?`}
+      {console.log(dialogData)}
+      {triggeredBy === DialogActionType.TOGGLE_ACTIVE_VOUCHER && (
+        <ConfirmDialog
+          title={`Xác nhận ${!dialogData?.isVoucherActivated ? 'kích hoạt' : 'huỷ kích hoạt'} mã giảm giá`}
+          description={`Bạn có muốn ${!dialogData?.isVoucherActivated ? 'kích hoạt' : 'huỷ kích hoạt'} 
+          ${selectedIds.length > 1 ? 'các' : ''} mã giảm giá đã chọn không?`}
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-          onClick={handleDeactivateVouchers}
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
+          onClick={handleActiveVouchers}
         />
       )}
     </div>

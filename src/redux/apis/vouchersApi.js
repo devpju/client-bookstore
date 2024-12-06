@@ -6,7 +6,7 @@ export const vouchersApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Vouchers'],
   endpoints: (builder) => ({
-    fetchVouchers: builder.query({
+    getVouchers: builder.query({
       query: () => ({
         url: '/admin/vouchers'
       }),
@@ -20,7 +20,7 @@ export const vouchersApi = createApi({
       }),
       invalidatesTags: ['Vouchers']
     }),
-    editVoucher: builder.mutation({
+    updateVoucher: builder.mutation({
       query: ({ id, type, discountValue, usageLimit, endDate, startDate }) => ({
         url: `/admin/vouchers/${id}`,
         method: 'PUT',
@@ -28,11 +28,19 @@ export const vouchersApi = createApi({
       }),
       invalidatesTags: ['Vouchers']
     }),
-    deactivateVouchers: builder.mutation({
+    deleteVouchers: builder.mutation({
       query: ({ voucherIds }) => ({
-        url: `/admin/vouchers/unactive`,
-        method: 'PUT',
+        url: `/admin/vouchers`,
+        method: 'DELETE',
         body: { voucherIds }
+      }),
+      invalidatesTags: ['Vouchers']
+    }),
+    toggleActiveVouchers: builder.mutation({
+      query: ({ voucherIds, activated }) => ({
+        url: `/admin/vouchers/toggle-active`,
+        method: 'PUT',
+        body: { voucherIds, activated }
       }),
       invalidatesTags: ['Vouchers']
     })
@@ -40,8 +48,9 @@ export const vouchersApi = createApi({
 });
 
 export const {
-  useFetchVouchersQuery,
+  useGetVouchersQuery,
   useAddVoucherMutation,
-  useDeactivateVouchersMutation,
-  useEditVoucherMutation
+  useUpdateVoucherMutation,
+  useDeleteVouchersMutation,
+  useToggleActiveVouchersMutation
 } = vouchersApi;

@@ -15,9 +15,12 @@ export const phoneNumberSchema = z
 
 export const emailOrPhoneNumberSchema = z
   .string()
-  .refine((value) => REGEX.EMAIL.test(value) || REGEX.PHONE_NUMBER.test(value), {
-    message: 'Email hoặc số điện thoại không hợp lệ'
-  });
+  .refine(
+    (value) => REGEX.EMAIL.test(value) || REGEX.PHONE_NUMBER.test(value),
+    {
+      message: 'Email hoặc số điện thoại không hợp lệ'
+    }
+  );
 
 export const passwordSchema = z.string().min(1, 'Vui lòng nhập mật khẩu');
 //   .regex(
@@ -26,7 +29,16 @@ export const passwordSchema = z.string().min(1, 'Vui lòng nhập mật khẩu')
 //   );
 export const otpSchema = z.string().min(6, 'Vui lòng nhập đầy đủ 6 ký tự');
 
-export const normalTextSchema = z.string().min(1, 'Vui lòng nhập đầy đủ thông tin');
+export const numberSchema = z
+  .string()
+  .min(1, 'Vui lòng nhập một số')
+  .refine((value) => !isNaN(Number(value)), {
+    message: 'Giá trị phải là một số'
+  })
+  .transform((value) => (value === null ? 0 : Number(value)));
+export const normalTextSchema = z
+  .string()
+  .min(1, 'Vui lòng nhập đầy đủ thông tin');
 
 export const normalBooleanSchema = z.boolean();
 
