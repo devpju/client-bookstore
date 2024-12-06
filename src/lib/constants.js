@@ -25,11 +25,11 @@ export const DialogActionType = {
   UPDATE_CATEGORY: 'update-category',
   TOGGLE_VISIBILITY_CATEGORY: 'delete-category',
   TOGGLE_VISIBILITY_REVIEW: 'toggle-visibility-review',
+  UPDATE_USER_ROLES: 'update-user-roles',
+  TOGGLE_BAN_USER: 'toggle-ban-user',
   AddNewVoucher: 'add-new-voucher',
   UpdateVoucher: 'update-voucher',
-  DeleteVoucher: 'delete-voucher',
-  UpdateUser: 'update-user',
-  DeleteUser: 'delete-user'
+  DeleteVoucher: 'delete-voucher'
 };
 
 export const rolesList = [

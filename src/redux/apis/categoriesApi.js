@@ -28,7 +28,7 @@ export const categoriesApi = createApi({
       }),
       invalidatesTags: ['Categories']
     }),
-    toggleCategoriesVisibility: builder.mutation({
+    toggleVisibilityCategories: builder.mutation({
       query: ({ categoryIds, visible }) => ({
         url: '/admin/categories/toggle-visibility',
         method: 'PUT',
@@ -43,5 +43,5 @@ export const {
   useGetCategoriesQuery,
   useAddCategoryMutation,
   useUpdateCategoryMutation,
-  useToggleCategoriesVisibilityMutation
+  useToggleVisibilityCategoriesMutation
 } = categoriesApi;
