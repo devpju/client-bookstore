@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType, rolesList } from '@/lib/constants';
-import { normalTextSchema, stringArraySchema } from '@/lib/validations';
+import { stringArraySchema } from '@/lib/validations';
 
 import FormDialog from '@/components/dialogs/FormDialog';
 import { FormField } from '@/components/ui/form';
