@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
+import { DialogActionType, orderStatusList } from '@/lib/constants';
 import { normalTextSchema } from '@/lib/validations';
 
 import FormDialog from '@/components/dialogs/FormDialog';
@@ -20,9 +20,11 @@ import {
 import { ordersTableColumns } from '@/components/table/columns';
 import RadioGroupField from '@/components/inputs/RadioGroupField';
 import OrdersTableToolbar from './OrdersTable/OrdersTableToolbar';
+import { getLatestStatus } from '@/lib/utils';
+import SelectField from '@/components/inputs/SelectField';
 
 const orderStatusFormSchema = z.object({
-  paymentStatus: normalTextSchema,
+  paymentStatus: z.union([z.string(), z.boolean()]),
   orderStatus: normalTextSchema
 });
 
@@ -45,24 +47,29 @@ const OrdersManagerPage = () => {
   useEffect(() => {
     if (dialogData?.rowData) {
       orderStatusForm.reset({
-        name: dialogData.rowData.name,
-        isDeleted: dialogData.rowData.isDeleted
+        orderStatus: getLatestStatus(dialogData?.rowData.logs),
+        paymentStatus: dialogData.rowData?.payment.isPaid
       });
     }
   }, [dialogData, orderStatusForm]);
-
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
 
   useEffect(() => {
     if (updateOrderStatusState.isSuccess)
-      handleAPISuccess('Cập nhật thông tin danh mục thành công!');
+      handleAPISuccess('Cập nhật trạng thái đơn hàng thành công!');
     else if (updateOrderStatusState.isError)
       handleAPIError(updateOrderStatusState.error);
   }, [updateOrderStatusState]);
 
-  const handleUpdateOrderStatus = (values) =>
-    updateOrderStatus({ id: selectedIds[0], ...values });
+  const handleUpdateOrderStatus = (values) => {
+    console.log();
+    updateOrderStatus({
+      id: selectedIds[0],
+      ...values,
+      paymentStatus: Boolean(values.paymentStatus)
+    });
+  };
 
   return (
     <div>
@@ -90,12 +97,32 @@ const OrdersManagerPage = () => {
         >
           <FormField
             control={orderStatusForm.control}
-            name='name'
+            name='paymentStatus'
             render={({ field }) => (
               <RadioGroupField
                 field={field}
+                label='Chọn trạng thái thanh toán'
+                options={[
+                  {
+                    label: 'Chưa thanh toán',
+                    value: false
+                  },
+                  {
+                    label: 'Đã thanh toán',
+                    value: true
+                  }
+                ]}
+              />
+            )}
+          />
+          <FormField
+            control={orderStatusForm.control}
+            name='orderStatus'
+            render={({ field }) => (
+              <SelectField
+                field={field}
                 label='Chọn trạng thái đơn hàng'
-                options={[]}
+                items={orderStatusList}
               />
             )}
           />

@@ -5,15 +5,23 @@ import OrdersFiltersInput from './OrdersFiltersInput';
 export default function OrdersTableToolbar({ table }) {
   const [filters, setFilters] = useState({
     searchText: '',
-    dateRange: null
+    dateRange: null,
+    orderStatus: [],
+    paymentStatus: null
   });
 
-  const isFiltered = filters.searchText !== '' || filters.dateRange !== null;
+  const isFiltered =
+    filters.searchText !== '' ||
+    filters.dateRange !== null ||
+    filters.paymentStatus !== null ||
+    filters.orderStatus.length > 0;
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
     table.getColumn('orderId')?.setFilterValue(newFilters.searchText);
     table.getColumn('createdAt')?.setFilterValue(newFilters.dateRange);
+    table.getColumn('payment')?.setFilterValue(newFilters.paymentStatus);
+    table.getColumn('logs')?.setFilterValue(newFilters.orderStatus);
   };
 
   return (

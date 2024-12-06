@@ -502,7 +502,7 @@ export const ordersTableColumns = [
     ),
     cell: ({ row }) => {
       const payment = row.getValue('payment');
-      return payment?.isPaid ? (
+      return payment?.status === 'paid' ? (
         <div className='flex justify-center rounded-md border border-green-500 font-semibold text-green-500'>
           Đã thanh toán
         </div>
@@ -513,9 +513,11 @@ export const ordersTableColumns = [
       );
     },
     sortingFn: (rowA, rowB, columnId) => {
-      const statusA = rowA.original[columnId]?.isPaid ? 1 : 0;
-      const statusB = rowB.original[columnId]?.isPaid ? 1 : 0;
-      return statusA - statusB;
+      const paymentA = rowA.original[columnId];
+      const paymentB = rowB.original[columnId];
+      const statusA = paymentA?.status === 'paid' ? 1 : 0;
+      const statusB = paymentB?.status === 'paid' ? 1 : 0;
+      return statusB - statusA;
     },
     enableSorting: true,
     enableHiding: true
@@ -533,6 +535,11 @@ export const ordersTableColumns = [
       const statusA = getLatestStatus(rowA.original[columnId]);
       const statusB = getLatestStatus(rowB.original[columnId]);
       return statusA.localeCompare(statusB);
+    },
+    filterFn: (row, id, filterValue) => {
+      if (filterValue.length === 0) return true;
+      const latestStatus = getLatestStatus(row.getValue(id));
+      return filterValue.includes(latestStatus);
     },
     enableSorting: true,
     enableHiding: true

@@ -106,6 +106,7 @@ export function formatAddress(address) {
 }
 
 export function getLatestStatus(logs) {
+  if (!logs) return null;
   const latestLog = [...logs].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   )[0];

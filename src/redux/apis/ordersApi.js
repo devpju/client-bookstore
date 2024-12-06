@@ -8,7 +8,7 @@ export const ordersApi = createApi({
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: () => ({
-        url: '/admin/orderss'
+        url: '/admin/orders'
       }),
       providesTags: ['Orders']
     }),
@@ -18,10 +18,10 @@ export const ordersApi = createApi({
       })
     }),
     updateOrderStatus: builder.mutation({
-      query: ({ id, paymentStatus, orderStats }) => ({
+      query: ({ id, paymentStatus, orderStatus }) => ({
         url: `admin/orders/${id}`,
         method: 'PUT',
-        body: { paymentStatus, orderStats }
+        body: { paymentStatus, orderStatus }
       }),
       invalidatesTags: ['Orders']
     })

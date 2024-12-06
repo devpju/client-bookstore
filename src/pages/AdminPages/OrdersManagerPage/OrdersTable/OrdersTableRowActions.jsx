@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 export default function OrdersTableRowActions({ row }) {
   const dispatch = useDispatch();
-  const onClickEditButton = () => {
+  const onClickUpdateButton = () => {
     dispatch(
       openDialog({
         triggeredBy: DialogActionType.UPDATE_ORDER_STATUS,
@@ -18,7 +18,7 @@ export default function OrdersTableRowActions({ row }) {
 
   return (
     <div className='flex items-center justify-center gap-2'>
-      <WarningButton name='Sửa TT' onClick={onClickEditButton} />
+      <WarningButton name='Sửa TT' onClick={onClickUpdateButton} />
     </div>
   );
 }
