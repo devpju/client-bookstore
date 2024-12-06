@@ -519,6 +519,17 @@ export const ordersTableColumns = [
       const statusB = paymentB?.status === 'paid' ? 1 : 0;
       return statusB - statusA;
     },
+    filterFn: (row, id, filterValue) => {
+      if (filterValue === null) return true;
+      const rowValue = row.getValue(id)?.status;
+      if (filterValue === true) {
+        return rowValue === 'paid';
+      } else if (filterValue === false) {
+        return rowValue !== 'paid';
+      }
+      return false;
+    },
+
     enableSorting: true,
     enableHiding: true
   },
@@ -538,6 +549,7 @@ export const ordersTableColumns = [
     },
     filterFn: (row, id, filterValue) => {
       if (filterValue.length === 0) return true;
+      console.log(filterValue);
       const latestStatus = getLatestStatus(row.getValue(id));
       return filterValue.includes(latestStatus);
     },
