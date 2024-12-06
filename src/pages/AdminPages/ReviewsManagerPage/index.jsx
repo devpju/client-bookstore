@@ -11,8 +11,9 @@ import {
   useGetReviewsQuery,
   useToggleReviewsVisibilityMutation
 } from '@/redux/apis/reviewsApi';
-import ReviewsTable from './ReviewsTable';
-import reviewsTableColumns from './ReviewsTable/reviewsTableColumns';
+import DataTable from '@/components/table/DataTable';
+import ReviewsTableToolbar from './ReviewsTable/ReviewsTableToolbar';
+import { reviewsTableColumns } from '@/components/table/columns';
 
 const ReviewsManagerPage = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const ReviewsManagerPage = () => {
 
   return (
     <div>
-      <ReviewsTable
+      <DataTable
         data={reviewsData?.results}
         loading={isFetching}
         columns={reviewsTableColumns}
@@ -51,6 +52,7 @@ const ReviewsManagerPage = () => {
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}
+        tableToolbar={ReviewsTableToolbar}
       />
 
       {triggeredBy === DialogActionType.TOGGLE_VISIBILITY_REVIEW && (

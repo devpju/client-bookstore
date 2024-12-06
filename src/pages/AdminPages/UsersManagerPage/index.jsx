@@ -18,9 +18,10 @@ import {
   useToggleBanUsersMutation,
   useUpdateUserRolesMutation
 } from '@/redux/apis/usersApi';
-import UsersTable from './UsersTable';
-import usersTableColumns from './UsersTable/usersTableColumns';
 import { MultiSelect } from '@/components/ui/multi-select';
+import DataTable from '@/components/table/DataTable';
+import UsersTableToolbar from './UsersTable/UsersTableToolbar';
+import usersTableColumns from '@/components/table/columns';
 
 const updateUserRolesFormSchema = z.object({
   roles: stringArraySchema
@@ -77,7 +78,7 @@ const UsersManagerPage = () => {
 
   return (
     <div>
-      <UsersTable
+      <DataTable
         data={usersData?.results}
         loading={isFetching}
         columns={usersTableColumns}
@@ -86,6 +87,7 @@ const UsersManagerPage = () => {
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}
+        tableToolbar={UsersTableToolbar}
       />
 
       {triggeredBy === DialogActionType.UPDATE_USER_ROLES && (

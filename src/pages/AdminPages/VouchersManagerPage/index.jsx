@@ -17,11 +17,12 @@ import {
   useToggleActiveVouchersMutation,
   useUpdateVoucherMutation
 } from '@/redux/apis/vouchersApi';
-import vouchersTableColumns from './VouchersTable/vouchersTableColumns';
-import VouchersTable from './VouchersTable';
 
 import { numberSchema } from '@/lib/validations';
-import VoucherFormDialog from './VoucherFormDialog';
+import { vouchersTableColumns } from '@/components/table/columns';
+import DataTable from '@/components/table/DataTable';
+import VouchersTableToolbar from './VouchersTable/VouchersTableToolbar';
+import VoucherFormDialog from './VouchersTable/VoucherFormDialog';
 
 const voucherFormSchema = z
   .object({
@@ -141,7 +142,7 @@ const VouchersManagerPage = () => {
   };
   return (
     <div>
-      <VouchersTable
+      <DataTable
         data={vouchersData?.results}
         loading={isFetching}
         columns={vouchersTableColumns}
@@ -150,6 +151,7 @@ const VouchersManagerPage = () => {
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}
+        tableToolbar={VouchersTableToolbar}
       />
 
       {triggeredBy === DialogActionType.ADD_NEW_VOUCHER && (

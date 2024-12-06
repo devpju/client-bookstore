@@ -15,7 +15,6 @@ import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
 import { normalTextSchema } from '@/lib/validations';
 
-import categoriesTableColumns from './CategoriesTable/categoriesTableColumns';
 import FormDialog from '@/components/dialogs/FormDialog';
 import TextField from '@/components/inputs/TextField';
 import { FormField } from '@/components/ui/form';
@@ -23,6 +22,7 @@ import { useSidebar } from '@/components/ui/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import CategoriesTableToolbar from './CategoriesTable/CategoriesTableToolbar';
 import DataTable from '@/components/table/DataTable';
+import { categoriesTableColumns } from '@/components/table/columns';
 
 const addCategoryFormSchema = z.object({
   name: normalTextSchema
