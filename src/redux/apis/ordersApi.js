@@ -8,7 +8,7 @@ export const ordersApi = createApi({
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: () => ({
-        url: '/admin/orders'
+        url: '/admin/orderss'
       }),
       providesTags: ['Orders']
     }),

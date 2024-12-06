@@ -1,11 +1,13 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/DataTableColumnHeader';
-import { convertToDDMMYYYY } from '@/lib/utils';
+import { convertToDDMMYYYY, getLatestStatus } from '@/lib/utils';
 import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/CategoriesTable/CategoriesTableRowActions';
 import VouchersTableRowActions from '@/pages/AdminPages/VouchersManagerPage/VouchersTable/VouchersTableRowActions';
 import RatingStars from '../cards/BookCard/BookCardStats/RatingStars';
 import ReviewsTableRowActions from '@/pages/AdminPages/ReviewsManagerPage/ReviewsTable/ReviewsTableRowActions';
 import UsersTableRowActions from '@/pages/AdminPages/UsersManagerPage/UsersTable/UsersTableRowActions';
+import OrdersTableRowActions from '@/pages/AdminPages/OrdersManagerPage/OrdersTable/OrdersTableRowActions';
+import OrderStatusBlock from '../statusBlocks/orderStatusBlock';
 
 const selectColumn = {
   id: 'select',
@@ -435,4 +437,128 @@ export const usersTableColumns = [
   }
 ];
 
-export default usersTableColumns;
+export const ordersTableColumns = [
+  selectColumn,
+  indexColumn,
+  {
+    accessorKey: 'orderId',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Mã ĐH' />
+    ),
+    cell: ({ row }) => <div>{row.getValue('orderId')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'customer',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Khách hàng' />
+    ),
+    cell: ({ row }) => <div>{row.getValue('customer')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'shippingFee',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Phí vận chuyển' />
+    ),
+    cell: ({ row }) => (
+      <div className='flex justify-center'>
+        {row.getValue('shippingFee')} VNĐ
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'totalAmount',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tổng tiền hàng' />
+    ),
+    cell: ({ row }) => (
+      <div className='flex justify-center'>
+        {row.getValue('totalAmount')} VNĐ
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'numberBooks',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Số sách' />
+    ),
+    cell: ({ row }) => (
+      <div className='flex justify-center'>{row.getValue('numberBooks')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'payment',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='TT Thanh toán' />
+    ),
+    cell: ({ row }) => {
+      const payment = row.getValue('payment');
+      return payment?.isPaid ? (
+        <div className='flex justify-center rounded-md border border-green-500 font-semibold text-green-500'>
+          Đã thanh toán
+        </div>
+      ) : (
+        <div className='flex justify-center rounded-md border border-red-500 font-semibold text-red-500'>
+          Chưa thanh toán
+        </div>
+      );
+    },
+    sortingFn: (rowA, rowB, columnId) => {
+      const statusA = rowA.original[columnId]?.isPaid ? 1 : 0;
+      const statusB = rowB.original[columnId]?.isPaid ? 1 : 0;
+      return statusA - statusB;
+    },
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'logs',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='TT Đơn hàng' />
+    ),
+    cell: ({ row }) => {
+      const latestStatus = getLatestStatus(row.getValue('logs'));
+      return <OrderStatusBlock status={latestStatus} />;
+    },
+    sortingFn: (rowA, rowB, columnId) => {
+      const statusA = getLatestStatus(rowA.original[columnId]);
+      const statusB = getLatestStatus(rowB.original[columnId]);
+      return statusA.localeCompare(statusB);
+    },
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'createdAt',
+    size: 80,
+    cell: ({ row }) => (
+      <div>{convertToDDMMYYYY(row.getValue('createdAt'))}</div>
+    ),
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Ngày đặt' />
+    ),
+    filterFn: (row, id, filterValue) => {
+      const rowValue = new Date(row.getValue(id));
+      const { from, to } = filterValue || {};
+      if (!from || !to) return true;
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+      return rowValue >= fromDate && rowValue <= toDate;
+    }
+  },
+  {
+    id: 'actions',
+    header: () => <div className='w-full text-center'>Thao tác</div>,
+    size: 100,
+    cell: ({ row }) => <OrdersTableRowActions row={row} />
+  }
+];

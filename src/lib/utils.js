@@ -79,21 +79,6 @@ export function convertToDDMMYYYY(isoDate) {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 }
-/**
- * Lấy trạng thái mới nhất từ danh sách log.
- * @param {Array} logs - Danh sách các log, mỗi log có `id`, `status`, và `date`.
- * @returns {string | null} - Trạng thái mới nhất hoặc null nếu không có log.
- */
-export const getLatestStatus = (logs) => {
-  if (!Array.isArray(logs) || logs.length === 0) return null;
-
-  // Tìm log có ngày mới nhất
-  const latestLog = logs.reduce((latest, current) =>
-    new Date(current.date) > new Date(latest.date) ? current : latest
-  );
-
-  return latestLog.status;
-};
 
 /**
  * Tính tổng số tiền của tất cả các đơn hàng.
@@ -118,4 +103,11 @@ export function formatAddress(address) {
     throw new Error('Invalid address object');
   }
   return `${address.ward.name} - ${address.district.name} - ${address.province.name}`;
+}
+
+export function getLatestStatus(logs) {
+  const latestLog = [...logs].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  )[0];
+  return latestLog ? latestLog.status : null;
 }

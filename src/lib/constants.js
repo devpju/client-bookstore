@@ -11,7 +11,8 @@ export const ROLE = {
   ADMIN: 'admin',
   CUSTOMER: 'customer',
   SELLER: 'seller',
-  BUYER: 'buyer'
+  BUYER: 'buyer',
+  EDITOR: 'editor'
 };
 
 export const ACCOUNT_STATUS = {
@@ -30,7 +31,8 @@ export const DialogActionType = {
   ADD_NEW_VOUCHER: 'add-new-voucher',
   UPDATE_VOUCHER: 'update-voucher',
   DELETE_VOUCHER: 'delete-voucher',
-  TOGGLE_ACTIVE_VOUCHER: 'toggle-active-voucher'
+  TOGGLE_ACTIVE_VOUCHER: 'toggle-active-voucher',
+  UPDATE_ORDER_STATUS: 'update-order-status'
 };
 
 export const rolesList = [
@@ -53,5 +55,44 @@ export const rolesList = [
   {
     value: 'editor',
     label: 'Editor'
+  }
+];
+
+export const orderStatusList = [
+  {
+    value: 'pending',
+    label: 'Chờ xác nhận',
+    style:
+      'flex text-nowrap justify-center rounded-md bg-orange-600 px-2 py-1 text-xs font-medium text-white'
+  },
+  {
+    value: 'processing',
+    label: 'Đang đóng gói',
+    style:
+      'flex text-nowrap justify-center rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white'
+  },
+  {
+    value: 'shipping',
+    label: 'Đang giao hàng',
+    style:
+      'flex text-nowrap justify-center rounded-md bg-yellow-600 px-2 py-1 text-xs font-medium text-white'
+  },
+  {
+    value: 'cancelled',
+    label: 'Đã huỷ',
+    style:
+      'flex text-nowrap justify-center rounded-md bg-red-600 font-medium text-xs px-2 py-1 text-xs text-white'
+  },
+  {
+    value: 'delivered',
+    label: 'Đã giao',
+    style:
+      'flex text-nowrap justify-center rounded-md bg-green-600 px-2 py-1 text-xs font-medium text-white'
+  },
+  {
+    value: 'returned',
+    label: 'Đã hoàn trả',
+    style:
+      'flex text-nowrap justify-center rounded-md bg-gray-600 px-2 py-1 text-xs font-medium text-white'
   }
 ];

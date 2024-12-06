@@ -21,7 +21,7 @@ import {
 import { MultiSelect } from '@/components/ui/multi-select';
 import DataTable from '@/components/table/DataTable';
 import UsersTableToolbar from './UsersTable/UsersTableToolbar';
-import usersTableColumns from '@/components/table/columns';
+import { usersTableColumns } from '@/components/table/columns';
 
 const updateUserRolesFormSchema = z.object({
   roles: stringArraySchema
