@@ -8,6 +8,7 @@ import ReviewsTableRowActions from '@/pages/AdminPages/ReviewsManagerPage/Review
 import UsersTableRowActions from '@/pages/AdminPages/UsersManagerPage/UsersTable/UsersTableRowActions';
 import OrdersTableRowActions from '@/pages/AdminPages/OrdersManagerPage/OrdersTable/OrdersTableRowActions';
 import OrderStatusBlock from '../statusBlocks/orderStatusBlock';
+import BooksTableRowActions from '@/pages/AdminPages/BooksManagerPage/BooksTable/BooksTableRowActions';
 
 const selectColumn = {
   id: 'select',
@@ -579,5 +580,177 @@ export const ordersTableColumns = [
     header: () => <div className='w-full text-center'>Thao tác</div>,
     size: 100,
     cell: ({ row }) => <OrdersTableRowActions row={row} />
+  }
+];
+
+export const booksTableColumns = [
+  selectColumn,
+  indexColumn,
+  {
+    accessorKey: 'categoryName',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tên danh mục' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('categoryName')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'name',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tên sách' />
+    ),
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('name')}</div>,
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'width',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Chiều rộng' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('width')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'height',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Chiều cao' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('height')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'authors',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tác giả' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('authors')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'totalPages',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tổng số trang' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('totalPages')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'price',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Giá' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('price')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'originalPrice',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Giá gốc' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('originalPrice')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'stock',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tồn kho' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px]'>{row.getValue('stock')}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+    filterFn: (row, id, filterValue) => {
+      const rowValue = row.getValue(id);
+      if (filterValue === false) {
+        return rowValue >= 0; // Lọc các giá trị lớn hơn hoặc bằng 0
+      } else if (filterValue === true) {
+        return rowValue === -1; // Lọc các giá trị bằng -2
+      }
+      return true; // Mặc
+    }
+  },
+  {
+    accessorKey: 'sold',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Đã bán' />
+    ),
+    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('sold')}</div>,
+
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'isHidden',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Trạng thái' />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='flex w-full justify-center'>
+          {row.getValue('stock') !== -1 ? (
+            <div className='flex w-24 justify-center rounded-sm border border-info font-semibold text-info'>
+              Đang hiện
+            </div>
+          ) : (
+            <div className='flex w-24 justify-center rounded-sm border border-danger font-semibold text-danger'>
+              Đang ẩn
+            </div>
+          )}
+        </div>
+      );
+    },
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'createdAt',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Ngày tạo' />
+    ),
+    filterFn: (row, id, filterValue) => {
+      const rowValue = new Date(row.getValue(id));
+      const { from, to } = filterValue || {};
+      if (!from || !to) return true;
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+      return rowValue >= fromDate && rowValue <= toDate;
+    },
+
+    cell: ({ row }) => (
+      <div className='flex w-full justify-center font-medium'>
+        {convertToDDMMYYYY(row.getValue('createdAt'))}
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    id: 'actions',
+    header: () => <div className='w-full text-center'>Thao tác</div>,
+    size: 100,
+    cell: ({ row }) => <BooksTableRowActions row={row} />
   }
 ];

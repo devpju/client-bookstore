@@ -1,5 +1,6 @@
 import AdminLayout from '@/components/layouts/AdminLayout';
 import BooksManagerPage from '@/pages/AdminPages/BooksManagerPage';
+import BookViewPage from '@/pages/AdminPages/BooksManagerPage/BookViewPage';
 import CategoriesManagerPage from '@/pages/AdminPages/CategoriesManagerPage';
 import DashboardPage from '@/pages/AdminPages/DashboardPage';
 import OrdersManagerPage from '@/pages/AdminPages/OrdersManagerPage';
@@ -23,6 +24,7 @@ const AdminRoutes = () => {
         <Route path='/orders' element={<OrdersManagerPage />} />
         <Route path='/orders/:orderId' element={<DetailOrderPage />} />
         <Route path='/books' element={<BooksManagerPage />} />
+        <Route path='/books/update' element={<BookViewPage />} />
         <Route path='/categories' element={<CategoriesManagerPage />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />

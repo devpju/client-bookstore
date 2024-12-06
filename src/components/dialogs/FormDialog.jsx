@@ -12,14 +12,22 @@ import CancelButton from '../buttons/CancelButton';
 import { useDispatch } from 'react-redux';
 import { closeDialog } from '@/redux/slices/dialogSlice';
 
-const FormDialog = ({ open, setOpen, children, form, onSubmit, title = 'Thêm mới' }) => {
+const FormDialog = ({
+  open,
+  setOpen,
+  children,
+  form,
+  onSubmit,
+  className,
+  title = 'Thêm mới'
+}) => {
   const dispatch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <Form {...form}>
           <form
-            className='space-y-4'
+            className={`space-y-4 ${className}`}
             onSubmit={form.handleSubmit((values) => {
               onSubmit(values);
               form.reset();

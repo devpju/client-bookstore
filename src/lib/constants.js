@@ -32,7 +32,10 @@ export const DialogActionType = {
   UPDATE_VOUCHER: 'update-voucher',
   DELETE_VOUCHER: 'delete-voucher',
   TOGGLE_ACTIVE_VOUCHER: 'toggle-active-voucher',
-  UPDATE_ORDER_STATUS: 'update-order-status'
+  UPDATE_ORDER_STATUS: 'update-order-status',
+  ADD_NEW_BOOK: 'add-new-book',
+  UPDATE_BOOK: 'update-book',
+  TOGGLE_VISIBILITY_BOOK: 'toggle-visibility-book'
 };
 
 export const rolesList = [
