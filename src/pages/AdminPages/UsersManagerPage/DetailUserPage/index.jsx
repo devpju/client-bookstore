@@ -14,6 +14,7 @@ import {
   getLatestStatus
 } from '@/lib/utils';
 import { useGetDetailUserQuery } from '@/redux/apis/usersApi';
+import { Fragment } from 'react';
 import { useLocation } from 'react-router';
 
 const DetailUserPage = () => {
@@ -108,8 +109,8 @@ const DetailUserPage = () => {
             <Separator className='mb-3' />
             <div className='px-2'>
               {userInfo.addresses.map((address) => (
-                <>
-                  <div key={address.id}>
+                <Fragment key={address.id}>
+                  <div>
                     <div className='flex items-center justify-between'>
                       <span className='font-medium'>{address.fullName}</span>
                       <span>{address.phoneNumber}</span>
@@ -119,7 +120,7 @@ const DetailUserPage = () => {
                     </span>
                   </div>
                   <Separator className='my-2' />
-                </>
+                </Fragment>
               ))}
             </div>
           </div>
