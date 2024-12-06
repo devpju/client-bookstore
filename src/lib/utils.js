@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { orderStatusList } from './constants';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -111,4 +112,28 @@ export function getLatestStatus(logs) {
     (a, b) => new Date(b.date) - new Date(a.date)
   )[0];
   return latestLog ? latestLog.status : null;
+}
+
+export function convertAddressToString(address) {
+  const { ward, district, province, description } = address;
+
+  // Kiểm tra các trường để đảm bảo không bị null/undefined
+  const wardName = ward?.name || '';
+  const districtName = district?.name || '';
+  const provinceName = province?.name || '';
+
+  // Tạo chuỗi địa chỉ
+  let formattedAddress = `${wardName} - ${districtName} - ${provinceName}`;
+
+  // Thêm description nếu có
+  if (description) {
+    formattedAddress += `, ${description}`;
+  }
+
+  return formattedAddress;
+}
+
+export function getOrderStatusLabel(value) {
+  const status = orderStatusList.find((item) => item.value === value);
+  return status ? status.label : 'Không xác định';
 }
