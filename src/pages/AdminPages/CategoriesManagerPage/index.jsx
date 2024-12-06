@@ -15,13 +15,14 @@ import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
 import { normalTextSchema } from '@/lib/validations';
 
-import CategoriesTable from './CategoriesTable';
 import categoriesTableColumns from './CategoriesTable/categoriesTableColumns';
 import FormDialog from '@/components/dialogs/FormDialog';
 import TextField from '@/components/inputs/TextField';
 import { FormField } from '@/components/ui/form';
 import { useSidebar } from '@/components/ui/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
+import CategoriesTableToolbar from './CategoriesTable/CategoriesTableToolbar';
+import DataTable from '@/components/table/DataTable';
 
 const addCategoryFormSchema = z.object({
   name: normalTextSchema
@@ -89,7 +90,7 @@ const CategoriesManagerPage = () => {
 
   return (
     <div>
-      <CategoriesTable
+      <DataTable
         data={categoriesData?.results}
         loading={isFetching}
         columns={categoriesTableColumns}
@@ -98,6 +99,7 @@ const CategoriesManagerPage = () => {
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}
+        tableToolbar={CategoriesTableToolbar}
       />
 
       {triggeredBy === DialogActionType.ADD_NEW_CATEGORY && (

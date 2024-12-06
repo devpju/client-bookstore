@@ -21,13 +21,13 @@ import {
 import { DataTablePagination } from '@/components/table/DataTablePagination';
 import { useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import CategoriesTableToolbar from './CategoriesTableToolbar';
 
-export default function CategoriesTable({
+export default function DataTable({
   columns,
   data,
   loading,
-  handleCreateNewCategory,
+  onToolbarAction,
+  tableToolbar: TableToolbar,
   className
 }) {
   const [rowSelection, setRowSelection] = useState({});
@@ -74,11 +74,13 @@ export default function CategoriesTable({
   });
   return (
     <div className={`space-y-4 ${className}`}>
-      <CategoriesTableToolbar
-        rowSelection={rowSelection}
-        table={table}
-        handleCreateNewCategory={handleCreateNewCategory}
-      />
+      {TableToolbar && (
+        <TableToolbar
+          onAction={onToolbarAction}
+          rowSelection={rowSelection}
+          table={table}
+        />
+      )}
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
