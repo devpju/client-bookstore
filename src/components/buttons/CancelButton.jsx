@@ -6,7 +6,7 @@ const CancelButton = ({ onClick }) => {
       type='button'
       onClick={onClick}
       variant='outline'
-      className='hover:bg-primary/10 hover:text-primary'
+      className='px-2 hover:bg-primary/10 hover:text-primary'
     >
       Huỷ bỏ
     </Button>

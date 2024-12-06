@@ -1,6 +1,12 @@
 import { Button } from '../ui/button';
 
-const DangerButton = ({ onClick, name, size = 'sm', className, icon: Icon }) => {
+const DangerButton = ({
+  onClick,
+  name,
+  size = 'sm',
+  className,
+  icon: Icon
+}) => {
   return (
     <Button
       onClick={onClick}

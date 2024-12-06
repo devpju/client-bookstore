@@ -83,7 +83,7 @@ const usersTableColumns = [
         {row.getValue('roles').map((role) => (
           <span
             key={role}
-            className='block rounded-sm border border-primary bg-white p-1 text-xs text-primary'
+            className='block rounded-sm border border-primary bg-white p-1 text-xs font-medium text-primary'
           >
             {role.toUpperCase()}
           </span>

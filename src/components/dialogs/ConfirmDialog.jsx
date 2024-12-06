@@ -9,7 +9,7 @@ import {
 import CancelButton from '../buttons/CancelButton';
 import { useDispatch } from 'react-redux';
 import { closeDialog } from '@/redux/slices/dialogSlice';
-import DangerTextButton from '../buttons/DangerTextButton';
+import DangerButton from '../buttons/DangerButton';
 
 const ConfirmDialog = ({ open, setOpen, description, title, onClick }) => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const ConfirmDialog = ({ open, setOpen, description, title, onClick }) => {
         </DialogHeader>
         <DialogFooter>
           <CancelButton onClick={() => dispatch(closeDialog())} />
-          <DangerTextButton
+          <DangerButton
             name='Đồng ý'
             size='lg'
             onClick={() => {
