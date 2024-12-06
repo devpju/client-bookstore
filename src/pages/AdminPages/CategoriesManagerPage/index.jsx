@@ -9,7 +9,7 @@ import {
   useAddCategoryMutation,
   useUpdateCategoryMutation,
   useGetCategoriesQuery,
-  useToggleCategoriesVisibilityMutation
+  useToggleVisibilityCategoriesMutation
 } from '@/redux/apis/categoriesApi';
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType } from '@/lib/constants';
@@ -39,7 +39,7 @@ const CategoriesManagerPage = () => {
   const [addCategory, addCategoryState] = useAddCategoryMutation();
   const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
   const [toggleVisibilityCategories, toggleVisibilityCategoriesState] =
-    useToggleCategoriesVisibilityMutation();
+    useToggleVisibilityCategoriesMutation();
 
   const categoryForm = useForm({
     resolver: zodResolver(addCategoryFormSchema),

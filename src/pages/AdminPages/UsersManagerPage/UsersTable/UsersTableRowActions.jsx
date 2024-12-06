@@ -1,42 +1,42 @@
-import DangerIconButton from '@/components/buttons/DangerIconButton';
-import ViewIconButton from '@/components/buttons/ViewIconButton';
-import WarningIconButton from '@/components/buttons/WarningIconButton';
+import DangerButton from '@/components/buttons/DangerButton';
+import InfoButton from '@/components/buttons/InfoButton';
+import WarningButton from '@/components/buttons/WarningButton';
 import { DialogActionType } from '@/lib/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
-import { Ban } from 'lucide-react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
 
 export default function UsersTableRowActions({ row }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const onClickEditButton = () => {
+  const onClickUpdateUserRoles = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.UpdateUser,
+        triggeredBy: DialogActionType.UPDATE_USER_ROLES,
         data: { rowData: row.original }
       })
     );
     dispatch(addId(row.original.id));
   };
-  const onClickDeleteButton = () => {
+  const handleBanUser = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.DeleteUser
+        triggeredBy: DialogActionType.TOGGLE_BAN_USER,
+        data: {
+          isUserBanned: row.original.version >= 0 ? false : true
+        }
       })
     );
     dispatch(addId(row.original.id));
   };
-  const onClickViewButton = () => {
-    navigate(`/admin/users/${row.original.slug}`, { state: { id: row.original.id } });
-  };
 
   return (
-    <div className='flex items-center gap-2'>
-      <ViewIconButton onClick={onClickViewButton} />
-      <WarningIconButton onClick={onClickEditButton} />
-      <DangerIconButton icon={Ban} onClick={onClickDeleteButton} />
+    <div className='flex items-center justify-center gap-2'>
+      <WarningButton name='Sửa' onClick={onClickUpdateUserRoles} />
+      {row.original.version < 0 ? (
+        <InfoButton name='Bỏ cấm' className='w-16' onClick={handleBanUser} />
+      ) : (
+        <DangerButton name='Cấm' className='w-16' onClick={handleBanUser} />
+      )}
     </div>
   );
 }

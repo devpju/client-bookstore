@@ -13,12 +13,12 @@ import {
   formatAddress,
   getLatestStatus
 } from '@/lib/utils';
-import { useFetchDetailUserQuery } from '@/redux/apis/usersApi';
+import { useGetDetailUserQuery } from '@/redux/apis/usersApi';
 import { useLocation } from 'react-router';
 
 const DetailUserPage = () => {
   const { state } = useLocation();
-  const { data } = useFetchDetailUserQuery({ id: state.id });
+  const { data } = useGetDetailUserQuery({ id: state.id });
   const userInfo = data?.results || null;
   if (!userInfo) return <div>Loading...</div>;
   console.log(userInfo);
@@ -36,7 +36,9 @@ const DetailUserPage = () => {
           </div>
           <h2 className='text-center font-semibold'>{userInfo.fullName}</h2>
           <p className='text-center text-sm text-sky-600'>{userInfo.email}</p>
-          <p className='text-center text-sm text-slate-600'>{userInfo.phoneNumber}</p>
+          <p className='text-center text-sm text-slate-600'>
+            {userInfo.phoneNumber}
+          </p>
           <Separator className='my-2' />
           <div>
             <span className='font-medium'>Vai trò:</span>
@@ -67,7 +69,9 @@ const DetailUserPage = () => {
         <div className='col-span-8'>
           <div className='border'>
             <div className='mx-2 flex items-center justify-between py-2 text-sm text-slate-600'>
-              <span className='text-lg font-semibold text-primary'>Đơn hàng</span>
+              <span className='text-lg font-semibold text-primary'>
+                Đơn hàng
+              </span>
               <span>
                 Tổng chi tiêu {calculateTotalAmount(userInfo.orders)} VNĐ cho{' '}
                 {userInfo.orders.length} đơn hàng
@@ -99,7 +103,9 @@ const DetailUserPage = () => {
             </Table>
           </div>
           <div className='mt-10 border'>
-            <span className='m-2 block text-lg font-semibold text-primary'>Địa chỉ</span>
+            <span className='m-2 block text-lg font-semibold text-primary'>
+              Địa chỉ
+            </span>
             <Separator className='mb-3' />
             <div className='px-2'>
               {userInfo.addresses.map((address) => (
@@ -109,7 +115,9 @@ const DetailUserPage = () => {
                       <span className='font-medium'>{address.fullName}</span>
                       <span>{address.phoneNumber}</span>
                     </div>
-                    <span className='mt-2 block text-slate-700'>{formatAddress(address)}</span>
+                    <span className='mt-2 block text-slate-700'>
+                      {formatAddress(address)}
+                    </span>
                   </div>
                   <Separator className='my-2' />
                 </>

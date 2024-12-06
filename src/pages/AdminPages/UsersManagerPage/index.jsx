@@ -7,67 +7,73 @@ import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DialogActionType, rolesList } from '@/lib/constants';
-import { stringArraySchema } from '@/lib/validations';
+import { normalTextSchema, stringArraySchema } from '@/lib/validations';
 
 import FormDialog from '@/components/dialogs/FormDialog';
-import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
 import { FormField } from '@/components/ui/form';
-import {
-  useEditUserRolesMutation,
-  useFetchUsersQuery,
-  useRemoveUsersMutation
-} from '@/redux/apis/usersApi';
-import usersTableColumns from './UsersTable/usersTableColumns';
-import UsersTable from './UsersTable';
-import { MultiSelect } from '@/components/ui/multi-select';
 import { useSidebar } from '@/components/ui/sidebar';
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
+import {
+  useGetUsersQuery,
+  useToggleBanUsersMutation,
+  useUpdateUserRolesMutation
+} from '@/redux/apis/usersApi';
+import UsersTable from './UsersTable';
+import usersTableColumns from './UsersTable/usersTableColumns';
+import { MultiSelect } from '@/components/ui/multi-select';
 
-const editCategoryFormSchema = z.object({
+const updateUserRolesFormSchema = z.object({
   roles: stringArraySchema
 });
 
-const CategoriesManagerPage = () => {
+const UsersManagerPage = () => {
   const dispatch = useDispatch();
   const { state: sidebarState } = useSidebar();
-
-  const { isDialogOpen, triggeredBy, dialogData } = useSelector((state) => state.dialog);
+  const { isDialogOpen, triggeredBy, dialogData } = useSelector(
+    (state) => state.dialog
+  );
   const { selectedIds } = useSelector((state) => state.selector);
 
-  const { data: usersData, isFetching } = useFetchUsersQuery();
-  const [editUserRoles, editUserRolesState] = useEditUserRolesMutation();
-  const [removeUsers, removeUsersState] = useRemoveUsersMutation();
+  const { data: usersData, isFetching } = useGetUsersQuery();
+  const [updateUserRoles, updateUserRolesState] = useUpdateUserRolesMutation();
+  const [toggleBanUsers, toggleBanUsersState] = useToggleBanUsersMutation();
 
-  const editCategoryForm = useForm({
-    resolver: zodResolver(editCategoryFormSchema),
-    defaultValues: {
-      name: dialogData?.rowData?.name || '',
-      isDeleted: dialogData?.rowData?.isDeleted || false
-    }
+  const updateUserRolesForm = useForm({
+    resolver: zodResolver(updateUserRolesFormSchema)
   });
 
   useEffect(() => {
     if (dialogData?.rowData) {
-      editCategoryForm.reset({
+      updateUserRolesForm.reset({
         roles: dialogData.rowData.roles
       });
     }
-  }, [dialogData, editCategoryForm]);
+  }, [dialogData, updateUserRolesForm]);
 
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
 
   useEffect(() => {
-    if (editUserRolesState.isSuccess) handleAPISuccess('Chỉnh sửa vai trò người dùng thành công!');
-    else if (editUserRolesState.isError) handleAPIError(editUserRolesState.error);
-  }, [editUserRolesState]);
+    if (updateUserRolesState.isSuccess)
+      handleAPISuccess('Cập nhật vai trò người dùng thành công!');
+    else if (updateUserRolesState.isError)
+      handleAPIError(updateUserRolesState.error);
+  }, [updateUserRolesState]);
 
   useEffect(() => {
-    if (removeUsersState.isSuccess) handleAPISuccess('Cấm người dùng thành công!');
-    else if (removeUsersState.isError) handleAPIError(removeUsersState.error);
-  }, [removeUsersState]);
+    if (toggleBanUsersState.isSuccess)
+      handleAPISuccess('Cập nhật trạng thái người dùng thành công!');
+    else if (toggleBanUsersState.isError)
+      handleAPIError(toggleBanUsersState.error);
+  }, [toggleBanUsersState]);
 
-  const handleEditCategory = (values) => editUserRoles({ id: selectedIds[0], ...values });
-  const handleRemoveCategories = () => removeUsers({ userIds: selectedIds });
+  const handleUpdateUserRoles = (values) =>
+    updateUserRoles({ id: selectedIds[0], ...values });
+  const handleToggleBanUsers = () =>
+    toggleBanUsers({
+      userIds: selectedIds,
+      banned: !dialogData.isUserBanned
+    });
 
   return (
     <div>
@@ -75,23 +81,25 @@ const CategoriesManagerPage = () => {
         data={usersData?.results}
         loading={isFetching}
         columns={usersTableColumns}
-        className={`transition-width duration-200 ${
+        className={`mt-3 transition-width duration-200 ${
           sidebarState === 'collapsed'
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}
       />
 
-      {triggeredBy === DialogActionType.UpdateUser && (
+      {triggeredBy === DialogActionType.UPDATE_USER_ROLES && (
         <FormDialog
-          form={editCategoryForm}
-          onSubmit={handleEditCategory}
+          form={updateUserRolesForm}
+          onSubmit={handleUpdateUserRoles}
           title='Chỉnh sửa vai trò người dùng'
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
         >
           <FormField
-            control={editCategoryForm.control}
+            control={updateUserRolesForm.control}
             name='roles'
             render={({ field }) => (
               <MultiSelect
@@ -104,18 +112,20 @@ const CategoriesManagerPage = () => {
           />
         </FormDialog>
       )}
-
-      {triggeredBy === DialogActionType.DeleteUser && (
-        <DeleteConfirmDialog
-          title='Xác nhận cấm người dùng'
-          description={`Bạn có muốn cấm ${selectedIds.length > 1 ? 'những' : ''} người dùng đã chọn không?`}
+      {triggeredBy === DialogActionType.TOGGLE_BAN_USER && (
+        <ConfirmDialog
+          title={`Xác nhận ${dialogData?.isUserBanned ? 'bỏ cấm' : 'cấm'} người dùng`}
+          description={`Bạn có muốn ${dialogData?.isUserBanned ? 'bỏ cấm' : 'cấm'} 
+          ${selectedIds.length > 1 ? 'những' : ''} người dùng đã chọn không?`}
           open={isDialogOpen}
-          setOpen={(open) => (open ? dispatch(openDialog()) : dispatch(closeDialog()))}
-          onClick={handleRemoveCategories}
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
+          onClick={handleToggleBanUsers}
         />
       )}
     </div>
   );
 };
 
-export default CategoriesManagerPage;
+export default UsersManagerPage;

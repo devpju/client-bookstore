@@ -22,7 +22,6 @@ import { useRef } from 'react';
 
 export function DataTableViewOptions({ table, dataViewOptions }) {
   const triggerRef = useRef(null);
-  console.log(table.getAllColumns());
   return (
     <Popover modal>
       <PopoverTrigger asChild>

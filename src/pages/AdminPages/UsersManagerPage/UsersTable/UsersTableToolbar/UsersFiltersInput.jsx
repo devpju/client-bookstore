@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 
-const ReviewsFiltersInput = ({
+const UsersFiltersInput = ({
   filters = {},
   onFiltersChange,
   isFiltered = false
@@ -41,9 +41,9 @@ const ReviewsFiltersInput = ({
   const getStatusLabel = () => {
     switch (status) {
       case false:
-        return 'Đang hiện';
+        return 'Đang hoạt động';
       case true:
-        return 'Đang ẩn';
+        return 'Đã bị cấm';
       default:
         return 'Trạng thái';
     }
@@ -52,22 +52,22 @@ const ReviewsFiltersInput = ({
   return (
     <div className='flex items-center gap-5'>
       <Input
-        placeholder='Tìm kiếm theo tên sách...'
+        placeholder='Tìm kiếm theo tên...'
         value={searchText}
         onChange={handleSearchTextChange}
         className='h-8 w-52 border-dashed border-slate-400 focus-visible:ring-0'
       />
 
       <Select value={status.toString()} onValueChange={handleStatusChange}>
-        <SelectTrigger className='h-8 w-32 border-dashed border-slate-400 focus:ring-0'>
+        <SelectTrigger className='h-8 w-40 border-dashed border-slate-400 focus:ring-0'>
           {getStatusLabel()}
         </SelectTrigger>
         <SelectContent>
           <SelectItem className='hover:cursor-pointer' value='false'>
-            Đang hiện
+            Đang hoạt động
           </SelectItem>
           <SelectItem className='hover:cursor-pointer' value='true'>
-            Đang ẩn
+            Đã bị cấm
           </SelectItem>
         </SelectContent>
       </Select>
@@ -90,4 +90,4 @@ const ReviewsFiltersInput = ({
   );
 };
 
-export default ReviewsFiltersInput;
+export default UsersFiltersInput;

@@ -64,10 +64,10 @@ const CategoriesFiltersInput = ({
         </SelectTrigger>
         <SelectContent>
           <SelectItem className='hover:cursor-pointer' value='false'>
-            Đang ẩn
+            Đang hiện
           </SelectItem>
           <SelectItem className='hover:cursor-pointer' value='true'>
-            Đang hiện
+            Đang ẩn
           </SelectItem>
         </SelectContent>
       </Select>

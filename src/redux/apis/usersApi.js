@@ -6,13 +6,18 @@ export const usersApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Users'],
   endpoints: (builder) => ({
-    fetchUsers: builder.query({
+    getUsers: builder.query({
       query: () => ({
         url: '/admin/users'
       }),
       providesTags: ['Users']
     }),
-    editUserRoles: builder.mutation({
+    getDetailUser: builder.query({
+      query: ({ id }) => ({
+        url: `/admin/users/${id}`
+      })
+    }),
+    updateUserRoles: builder.mutation({
       query: ({ id, roles }) => ({
         url: `/admin/users/${id}`,
         method: 'PUT',
@@ -20,16 +25,11 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ['Users']
     }),
-    fetchDetailUser: builder.query({
-      query: ({ id }) => ({
-        url: `/admin/users/${id}`
-      })
-    }),
-    removeUsers: builder.mutation({
-      query: ({ userIds }) => ({
-        url: '/admin/users',
-        method: 'DELETE',
-        body: { userIds }
+    toggleBanUsers: builder.mutation({
+      query: ({ userIds, banned }) => ({
+        url: `/admin/users/toggle-ban`,
+        method: 'PUT',
+        body: { userIds, banned }
       }),
       invalidatesTags: ['Users']
     })
@@ -37,8 +37,8 @@ export const usersApi = createApi({
 });
 
 export const {
-  useFetchUsersQuery,
-  useEditUserRolesMutation,
-  useRemoveUsersMutation,
-  useFetchDetailUserQuery
+  useGetUsersQuery,
+  useGetDetailUserQuery,
+  useUpdateUserRolesMutation,
+  useToggleBanUsersMutation
 } = usersApi;

@@ -30,7 +30,7 @@ const reviewsTableColumns = [
     enableHiding: false
   },
   {
-    id: 'index',
+    accessorKey: 'index',
     size: 30,
     header: () => <div className='w-full text-center'>STT</div>,
     cell: ({ row }) => (
