@@ -42,8 +42,12 @@ const vouchersTableColumns = [
   {
     accessorKey: 'code',
     size: 80,
-    header: () => <span>CODE</span>,
-    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('code')}</div>
+    header: () => <span className='flex w-full justify-center'>CODE</span>,
+    cell: ({ row }) => (
+      <div className='flex justify-center rounded-md border border-sky-500 px-2 py-1 font-medium text-sky-500'>
+        {row.getValue('code')}
+      </div>
+    )
   },
   {
     accessorKey: 'discountValue',
@@ -66,7 +70,7 @@ const vouchersTableColumns = [
       <DataTableColumnHeader column={column} title='Giới hạn' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('usageLimit')}</div>
+      <div className='flex justify-center'>{row.getValue('usageLimit')}</div>
     ),
     enableSorting: true,
     enableHiding: true
@@ -76,7 +80,9 @@ const vouchersTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Đã dùng' />
     ),
-    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('used')}</div>,
+    cell: ({ row }) => (
+      <div className='flex justify-center'>{row.getValue('used')}</div>
+    ),
     enableSorting: true,
     enableHiding: true
   },
@@ -86,7 +92,7 @@ const vouchersTableColumns = [
       <DataTableColumnHeader column={column} title='Ngày bắt đầu' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>
+      <div className='flex justify-center'>
         {convertToDDMMYYYY(row.getValue('startDate'))}
       </div>
     ),
@@ -107,7 +113,7 @@ const vouchersTableColumns = [
       <DataTableColumnHeader column={column} title='Ngày kết thúc' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>
+      <div className='flex justify-center'>
         {convertToDDMMYYYY(row.getValue('endDate'))}
       </div>
     ),

@@ -44,9 +44,7 @@ const usersTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Họ và tên' />
     ),
-    cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('fullName')}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue('fullName')}</div>,
     enableSorting: true,
     enableHiding: true
   },
@@ -56,9 +54,7 @@ const usersTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Số điện thoại' />
     ),
-    cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('phoneNumber')}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
     enableSorting: true,
     enableHiding: true
   },
@@ -67,9 +63,7 @@ const usersTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Email' />
     ),
-    cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('email')}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue('email')}</div>,
     enableSorting: true,
     enableHiding: true
   },

@@ -21,7 +21,6 @@ const DetailUserPage = () => {
   const { data } = useGetDetailUserQuery({ id: state.id });
   const userInfo = data?.results || null;
   if (!userInfo) return <div>Loading...</div>;
-  console.log(userInfo);
   return (
     <div className='w-full px-5'>
       <h1 className='text-2xl font-semibold'>{userInfo.fullName}</h1>

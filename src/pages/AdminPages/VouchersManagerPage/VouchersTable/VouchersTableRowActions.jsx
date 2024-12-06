@@ -17,7 +17,7 @@ export default function VouchersTableRowActions({ row }) {
     );
     dispatch(addId(row.original.id));
   };
-  const handleToggleVisibility = () => {
+  const handleActiveVoucher = () => {
     dispatch(
       openDialog({
         triggeredBy: DialogActionType.TOGGLE_ACTIVE_VOUCHER,
@@ -28,7 +28,14 @@ export default function VouchersTableRowActions({ row }) {
     );
     dispatch(addId(row.original.id));
   };
-
+  const handleDeleteVoucher = () => {
+    dispatch(
+      openDialog({
+        triggeredBy: DialogActionType.DELETE_VOUCHER
+      })
+    );
+    dispatch(addId(row.original.id));
+  };
   return (
     <div className='flex items-center justify-center gap-2'>
       <WarningButton name='Sửa' onClick={onClickEditButton} />
@@ -36,13 +43,26 @@ export default function VouchersTableRowActions({ row }) {
         <InfoButton
           name='Kích hoạt'
           className='w-[120px]'
-          onClick={handleToggleVisibility}
+          onClick={handleActiveVoucher}
         />
       ) : (
         <DangerButton
           name='Huỷ kích hoạt'
           className='w-[120px]'
-          onClick={handleToggleVisibility}
+          onClick={handleActiveVoucher}
+        />
+      )}
+      {row.original.isActivated === false ? (
+        <DangerButton
+          name='Xoá'
+          className='bg-red-800 hover:border-red-800/80 hover:bg-red-800/80'
+          onClick={handleDeleteVoucher}
+        />
+      ) : (
+        <DangerButton
+          name='Xoá'
+          disabled={true}
+          className='invisible opacity-0'
         />
       )}
     </div>

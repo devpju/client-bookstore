@@ -12,6 +12,7 @@ import { useSidebar } from '@/components/ui/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import {
   useAddVoucherMutation,
+  useDeleteVouchersMutation,
   useGetVouchersQuery,
   useToggleActiveVouchersMutation,
   useUpdateVoucherMutation
@@ -68,6 +69,7 @@ const VouchersManagerPage = () => {
   const [updateVoucher, updateVoucherState] = useUpdateVoucherMutation();
   const [toggleActiveVouchers, toggleActiveVouchersState] =
     useToggleActiveVouchersMutation();
+  const [deleteVouchers, deleteVouchersState] = useDeleteVouchersMutation();
 
   const voucherForm = useForm({
     resolver: zodResolver(voucherFormSchema),
@@ -109,6 +111,13 @@ const VouchersManagerPage = () => {
   }, [updateVoucherState]);
 
   useEffect(() => {
+    if (deleteVouchersState.isSuccess)
+      handleAPISuccess('Xoá mã giảm giá thành công!');
+    else if (deleteVouchersState.isError)
+      handleAPIError(deleteVouchersState.error);
+  }, [deleteVouchersState]);
+
+  useEffect(() => {
     if (toggleActiveVouchersState.isSuccess)
       handleAPISuccess('Cập nhật trạng thái mã giảm giá thành công!');
     else if (toggleActiveVouchersState.isError)
@@ -120,11 +129,16 @@ const VouchersManagerPage = () => {
   };
   const handleUpdateVoucher = (values) =>
     updateVoucher({ id: selectedIds[0], ...values });
+
   const handleActiveVouchers = () =>
     toggleActiveVouchers({
       voucherIds: selectedIds,
       activated: !dialogData.isVoucherActivated
     });
+
+  const handleDeleteVouchers = () => {
+    deleteVouchers({ voucherIds: selectedIds });
+  };
   return (
     <div>
       <VouchersTable
@@ -171,6 +185,18 @@ const VouchersManagerPage = () => {
             open ? dispatch(openDialog()) : dispatch(closeDialog())
           }
           onClick={handleActiveVouchers}
+        />
+      )}
+      {triggeredBy === DialogActionType.DELETE_VOUCHER && (
+        <ConfirmDialog
+          title={`Xác nhận xoá mã giảm giá`}
+          description={`Bạn có muốn xoá 
+          ${selectedIds.length > 1 ? 'các' : ''} mã giảm giá đã chọn không?`}
+          open={isDialogOpen}
+          setOpen={(open) =>
+            open ? dispatch(openDialog()) : dispatch(closeDialog())
+          }
+          onClick={handleDeleteVouchers}
         />
       )}
     </div>

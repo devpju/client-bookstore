@@ -38,6 +38,17 @@ export default function VouchersTableToolbar({ rowSelection, table }) {
     );
   };
 
+  const handleDeleteVouchers = () => {
+    if (selectedIds.length > 0) {
+      dispatch(addIds(selectedIds));
+    }
+    dispatch(
+      openDialog({
+        triggeredBy: DialogActionType.DELETE_VOUCHER
+      })
+    );
+  };
+
   const handleAddNewVoucher = () => {
     dispatch(
       openDialog({
@@ -75,6 +86,11 @@ export default function VouchersTableToolbar({ rowSelection, table }) {
             name='Huỷ kích hoạt các MGG đã chọn'
             onClick={() => handleToggleActiveVouchers({ isActivated: true })}
           />
+          <DangerButton
+            className='bg-red-800 px-3 py-2 hover:border-red-800/80 hover:bg-red-800/80'
+            name='Xoá các MGG đã chọn'
+            onClick={handleDeleteVouchers}
+          />
         </div>
       </div>
       <div className='flex items-center justify-between space-x-2'>
@@ -87,9 +103,13 @@ export default function VouchersTableToolbar({ rowSelection, table }) {
           table={table}
           dataViewOptions={{
             index: 'STT',
-            createdAt: 'Ngày tạo',
-            isActivated: 'Trạng thái',
-            name: 'Tên danh mục'
+            code: 'CODE',
+            discountValue: 'Giá trị',
+            usageLimit: 'Giới hạn',
+            used: 'Đã dùng',
+            startDate: 'Ngày bắt đầu',
+            endDate: 'Ngày kết thúc',
+            isActivated: 'Trạng thái'
           }}
         />
       </div>
