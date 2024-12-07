@@ -5,17 +5,13 @@ import { DialogActionType } from '@/lib/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 export default function BooksTableRowActions({ row }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onClickEditButton = () => {
-    dispatch(
-      openDialog({
-        triggeredBy: DialogActionType.UPDATE_BOOK,
-        data: { rowData: row.original }
-      })
-    );
-    dispatch(addId(row.original.id));
+    navigate(`/admin/books/update-book`, { state: { id: row.original.id } });
   };
   const handleToggleVisibility = () => {
     dispatch(

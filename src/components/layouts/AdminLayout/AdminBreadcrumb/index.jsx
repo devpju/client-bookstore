@@ -8,10 +8,10 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Fragment } from 'react';
 import { Link, useLocation } from 'react-router';
+
 const breadcrumbNameMap = {
   '/dashboard': 'Dashboard',
   '/users': 'Quản lý Người dùng',
-  '/users/:id': 'Chi tiết Người dùng', // Thêm trường hợp động
   '/vouchers': 'Quản lý Mã giảm giá',
   '/reviews': 'Quản lý Đánh giá',
   '/orders': 'Quản lý Đơn hàng',
@@ -41,10 +41,19 @@ const AdminBreadcrumb = () => {
 
         {pathnames.map((value, index) => {
           const to = `/admin/${pathnames.slice(0, index + 1).join('/')}`;
+          const isLast = index === pathnames.length - 1;
 
           // Tìm tên cho breadcrumb
           let name;
-          if (index === 1 && pathnames[0] === 'users') {
+          if (to.endsWith('/create-new-book')) {
+            name = 'Tạo mới Sách';
+          } else if (to.endsWith('/create-new-user')) {
+            name = 'Tạo mới Người dùng';
+          } else if (to.endsWith('/update-book')) {
+            name = 'Chỉnh sửa thông tin Sách';
+          } else if (to.endsWith('/detail-book')) {
+            name = 'Xem chi tiết Sách';
+          } else if (index === 1 && pathnames[0] === 'users') {
             // Nếu là chi tiết người dùng
             name = 'Chi tiết Người dùng';
           } else {
@@ -53,8 +62,6 @@ const AdminBreadcrumb = () => {
                 `/${pathnames.slice(0, index + 1).join('/')}`
               ] || value;
           }
-
-          const isLast = index === pathnames.length - 1;
 
           return (
             <Fragment key={to}>
@@ -67,8 +74,7 @@ const AdminBreadcrumb = () => {
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
-              {!isLast && <BreadcrumbSeparator />}{' '}
-              {/* Thêm Separator nếu không phải mục cuối */}
+              {!isLast && <BreadcrumbSeparator />}
             </Fragment>
           );
         })}

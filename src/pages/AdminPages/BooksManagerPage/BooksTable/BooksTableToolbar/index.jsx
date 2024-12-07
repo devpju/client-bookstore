@@ -40,12 +40,7 @@ export default function BooksTableToolbar({ rowSelection, table }) {
   };
 
   const handleAddNewBook = () => {
-    navigate('/admin/books/update');
-    dispatch(
-      openDialog({
-        triggeredBy: DialogActionType.ADD_NEW_BOOK
-      })
-    );
+    navigate('/admin/books/create-new-book');
   };
 
   const handleFiltersChange = (newFilters) => {
@@ -68,12 +63,12 @@ export default function BooksTableToolbar({ rowSelection, table }) {
         >
           <InfoButton
             className='px-3 py-2'
-            name='Hiển thị các DM đã chọn'
+            name='Hiển thị các sách đã chọn'
             onClick={() => handleToggleVisibilityBooks({ isHidden: true })}
           />
           <DangerButton
             className='px-3 py-2'
-            name='Ẩn các DM đã chọn'
+            name='Ẩn các sách đã chọn'
             onClick={() => handleToggleVisibilityBooks({ isHidden: false })}
           />
         </div>

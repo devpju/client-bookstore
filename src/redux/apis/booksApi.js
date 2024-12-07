@@ -13,18 +13,83 @@ export const booksApi = createApi({
       providesTags: ['Books']
     }),
     addBook: builder.mutation({
-      query: ({ name }) => ({
-        url: '/admin/books',
-        method: 'POST',
-        body: { name }
+      query: ({
+        id,
+        name,
+        width,
+        height,
+        authors,
+        totalPages,
+        description,
+        price,
+        originalPrice,
+        stock,
+        publishDate,
+        publisher,
+        coverType,
+        categoryId,
+        thumbnail,
+        images
+      }) => ({
+        url: `/admin/books/${id}`,
+        method: 'PUT',
+        body: {
+          name,
+          width,
+          height,
+          authors,
+          totalPages,
+          description,
+          price,
+          originalPrice,
+          stock,
+          publishDate,
+          publisher,
+          coverType,
+          categoryId,
+          thumbnail,
+          images
+        }
       }),
       invalidatesTags: ['Books']
     }),
     updateBook: builder.mutation({
-      query: ({ id, name }) => ({
-        url: `/admin/books/${id}`,
-        method: 'PUT',
-        body: { name }
+      query: ({
+        name,
+        width,
+        height,
+        authors,
+        totalPages,
+        description,
+        price,
+        originalPrice,
+        stock,
+        publishDate,
+        publisher,
+        coverType,
+        categoryId,
+        thumbnail,
+        images
+      }) => ({
+        url: '/admin/books',
+        method: 'POST',
+        body: {
+          name,
+          width,
+          height,
+          authors,
+          totalPages,
+          description,
+          price,
+          originalPrice,
+          stock,
+          publishDate,
+          publisher,
+          coverType,
+          categoryId,
+          thumbnail,
+          images
+        }
       }),
       invalidatesTags: ['Books']
     }),
@@ -35,6 +100,11 @@ export const booksApi = createApi({
         body: { bookIds, visible }
       }),
       invalidatesTags: ['Books']
+    }),
+    getDetailBook: builder.query({
+      query: ({ id }) => ({
+        url: `/books/${id}`
+      })
     })
   })
 });
@@ -43,5 +113,6 @@ export const {
   useAddBookMutation,
   useToggleVisibilityBooksMutation,
   useGetBooksQuery,
-  useUpdateBookMutation
+  useUpdateBookMutation,
+  useGetDetailBookQuery
 } = booksApi;
