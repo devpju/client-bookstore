@@ -2,6 +2,15 @@ import CancelButton from '@/components/buttons/CancelButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import DateField from '@/components/inputs/DateField';
 import TextField from '@/components/inputs/TextField';
+import { Button } from '@/components/ui/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command';
 import {
   Form,
   FormControl,
@@ -11,12 +20,12 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
+
+import { cn } from '@/lib/utils';
 import { numberSchema } from '@/lib/validations';
 import {
   useAddBookMutation,
@@ -24,9 +33,10 @@ import {
 } from '@/redux/apis/booksApi';
 import { useGetCategoriesQuery } from '@/redux/apis/categoriesApi';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { z } from 'zod';
 const formSchema = z.object({
@@ -51,7 +61,7 @@ const UpdateBookPage = () => {
   const { data: bookData } = useGetDetailBookQuery({ id: state.id });
   const [updateBook, updateBookState] = useAddBookMutation();
   const bookInfo = bookData?.results;
-
+  const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,170 +101,207 @@ const UpdateBookPage = () => {
       <div className='mb-8 ml-10 text-lg font-semibold'>Tạo mới sách</div>
       <Form {...form}>
         <form
-          className={`w-full items-start gap-10 px-10`}
+          className={`w-full gap-10 px-10`}
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <div className='flex w-full gap-5'>
-            <div className='w-full space-y-5'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập tên sách'
-                    label='Tên sách'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='width'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập chiều dài'
-                    label='Chiều dài'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='height'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập chiều cao'
-                    label='Chiều cao'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='authors'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập tác giả'
-                    label='Tác giả'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='totalPages'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập số trang'
-                    label='Số trang'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='description'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập mô tả'
-                    label='Mô tả'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-            </div>
-            <div className='w-full space-y-5'>
-              <FormField
-                control={form.control}
-                name='publishDate'
-                render={({ field }) => (
-                  <DateField field={field} label='Ngày xuất bản' />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='publisher'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập nhà xuất bản'
-                    label='Nhà xuất bản'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='coverType'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập loại bìa'
-                    label='Loại bìa'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='categoryId'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Danh mục</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+          <div className='grid grid-cols-2 gap-5'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập tên sách'
+                  label='Tên sách'
+                  isError={!!form.formState.errors.name}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='width'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập chiều dài'
+                  label='Chiều dài'
+                  isError={!!form.formState.errors.width}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='height'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập chiều cao'
+                  label='Chiều cao'
+                  isError={!!form.formState.errors.height}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='authors'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập tác giả'
+                  label='Tác giả'
+                  isError={!!form.formState.errors.authors}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='totalPages'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập số trang'
+                  label='Số trang'
+                  isError={!!form.formState.errors.totalPages}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập mô tả'
+                  label='Mô tả'
+                  isError={!!form.formState.errors.description}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='publishDate'
+              render={({ field }) => (
+                <DateField
+                  field={field}
+                  label='Ngày xuất bản'
+                  placeholder='Chọn ngày xuất bản'
+                  className='h-[52px] w-full'
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='publisher'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập nhà xuất bản'
+                  label='Nhà xuất bản'
+                  isError={!!form.formState.errors.publisher}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='coverType'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập loại bìa'
+                  label='Loại bìa'
+                  isError={!!form.formState.errors.coverType}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='categoryId'
+              render={({ field }) => (
+                <FormItem className='flex flex-col'>
+                  <FormLabel>Danh mục</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder='Lựa chọn danh mục' />
-                        </SelectTrigger>
+                        <Button
+                          variant='outline'
+                          role='combobox'
+                          className={cn(
+                            'h-[52px] w-full justify-between hover:bg-white hover:text-primary',
+                            !field.value && 'text-muted-foreground'
+                          )}
+                        >
+                          {field.value
+                            ? categoriesData.results.find(
+                                (category) => category.id === field.value
+                              )?.name
+                            : 'Lựa chọn danh mục'}
+                          <ChevronsUpDown className='opacity-50' />
+                        </Button>
                       </FormControl>
-                      <SelectContent>
-                        {categoriesData.results.map((item) => (
-                          <SelectItem key={item.id} value={item.id}>
-                            {item.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='originalPrice'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập giá gốc'
-                    label='Giá gốc'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='price'
-                render={({ field }) => (
-                  <TextField
-                    field={field}
-                    placeholder='Nhập giá'
-                    label='Giá'
-                    isError={!!form.formState.errors.name}
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className='mt-5 grid grid-cols-2 gap-5'>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-full p-0'>
+                      <Command>
+                        <CommandInput
+                          placeholder='Tìm danh mục...'
+                          className='h-9'
+                        />
+                        <CommandList>
+                          <CommandEmpty>
+                            Không tìm thấy danh mục nào.
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {categoriesData.results.map((category) => (
+                              <CommandItem
+                                key={category.id}
+                                value={category.name}
+                                onSelect={() => {
+                                  form.setValue('categoryId', category.id);
+                                }}
+                              >
+                                {category.name}
+                                <Check
+                                  className={cn(
+                                    'ml-auto',
+                                    category.id === field.value
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='originalPrice'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập giá gốc'
+                  label='Giá gốc'
+                  isError={!!form.formState.errors.originalPrice}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='price'
+              render={({ field }) => (
+                <TextField
+                  field={field}
+                  placeholder='Nhập giá'
+                  label='Giá'
+                  isError={!!form.formState.errors.price}
+                />
+              )}
+            />
             <FormField
               control={form.control}
               name='thumbnail'
@@ -281,8 +328,13 @@ const UpdateBookPage = () => {
               )}
             />
           </div>
+
           <InfoButton name='Cập nhật' className='mt-5 px-5 py-2' />
-          <CancelButton name='Huỷ' className='ml-2' />
+          <CancelButton
+            name='Huỷ'
+            className='ml-2'
+            onClick={() => navigate('/admin/books')}
+          />
         </form>
       </Form>
     </div>

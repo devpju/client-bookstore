@@ -14,7 +14,6 @@ const RadioGroupField = ({
   radioGroupClassName,
   onValueChange
 }) => {
-  console.log(field);
   const handleValueChange = (value) => {
     if (onValueChange) {
       onValueChange(value, field);

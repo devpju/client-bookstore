@@ -91,20 +91,6 @@ export const calculateTotalAmount = (orders) => {
 
   return orders.reduce((total, order) => total + (order.totalAmount || 0), 0);
 };
-/**
- * Format address object into "ward-district-province" format.
- * @param {Object} address - The address object.
- * @param {Object} address.ward - Ward object with a name property.
- * @param {Object} address.district - District object with a name property.
- * @param {Object} address.province - Province object with a name property.
- * @returns {string} - The formatted address string.
- */
-export function formatAddress(address) {
-  if (!address || !address.ward || !address.district || !address.province) {
-    throw new Error('Invalid address object');
-  }
-  return `${address.ward.name} - ${address.district.name} - ${address.province.name}`;
-}
 
 export function getLatestStatus(logs) {
   if (!logs) return null;

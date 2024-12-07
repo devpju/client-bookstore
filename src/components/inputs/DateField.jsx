@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { Calendar } from '../ui/calendar';
 import { vi } from 'date-fns/locale';
 
-const DateField = ({ field, label }) => {
+const DateField = ({ field, label, placeholder, className }) => {
   return (
     <FormItem className='flex flex-col'>
       <FormLabel>{label}</FormLabel>
@@ -18,13 +18,14 @@ const DateField = ({ field, label }) => {
               variant={'outline'}
               className={cn(
                 'w-[270px] px-5 text-left font-normal hover:bg-white hover:text-primary',
-                !field.value && 'text-muted-foreground'
+                !field.value && 'text-muted-foreground',
+                className
               )}
             >
               {field.value ? (
                 format(field.value, 'PPP', { locale: vi })
               ) : (
-                <span>Pick a date</span>
+                <span>{placeholder}</span>
               )}
               <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
             </Button>

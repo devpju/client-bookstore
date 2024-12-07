@@ -48,7 +48,8 @@ const OrdersManagerPage = () => {
     if (dialogData?.rowData) {
       orderStatusForm.reset({
         orderStatus: getLatestStatus(dialogData?.rowData.logs),
-        paymentStatus: dialogData.rowData?.payment.isPaid
+        paymentStatus:
+          dialogData.rowData?.payment.status === 'paid' ? true : false
       });
     }
   }, [dialogData, orderStatusForm]);
@@ -63,7 +64,6 @@ const OrdersManagerPage = () => {
   }, [updateOrderStatusState]);
 
   const handleUpdateOrderStatus = (values) => {
-    console.log();
     updateOrderStatus({
       id: selectedIds[0],
       ...values,

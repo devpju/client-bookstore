@@ -176,7 +176,6 @@ const VouchersManagerPage = () => {
           }
         />
       )}
-      {console.log(dialogData)}
       {triggeredBy === DialogActionType.TOGGLE_ACTIVE_VOUCHER && (
         <ConfirmDialog
           title={`Xác nhận ${!dialogData?.isVoucherActivated ? 'kích hoạt' : 'huỷ kích hoạt'} mã giảm giá`}
