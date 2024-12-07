@@ -586,23 +586,26 @@ export const ordersTableColumns = [
 export const booksTableColumns = [
   selectColumn,
   indexColumn,
-  {
-    accessorKey: 'categoryName',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tên danh mục' />
-    ),
-    cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('categoryName')}</div>
-    ),
-    enableSorting: true,
-    enableHiding: true
-  },
+  //   {
+  //     accessorKey: 'categoryName',
+  //     header: ({ column }) => (
+  //       <DataTableColumnHeader column={column} title='Tên danh mục' />
+  //     ),
+  //     cell: ({ row }) => (
+  //       <div className='m-w-[30px]'>{row.getValue('categoryName')}</div>
+  //     ),
+  //     enableSorting: true,
+  //     enableHiding: true
+  //   },
   {
     accessorKey: 'name',
+    size: 200,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Tên sách' />
     ),
-    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('name')}</div>,
+    cell: ({ row }) => (
+      <div className='m-w-[30px] line-clamp-3'>{row.getValue('name')}</div>
+    ),
     enableSorting: true,
     enableHiding: true
   },
@@ -642,7 +645,7 @@ export const booksTableColumns = [
   {
     accessorKey: 'totalPages',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tổng số trang' />
+      <DataTableColumnHeader column={column} title='Số trang' />
     ),
     cell: ({ row }) => (
       <div className='m-w-[30px]'>{row.getValue('totalPages')}</div>
@@ -728,7 +731,7 @@ export const booksTableColumns = [
     enableHiding: true
   },
   {
-    accessorKey: 'createdAt',
+    accessorKey: 'publishDate',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Ngày tạo' />
     ),
@@ -743,7 +746,9 @@ export const booksTableColumns = [
 
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
-        {convertToDDMMYYYY(row.getValue('createdAt'))}
+        {row.getValue('publishDate')
+          ? convertToDDMMYYYY(row.getValue('publishDate'))
+          : 'Không có'}
       </div>
     ),
     enableSorting: true,

@@ -28,8 +28,8 @@ import {
 import { cn } from '@/lib/utils';
 import { numberSchema } from '@/lib/validations';
 import {
-  useAddBookMutation,
-  useGetDetailBookQuery
+  useGetDetailBookQuery,
+  useUpdateBookMutation
 } from '@/redux/apis/booksApi';
 import { useGetCategoriesQuery } from '@/redux/apis/categoriesApi';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -52,16 +52,20 @@ const formSchema = z.object({
   publisher: z.string(),
   coverType: z.string(),
   thumbnail: z.string(),
-  images: z.string(),
-  categoryId: z.string()
+  images: z.union([z.string(), z.array(z.string())]),
+  categoryId: z.union([z.string(), z.number()])
 });
 const UpdateBookPage = () => {
   const { state } = useLocation();
-  const { data: categoriesData } = useGetCategoriesQuery();
-  const { data: bookData } = useGetDetailBookQuery({ id: state.id });
-  const [updateBook, updateBookState] = useAddBookMutation();
+  const { data: categoriesData, ...getCategoriesState } =
+    useGetCategoriesQuery();
+  const { data: bookData, ...getDetailBookState } = useGetDetailBookQuery({
+    id: state.id
+  });
+  const [updateBook, updateBookState] = useUpdateBookMutation();
   const bookInfo = bookData?.results;
   const navigate = useNavigate();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -77,14 +81,33 @@ const UpdateBookPage = () => {
       publisher: bookInfo?.publisher || '',
       coverType: bookInfo?.coverType || '',
       thumbnail: bookInfo?.thumbnail || '',
-      images: bookInfo?.images.toString() || [],
+      images: bookInfo?.images || [].join(', ') || [],
       categoryId: bookInfo?.category.id || ''
     }
   });
-
+  useEffect(() => {
+    if (bookInfo) {
+      form.reset({
+        name: bookInfo?.name || '',
+        width: bookInfo?.width.toString() || '',
+        height: bookInfo?.height.toString() || '',
+        authors: bookInfo?.authors || '',
+        totalPages: bookInfo?.totalPages.toString() || '',
+        description: bookInfo?.description || '',
+        originalPrice: bookInfo?.originalPrice.toString() || '',
+        price: bookInfo?.price.toString() || '',
+        publishDate: bookInfo?.publishDate || '',
+        publisher: bookInfo?.publisher || '',
+        coverType: bookInfo?.coverType || '',
+        thumbnail: bookInfo?.thumbnail || '',
+        images: bookInfo?.images || [],
+        categoryId: bookInfo?.category.id || ''
+      });
+    }
+  }, [bookInfo, form]);
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
-
+  console.log(bookInfo);
   useEffect(() => {
     if (updateBookState.isSuccess)
       handleAPISuccess('Cập nhật thông tin sách thành công!');
@@ -92,10 +115,18 @@ const UpdateBookPage = () => {
   }, [updateBookState]);
 
   const onSubmit = (values) => {
-    updateBook({ ...values, images: values.images.split(','), id: state.id });
+    let images = values.images;
+
+    if (typeof images === 'string') {
+      images = images.split(',');
+    }
+
+    updateBook({ ...values, images, id: state.id });
   };
 
-  if (!categoriesData?.results) return <div>Loading...</div>;
+  if (getDetailBookState.isFetching || getCategoriesState.isFetching)
+    return <div>Loading...</div>;
+
   return (
     <div className='w-full'>
       <div className='mb-8 ml-10 text-lg font-semibold'>Tạo mới sách</div>

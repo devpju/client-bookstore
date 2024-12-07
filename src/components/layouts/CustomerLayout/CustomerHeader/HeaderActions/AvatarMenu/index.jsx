@@ -1,12 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger
+} from '@/components/ui/hover-card';
 import { useSignoutMutation } from '@/redux/apis/authApi';
 import { useEffect } from 'react';
 import { removeAuth } from '@/redux/slices/authSlice';
 import { toast } from 'sonner';
 const AvatarMenu = () => {
-  const urlAvatar = useSelector((state) => state.auth.useInfo?.urlAvatar) || '/images/avatar.jpg';
+  const urlAvatar =
+    useSelector((state) => state.auth.useInfo?.urlAvatar) ||
+    '/images/avatar.jpg';
   const navigate = useNavigate();
   const [signout, signoutState] = useSignoutMutation();
   const dispatch = useDispatch();
@@ -26,7 +32,11 @@ const AvatarMenu = () => {
   return (
     <HoverCard openDelay={20}>
       <HoverCardTrigger asChild>
-        <img src={urlAvatar} alt='avatar' className='size-10 cursor-pointer rounded-full' />
+        <img
+          src={urlAvatar}
+          alt='avatar'
+          className='size-10 cursor-pointer rounded-full'
+        />
       </HoverCardTrigger>
       <HoverCardContent className='flex w-auto flex-col p-0 py-2'>
         <Link

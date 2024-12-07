@@ -47,7 +47,7 @@ export default function BooksTableToolbar({ rowSelection, table }) {
     setFilters(newFilters);
     table.getColumn('name')?.setFilterValue(newFilters.searchText);
     table.getColumn('stock')?.setFilterValue(newFilters.status);
-    table.getColumn('createdAt')?.setFilterValue(newFilters.dateRange);
+    table.getColumn('publishDate')?.setFilterValue(newFilters.dateRange);
   };
 
   return (
