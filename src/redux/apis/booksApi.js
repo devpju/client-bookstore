@@ -12,7 +12,7 @@ export const booksApi = createApi({
       }),
       providesTags: ['Books']
     }),
-    addBook: builder.mutation({
+    updateBook: builder.mutation({
       query: ({
         id,
         name,
@@ -53,7 +53,7 @@ export const booksApi = createApi({
       }),
       invalidatesTags: ['Books']
     }),
-    updateBook: builder.mutation({
+    addBook: builder.mutation({
       query: ({
         name,
         width,
@@ -103,7 +103,7 @@ export const booksApi = createApi({
     }),
     getDetailBook: builder.query({
       query: ({ id }) => ({
-        url: `/books/${id}`
+        url: `admin/books/${id}`
       })
     })
   })
