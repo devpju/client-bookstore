@@ -57,11 +57,6 @@ const BooksManagerPage = () => {
   const handleAPIError = (error) => toast.error(error?.data?.message);
 
   useEffect(() => {
-    if (addBookState.isSuccess) handleAPISuccess('Thêm sách thành công!');
-    else if (addBookState.isError) handleAPIError(addBookState.error);
-  }, [addBookState]);
-
-  useEffect(() => {
     if (updateBookState.isSuccess)
       handleAPISuccess('Cập nhật thông tin sách thành công!');
     else if (updateBookState.isError) handleAPIError(updateBookState.error);
