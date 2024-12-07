@@ -47,7 +47,7 @@ const formSchema = z.object({
   coverType: z.string(),
   thumbnail: z.string(),
   images: z.string(),
-  categoryId: z.string()
+  categoryId: z.union([z.string(), z.number()])
 });
 const CreateBookPage = () => {
   const { data: categoriesData } = useGetCategoriesQuery();

@@ -678,7 +678,9 @@ export const booksTableColumns = [
       <DataTableColumnHeader column={column} title='Tồn kho' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('stock')}</div>
+      <div className='m-w-[30px]'>
+        {row.getValue('stock') === -1 ? 'Hết hàng' : row.getValue('stock')}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true,

@@ -8,7 +8,7 @@ export const booksApi = createApi({
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: () => ({
-        url: '/books'
+        url: '/admin/books'
       }),
       providesTags: ['Books']
     }),
