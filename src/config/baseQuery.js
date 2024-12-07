@@ -3,9 +3,10 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL_API,
-  credentials: 'same-origin',
+  credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const accessToken = getState()?.auth?.accessToken;
+    headers.set('ngrok-skip-browser-warning', 'true');
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
@@ -15,11 +16,7 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  if (
-    result.error &&
-    result.error.status === 401 &&
-    result.error.data.message === 'Token đã hết hạn'
-  ) {
+  if (result.error && result.error.status === 401) {
     const refreshResult = await baseQuery(
       { url: '/refresh-token', method: 'POST' },
       api,
