@@ -22,6 +22,7 @@ import CategoriesTableToolbar from './CategoriesTable/CategoriesTableToolbar';
 import DataTable from '@/components/table/DataTable';
 import { categoriesTableColumns } from '@/components/table/columns';
 import { categoryFormSchema } from '@/validations/categorySchema';
+import { cn } from '@/utils/classUtils';
 
 const CategoriesManagerPage = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,8 @@ const CategoriesManagerPage = () => {
         isDeleted: dialogData.rowData.isDeleted
       });
     }
-  }, [dialogData, categoryForm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialogData]);
 
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
@@ -89,11 +91,12 @@ const CategoriesManagerPage = () => {
         data={categoriesData?.results}
         loading={isFetching}
         columns={categoriesTableColumns}
-        className={`mt-3 transition-width duration-200 ${
+        className={cn(
+          'transition-width duration-200',
           !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
-        }`}
+        )}
         tableToolbar={CategoriesTableToolbar}
       />
 

@@ -30,7 +30,7 @@ const SelectField = ({ field, placeholder, items, label }) => {
           ))}
         </SelectContent>
       </Select>
-      <FormMessage />
+      <FormMessage className='text-xs text-danger' />
     </FormItem>
   );
 };

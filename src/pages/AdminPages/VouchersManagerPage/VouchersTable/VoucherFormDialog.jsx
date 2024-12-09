@@ -38,7 +38,7 @@ const VoucherFormDialog = ({ setOpen, open, title, onSubmit, form }) => {
             suffix={voucherType === 'percentage' ? ' %' : ' đ'}
             placeholder='Nhập giá trị'
             label='Giá trị khuyến mãi'
-            isError={!!form.formState.errors.usageLimit}
+            isError={!!form.formState.errors.discountValue}
           />
         )}
       />
@@ -58,13 +58,23 @@ const VoucherFormDialog = ({ setOpen, open, title, onSubmit, form }) => {
       <FormField
         control={form.control}
         name='startDate'
-        render={({ field }) => <DateField field={field} label='Ngày bắt đầu' />}
+        render={({ field }) => (
+          <DateField
+            field={field}
+            label='Ngày bắt đầu'
+            isError={form.formState.errors.startDate}
+          />
+        )}
       />
       <FormField
         control={form.control}
         name='endDate'
         render={({ field }) => (
-          <DateField field={field} label='Ngày kết thúc' />
+          <DateField
+            field={field}
+            label='Ngày kết thúc'
+            isError={form.formState.errors.endDate}
+          />
         )}
       />
     </FormDialog>

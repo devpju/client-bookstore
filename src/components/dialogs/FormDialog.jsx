@@ -24,7 +24,7 @@ const FormDialog = ({
   const dispatch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent className='max-w-[530px]'>
         <Form {...form}>
           <form
             className={`space-y-4 ${className}`}

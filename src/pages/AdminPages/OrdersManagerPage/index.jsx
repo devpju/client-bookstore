@@ -21,6 +21,7 @@ import OrdersTableToolbar from './OrdersTable/OrdersTableToolbar';
 import SelectField from '@/components/inputs/SelectField';
 import { getLatestLogStatus } from '@/utils/orderUtils';
 import { updateOrderStatusFormSchema } from '@/validations/orderSchema';
+import { cn } from '@/utils/classUtils';
 
 const OrdersManagerPage = () => {
   const dispatch = useDispatch();
@@ -71,11 +72,13 @@ const OrdersManagerPage = () => {
         data={ordersData?.results}
         loading={isFetching}
         columns={ordersTableColumns}
-        className={`mt-3 transition-width duration-200 ${
+        className={cn(
+          'transition-width duration-200',
           !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
-        }`}
+        )}
+        containerClassname='max-h-[calc(100vh-180px)]'
         tableToolbar={OrdersTableToolbar}
       />
 

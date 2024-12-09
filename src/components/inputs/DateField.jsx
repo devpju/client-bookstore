@@ -16,7 +16,7 @@ import { Calendar } from '@/components/shadcnUI/calendar';
 import { vi } from 'date-fns/locale';
 import { cn } from '@/utils/classUtils';
 
-const DateField = ({ field, label, placeholder, className }) => {
+const DateField = ({ field, label, placeholder, className, isError }) => {
   return (
     <FormItem className='flex flex-col'>
       <FormLabel>{label}</FormLabel>
@@ -28,7 +28,8 @@ const DateField = ({ field, label, placeholder, className }) => {
               className={cn(
                 'h-12 w-full px-5 text-left font-normal hover:bg-white hover:text-primary',
                 !field.value && 'text-muted-foreground',
-                className
+                className,
+                isError && 'border-danger'
               )}
             >
               {field.value ? (
@@ -55,7 +56,7 @@ const DateField = ({ field, label, placeholder, className }) => {
           />
         </PopoverContent>
       </Popover>
-      <FormMessage />
+      <FormMessage className='text-xs text-danger' />
     </FormItem>
   );
 };

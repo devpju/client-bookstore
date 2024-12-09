@@ -4,9 +4,11 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/shadcnUI/form';
-import { Input } from '@/components/shadcnUI/input';
+import { MultiSelect } from '../shadcnUI/extensions/multi-select';
+import { cn } from '@/utils/classUtils';
 
-const TextField = ({
+const MultiSelectField = ({
+  options,
   field,
   placeholder,
   label,
@@ -14,6 +16,8 @@ const TextField = ({
   containerClassName,
   inputClassName
 }) => {
+  console.log(isError);
+  console.log(field);
   return (
     <FormItem className={containerClassName}>
       {label && (
@@ -23,12 +27,16 @@ const TextField = ({
       )}
       <FormControl>
         <div className='relative'>
-          <Input
-            type='text'
-            autoComplete='off'
-            className={`h-12 bg-white p-4 text-sm text-primary placeholder:text-slate-400 focus-visible:ring-0 ${isError && 'border-danger'} ${inputClassName}`}
-            {...field}
+          <MultiSelect
+            options={options}
+            onValueChange={(value) => field.onChange(value)}
+            defaultValue={field.value}
             placeholder={placeholder}
+            className={cn(
+              'border shadow-none',
+              inputClassName,
+              isError && 'border-danger !shadow-none'
+            )}
           />
         </div>
       </FormControl>
@@ -36,4 +44,4 @@ const TextField = ({
     </FormItem>
   );
 };
-export default TextField;
+export default MultiSelectField;

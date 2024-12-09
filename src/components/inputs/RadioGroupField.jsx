@@ -49,7 +49,7 @@ const RadioGroupField = ({
           ))}
         </RadioGroup>
       </FormControl>
-      <FormMessage className='text-sm font-normal' />
+      <FormMessage className='text-xs text-danger' />
     </FormItem>
   );
 };

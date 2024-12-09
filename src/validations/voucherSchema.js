@@ -9,6 +9,11 @@ const isValidDiscountValue = (data) => {
   return true;
 };
 
+const isStartDateValid = (data) => {
+  const startDate = new Date(data.startDate);
+  return startDate >= Date.now();
+};
+
 const isEndDateValid = (data) => {
   const startDate = new Date(data.startDate);
   const endDate = new Date(data.endDate);
@@ -30,6 +35,10 @@ export const voucherFormSchema = z
   .refine(isValidDiscountValue, {
     message: 'Giá trị giảm giá không hợp lệ cho loại khuyến mãi này',
     path: ['discountValue']
+  })
+  .refine(isStartDateValid, {
+    message: 'Ngày bắt đầu phải lớn hơn hiện tại',
+    path: ['startDate']
   })
   .refine(isEndDateValid, {
     message: 'Ngày kết thúc không thể nhỏ hơn ngày bắt đầu',

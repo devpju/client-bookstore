@@ -37,36 +37,36 @@ export const ORDER_STATUS_LIST = [
     value: 'pending',
     label: 'Chờ xác nhận',
     style:
-      'flex text-nowrap justify-center rounded-md bg-orange-600 px-2 py-1 text-xs font-medium text-white'
+      'flex text-nowrap justify-center rounded-md bg-orange-200 px-2 py-1 text-xs font-medium text-primary'
   },
   {
     value: 'processing',
     label: 'Đang đóng gói',
     style:
-      'flex text-nowrap justify-center rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white'
+      'flex text-nowrap justify-center rounded-md bg-blue-200 px-2 py-1 text-xs font-medium text-primary'
   },
   {
     value: 'shipping',
     label: 'Đang giao hàng',
     style:
-      'flex text-nowrap justify-center rounded-md bg-yellow-600 px-2 py-1 text-xs font-medium text-white'
+      'flex text-nowrap justify-center rounded-md bg-yellow-200 px-2 py-1 text-xs font-medium text-primary'
   },
   {
     value: 'cancelled',
     label: 'Đã huỷ',
     style:
-      'flex text-nowrap justify-center rounded-md bg-red-600 font-medium text-xs px-2 py-1 text-xs text-white'
+      'flex text-nowrap justify-center rounded-md bg-red-200 font-medium text-xs px-2 py-1 text-xs text-primary'
   },
   {
     value: 'delivered',
     label: 'Đã giao',
     style:
-      'flex text-nowrap justify-center rounded-md bg-green-600 px-2 py-1 text-xs font-medium text-white'
+      'flex text-nowrap justify-center rounded-md bg-green-200 px-2 py-1 text-xs font-medium text-primary'
   },
   {
     value: 'returned',
     label: 'Đã hoàn trả',
     style:
-      'flex text-nowrap justify-center rounded-md bg-gray-600 px-2 py-1 text-xs font-medium text-white'
+      'flex text-nowrap justify-center rounded-md bg-gray-200 px-2 py-1 text-xs font-medium text-primary'
   }
 ];

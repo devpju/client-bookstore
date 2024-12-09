@@ -7,6 +7,7 @@ import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import UsersFiltersInput from './UsersFiltersInput';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
+import { cn } from '@/utils/classUtils';
 
 export default function UsersTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -48,7 +49,12 @@ export default function UsersTableToolbar({ rowSelection, table }) {
     <div className='flex flex-col gap-2'>
       <div className='flex gap-3'>
         <div
-          className={`space-x-3 transition-opacity duration-200 ${selectedIds.length > 0 ? 'visible opacity-100' : 'invisible opacity-0'}`}
+          className={cn(
+            'flex gap-3 transition-opacity duration-200',
+            selectedIds.length > 0
+              ? 'visible opacity-100'
+              : 'invisible opacity-0'
+          )}
         >
           <InfoButton
             className='px-3 py-2'

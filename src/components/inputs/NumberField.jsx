@@ -42,7 +42,7 @@ const NumberField = ({
           />
         </div>
       </FormControl>
-      <FormMessage className='text-sm font-normal text-danger' />
+      <FormMessage className='text-xs text-danger' />
     </FormItem>
   );
 };

@@ -8,6 +8,7 @@ import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import NormalButton from '@/components/buttons/NormalButton';
 import CategoriesFiltersInput from './CategoriesFiltersInput';
+import { cn } from '@/utils/classUtils';
 
 export default function CategoriesTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -62,7 +63,12 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
           onClick={handleAddNewCategory}
         />
         <div
-          className={`space-x-3 transition-opacity duration-200 ${selectedIds.length > 0 ? 'visible opacity-100' : 'invisible opacity-0'}`}
+          className={cn(
+            'flex gap-3 transition-opacity duration-200',
+            selectedIds.length > 0
+              ? 'visible opacity-100'
+              : 'invisible opacity-0'
+          )}
         >
           <InfoButton
             className='px-3 py-2'

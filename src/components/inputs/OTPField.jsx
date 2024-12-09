@@ -38,7 +38,7 @@ const OTPField = ({ field }) => {
           </InputOTPGroup>
         </InputOTP>
       </FormControl>
-      <FormMessage className='text-center text-sm font-normal' />
+      <FormMessage className='text-center text-xs' />
     </FormItem>
   );
 };

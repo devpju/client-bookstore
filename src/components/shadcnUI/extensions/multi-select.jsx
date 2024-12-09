@@ -66,7 +66,6 @@ export const MultiSelect = React.forwardRef(
     const [selectedValues, setSelectedValues] = React.useState(defaultValue);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
-
     const handleInputKeyDown = (event) => {
       if (event.key === 'Enter') {
         setIsPopoverOpen(true);
@@ -200,7 +199,7 @@ export const MultiSelect = React.forwardRef(
               </div>
             ) : (
               <div className='mx-auto flex w-full items-center justify-between'>
-                <span className='mx-3 text-sm text-muted-foreground'>
+                <span className='mx-3 text-xs text-slate-600'>
                   {placeholder}
                 </span>
                 <ChevronDown className='mx-2 h-4 cursor-pointer text-muted-foreground' />

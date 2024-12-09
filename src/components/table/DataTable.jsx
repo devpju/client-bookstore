@@ -21,6 +21,7 @@ import {
 import { DataTablePagination } from '@/components/table/DataTablePagination';
 import { useMemo, useState } from 'react';
 import { Skeleton } from '@/components/shadcnUI/skeleton';
+import { cn } from '@/utils/classUtils';
 
 export default function DataTable({
   columns,
@@ -28,7 +29,8 @@ export default function DataTable({
   loading,
   onToolbarAction,
   tableToolbar: TableToolbar,
-  className
+  className,
+  containerClassname
 }) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -82,7 +84,12 @@ export default function DataTable({
         />
       )}
       <div className='rounded-md border'>
-        <Table containerClassname='max-h-[calc(100vh-220px)]'>
+        <Table
+          containerClassname={cn(
+            'max-h-[calc(100vh-220px)]',
+            containerClassname
+          )}
+        >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

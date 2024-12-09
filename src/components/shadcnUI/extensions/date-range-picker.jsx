@@ -56,7 +56,7 @@ export const DateRangePicker = ({
   align = 'end',
   locale = 'vi-VN',
   showCompare = true,
-  className = 'h-8 border-dashed border-slate-400 hover:bg-white hover:text-primary'
+  className = 'h-8 border-dashed border-slate-400 hover:bg-accent hover:text-primary'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 

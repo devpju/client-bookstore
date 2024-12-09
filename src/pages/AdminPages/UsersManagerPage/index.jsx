@@ -18,8 +18,9 @@ import DataTable from '@/components/table/DataTable';
 import UsersTableToolbar from './UsersTable/UsersTableToolbar';
 import { usersTableColumns } from '@/components/table/columns';
 import { DIALOG_ACTION_TYPE, USER_ROLES_ARRAY } from '@/utils/constants';
-import { MultiSelect } from '@/components/shadcnUI/extensions/multi-select';
 import { rolesFormSchema } from '@/validations/userSchema';
+import { cn } from '@/utils/classUtils';
+import MultiSelectField from '@/components/inputs/MultiSelectField';
 
 const UsersManagerPage = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,8 @@ const UsersManagerPage = () => {
         roles: dialogData.rowData.roles
       });
     }
-  }, [dialogData, updateUserRolesForm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialogData]);
 
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
@@ -76,11 +78,12 @@ const UsersManagerPage = () => {
         data={usersData?.results}
         loading={isFetching}
         columns={usersTableColumns}
-        className={`mt-3 transition-width duration-200 ${
+        className={cn(
+          'transition-width duration-200',
           !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
-        }`}
+        )}
         tableToolbar={UsersTableToolbar}
       />
 
@@ -98,10 +101,11 @@ const UsersManagerPage = () => {
             control={updateUserRolesForm.control}
             name='roles'
             render={({ field }) => (
-              <MultiSelect
+              <MultiSelectField
+                label='Các vai trò cho người dùng'
+                isError={updateUserRolesForm.formState.errors.roles}
                 options={USER_ROLES_ARRAY}
-                onValueChange={field.onChange}
-                defaultValue={field.value}
+                field={field}
                 placeholder='Lựa chọn các vai trò'
               />
             )}

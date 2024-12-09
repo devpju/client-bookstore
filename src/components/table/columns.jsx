@@ -68,15 +68,7 @@ export const categoriesTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='flex w-full justify-center'>
-        {!row.getValue('isHidden') ? (
-          <div className='flex w-24 justify-center rounded-sm border border-info font-semibold text-info'>
-            Đang hiện
-          </div>
-        ) : (
-          <div className='flex w-24 justify-center rounded-sm border border-danger font-semibold text-danger'>
-            Đang ẩn
-          </div>
-        )}
+        <ShowHideWrapper isShow={!row.getValue('isHidden')} />
       </div>
     ),
     enableSorting: true,
@@ -98,7 +90,7 @@ export const categoriesTableColumns = [
 
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
-        {formatCurrencyVND(row.getValue('createdAt'))}
+        {convertISODateToDDMMYYYY(row.getValue('createdAt'))}
       </div>
     ),
     enableSorting: true,
@@ -375,7 +367,7 @@ export const usersTableColumns = [
         {row.getValue('roles').map((role) => (
           <span
             key={role}
-            className='block rounded-sm border border-primary bg-white p-1 text-xs font-medium text-primary'
+            className='block rounded-md border border-yellow-700 p-1 font-semibold text-yellow-700'
           >
             {role.toUpperCase()}
           </span>
@@ -392,15 +384,16 @@ export const usersTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='flex w-full justify-center'>
-        {row.getValue('version') >= 0 ? (
-          <div className='flex w-32 justify-center rounded-sm border border-info font-semibold text-info'>
-            Đang hoạt động
-          </div>
-        ) : (
-          <div className='flex w-32 justify-center rounded-sm border border-danger font-semibold text-danger'>
-            Đã bị cấm
-          </div>
-        )}
+        {
+          <ShowHideWrapper
+            isShow={row.getValue('version') >= 0}
+            className='w-28'
+            labels={{
+              true: 'Đang hoạt động',
+              false: 'Đã bị cấm'
+            }}
+          />
+        }
       </div>
     ),
     filterFn: (row, id, filterValue) =>
@@ -425,7 +418,7 @@ export const usersTableColumns = [
 
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
-        {formatCurrencyVND(row.getValue('createdAt'))}
+        {convertISODateToDDMMYYYY(row.getValue('createdAt'))}
       </div>
     ),
     enableSorting: true,
@@ -464,11 +457,11 @@ export const ordersTableColumns = [
   {
     accessorKey: 'shippingFee',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Phí vận chuyển' />
+      <DataTableColumnHeader column={column} title='Vận chuyển' />
     ),
     cell: ({ row }) => (
       <div className='flex justify-center'>
-        {row.getValue('shippingFee')} VNĐ
+        {formatCurrencyVND(row.getValue('shippingFee'))}
       </div>
     ),
     enableSorting: true,
@@ -477,11 +470,11 @@ export const ordersTableColumns = [
   {
     accessorKey: 'totalAmount',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tổng tiền hàng' />
+      <DataTableColumnHeader column={column} title='Tiền hàng' />
     ),
     cell: ({ row }) => (
       <div className='flex justify-center'>
-        {row.getValue('totalAmount')} VNĐ
+        {formatCurrencyVND(row.getValue('totalAmount'))}
       </div>
     ),
     enableSorting: true,
@@ -489,6 +482,7 @@ export const ordersTableColumns = [
   },
   {
     accessorKey: 'numberBooks',
+    size: 50,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Số sách' />
     ),
@@ -505,13 +499,13 @@ export const ordersTableColumns = [
     ),
     cell: ({ row }) => {
       const payment = row.getValue('payment');
-      return payment?.status === 'paid' ? (
-        <div className='flex justify-center rounded-md border border-green-500 font-semibold text-green-500'>
-          Đã thanh toán
-        </div>
-      ) : (
-        <div className='flex justify-center rounded-md border border-red-500 font-semibold text-red-500'>
-          Chưa thanh toán
+      return (
+        <div className='flex w-full justify-center'>
+          <ShowHideWrapper
+            isShow={payment?.status === 'paid'}
+            labels={{ true: 'Đã TT', false: 'Chưa TT' }}
+            className='w-[60px]'
+          />
         </div>
       );
     },
@@ -552,7 +546,6 @@ export const ordersTableColumns = [
     },
     filterFn: (row, id, filterValue) => {
       if (filterValue.length === 0) return true;
-      console.log(filterValue);
       const latestStatus = getLatestLogStatus(row.getValue(id));
       return filterValue.includes(latestStatus);
     },
@@ -563,7 +556,7 @@ export const ordersTableColumns = [
     accessorKey: 'createdAt',
     size: 80,
     cell: ({ row }) => (
-      <div>{formatCurrencyVND(row.getValue('createdAt'))}</div>
+      <div>{convertISODateToDDMMYYYY(row.getValue('createdAt'))}</div>
     ),
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Ngày đặt' />
@@ -588,17 +581,6 @@ export const ordersTableColumns = [
 export const booksTableColumns = [
   selectColumn,
   indexColumn,
-  //   {
-  //     accessorKey: 'categoryName',
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title='Tên danh mục' />
-  //     ),
-  //     cell: ({ row }) => (
-  //       <div className='m-w-[30px]'>{row.getValue('categoryName')}</div>
-  //     ),
-  //     enableSorting: true,
-  //     enableHiding: true
-  //   },
   {
     accessorKey: 'name',
     size: 200,
@@ -613,22 +595,28 @@ export const booksTableColumns = [
   },
   {
     accessorKey: 'width',
+    size: 50,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Chiều rộng' />
+      <DataTableColumnHeader column={column} title='Rộng' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('width')}</div>
+      <div className='m-w-[30px] flex justify-center'>
+        {row.getValue('width')}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true
   },
   {
     accessorKey: 'height',
+    size: 50,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Chiều cao' />
+      <DataTableColumnHeader column={column} title='Dài' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('height')}</div>
+      <div className='m-w-[30px] flex justify-center'>
+        {row.getValue('height')}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true
@@ -639,52 +627,70 @@ export const booksTableColumns = [
       <DataTableColumnHeader column={column} title='Tác giả' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('authors')}</div>
+      <div className='m-w-[30px] flex justify-center'>
+        {row.getValue('authors')}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true
   },
   {
     accessorKey: 'totalPages',
+    size: 50,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Số trang' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('totalPages')}</div>
-    ),
-    enableSorting: true,
-    enableHiding: true
-  },
-  {
-    accessorKey: 'price',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Giá' />
-    ),
-    cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('price')}</div>
+      <div className='m-w-[30px] flex justify-center'>
+        {row.getValue('totalPages')}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true
   },
   {
     accessorKey: 'originalPrice',
+    size: 50,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Giá gốc' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>{row.getValue('originalPrice')}</div>
+      <div className='m-w-[30px] flex justify-center'>
+        {row.getValue('originalPrice')}
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+  {
+    accessorKey: 'price',
+    size: 50,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Giá' />
+    ),
+    cell: ({ row }) => (
+      <div className='m-w-[30px] flex justify-center text-danger'>
+        {row.getValue('price')}
+      </div>
     ),
     enableSorting: true,
     enableHiding: true
   },
   {
     accessorKey: 'stock',
+    size: 90,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Tồn kho' />
     ),
     cell: ({ row }) => (
-      <div className='m-w-[30px]'>
-        {row.getValue('stock') === -1 ? 'Hết hàng' : row.getValue('stock')}
+      <div className='m-w-[30px] flex justify-center'>
+        {row.getValue('stock') === -1 ? (
+          <span className='block w-fit rounded-md bg-red-500 px-2 py-1 text-xs text-white'>
+            Hết hàng
+          </span>
+        ) : (
+          row.getValue('stock')
+        )}
       </div>
     ),
     enableSorting: true,
@@ -701,31 +707,31 @@ export const booksTableColumns = [
   },
   {
     accessorKey: 'sold',
+    size: 70,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Đã bán' />
     ),
-    cell: ({ row }) => <div className='m-w-[30px]'>{row.getValue('sold')}</div>,
+    cell: ({ row }) => (
+      <div className='m-w-[30px] flex justify-center'>
+        {row.getValue('sold')}
+      </div>
+    ),
 
     enableSorting: true,
     enableHiding: true
   },
   {
     accessorKey: 'isHidden',
+    size: 80,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Trạng thái' />
     ),
     cell: ({ row }) => {
       return (
         <div className='flex w-full justify-center'>
-          {row.getValue('stock') !== -1 ? (
-            <div className='flex w-24 justify-center rounded-sm border border-info font-semibold text-info'>
-              Đang hiện
-            </div>
-          ) : (
-            <div className='flex w-24 justify-center rounded-sm border border-danger font-semibold text-danger'>
-              Đang ẩn
-            </div>
-          )}
+          <div className='flex w-full justify-center'>
+            <ShowHideWrapper isShow={row.getValue('stock') !== -1} />
+          </div>
         </div>
       );
     },
@@ -734,6 +740,7 @@ export const booksTableColumns = [
   },
   {
     accessorKey: 'publishDate',
+    size: 120,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Ngày tạo' />
     ),
@@ -749,7 +756,7 @@ export const booksTableColumns = [
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
         {row.getValue('publishDate')
-          ? formatCurrencyVND(row.getValue('publishDate'))
+          ? convertISODateToDDMMYYYY(row.getValue('publishDate'))
           : 'Không có'}
       </div>
     ),

@@ -1,7 +1,4 @@
-import { X } from 'lucide-react';
-
 import { Input } from '@/components/shadcnUI/input';
-import { Button } from '@/components/shadcnUI/button';
 import { DateRangePicker } from '@/components/shadcnUI/extensions/date-range-picker';
 import { MultiSelect } from '@/components/shadcnUI/extensions/multi-select';
 import { ORDER_STATUS_LIST } from '@/utils/constants';
@@ -11,6 +8,7 @@ import {
   SelectItem,
   SelectTrigger
 } from '@/components/shadcnUI/select';
+import DashedButton from '@/components/buttons/DashedButton';
 
 const OrdersFiltersInput = ({
   filters = {},
@@ -47,7 +45,7 @@ const OrdersFiltersInput = ({
       case false:
         return 'Chưa thanh toán';
       default:
-        return 'Trạng thái';
+        return 'TT Thanh toán';
     }
   };
 
@@ -64,12 +62,12 @@ const OrdersFiltersInput = ({
         options={ORDER_STATUS_LIST}
         onValueChange={handleOrderStatusChange}
         defaultValue={orderStatus}
-        placeholder='Chọn trạng thái đơn hàng'
-        maxCount={1}
-        className='h-8 min-h-full min-w-[330px] border border-dashed border-slate-400 p-0 text-sm'
+        placeholder='Chọn TT Đơn hàng'
+        maxCount={0}
+        className='h-8 min-h-full max-w-[170px] border border-dashed border-slate-400 p-0 !text-xs'
       />
       <Select value={paymentStatus} onValueChange={handlePaymentStatusChange}>
-        <SelectTrigger className='h-8 w-40 border-dashed border-slate-400 focus:ring-0'>
+        <SelectTrigger className='h-8 w-[150px] border-dashed border-slate-400 text-xs hover:bg-accent focus:ring-0'>
           {getPaymentStatusLabel()}
         </SelectTrigger>
         <SelectContent>
@@ -86,16 +84,7 @@ const OrdersFiltersInput = ({
         align='center'
         onUpdate={handleDateRangeChange}
       />
-      {isFiltered && (
-        <Button
-          variant='ghost'
-          onClick={resetFilters}
-          className='h-8 border border-dashed border-slate-400 px-2 text-sm text-slate-500 lg:px-3'
-        >
-          Làm mới
-          <X className='!size-4' />
-        </Button>
-      )}
+      {isFiltered && <DashedButton onClick={resetFilters} />}
     </div>
   );
 };

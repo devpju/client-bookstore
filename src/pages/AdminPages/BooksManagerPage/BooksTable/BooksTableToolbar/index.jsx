@@ -9,6 +9,7 @@ import InfoButton from '@/components/buttons/InfoButton';
 import NormalButton from '@/components/buttons/NormalButton';
 import BooksFiltersInput from './BooksFiltersInput';
 import { useNavigate } from 'react-router';
+import { cn } from '@/utils/classUtils';
 
 export default function BooksTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -59,7 +60,12 @@ export default function BooksTableToolbar({ rowSelection, table }) {
           onClick={handleAddNewBook}
         />
         <div
-          className={`space-x-3 transition-opacity duration-200 ${selectedIds.length > 0 ? 'visible opacity-100' : 'invisible opacity-0'}`}
+          className={cn(
+            'flex gap-3 transition-opacity duration-200',
+            selectedIds.length > 0
+              ? 'visible opacity-100'
+              : 'invisible opacity-0'
+          )}
         >
           <InfoButton
             className='px-3 py-2'

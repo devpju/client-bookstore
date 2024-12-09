@@ -39,7 +39,7 @@ const PasswordField = ({ field, placeholder, label, isError }) => {
           </button>
         </div>
       </FormControl>
-      <FormMessage className='text-sm font-normal' />
+      <FormMessage className='text-xs text-danger' />
     </FormItem>
   );
 };
