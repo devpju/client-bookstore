@@ -26,7 +26,7 @@ const DateField = ({ field, label, placeholder, className }) => {
             <Button
               variant={'outline'}
               className={cn(
-                'w-[270px] px-5 text-left font-normal hover:bg-white hover:text-primary',
+                'h-12 w-full px-5 text-left font-normal hover:bg-white hover:text-primary',
                 !field.value && 'text-muted-foreground',
                 className
               )}

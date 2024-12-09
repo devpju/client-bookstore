@@ -18,8 +18,12 @@ const isEndDateValid = (data) => {
 export const voucherFormSchema = z
   .object({
     type: z.enum(['percentage', 'fixed']),
-    discountValue: z.number(),
-    usageLimit: z.number(),
+    discountValue: z.number({
+      required_error: 'Vui lòng nhập giá trị giảm giá'
+    }),
+    usageLimit: z.number({
+      required_error: 'Vui lòng nhập số lượt sử dụng giới hạn'
+    }),
     startDate: z.string(),
     endDate: z.string()
   })

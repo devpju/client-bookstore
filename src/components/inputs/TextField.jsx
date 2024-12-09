@@ -26,13 +26,13 @@ const TextField = ({
           <Input
             type='text'
             autoComplete='off'
-            className={`h-13 bg-white p-[15px] text-[14px] text-primary placeholder:text-[#949CA9] focus-visible:ring-0 ${isError && 'border-danger'} ${inputClassName}`}
+            className={`h-12 bg-white p-4 text-sm text-primary placeholder:text-slate-400 focus-visible:ring-0 ${isError && 'border-danger'} ${inputClassName}`}
             {...field}
             placeholder={placeholder}
           />
         </div>
       </FormControl>
-      <FormMessage className='text-sm font-normal' />
+      <FormMessage className='text-sm font-normal text-danger' />
     </FormItem>
   );
 };

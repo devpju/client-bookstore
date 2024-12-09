@@ -11,6 +11,7 @@ const CancelButton = ({
 }) => {
   return (
     <Button
+      type='button'
       size={size}
       variant='outline'
       onClick={onClick}

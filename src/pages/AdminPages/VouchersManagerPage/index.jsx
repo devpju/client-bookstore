@@ -59,7 +59,8 @@ const VouchersManagerPage = () => {
         endDate: dialogData.rowData.endDate
       });
     }
-  }, [dialogData, voucherForm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialogData]);
 
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);

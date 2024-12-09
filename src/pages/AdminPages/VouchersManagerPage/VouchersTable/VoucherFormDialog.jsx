@@ -1,10 +1,11 @@
 import FormDialog from '@/components/dialogs/FormDialog';
 import DateField from '@/components/inputs/DateField';
+import NumberField from '@/components/inputs/NumberField';
 import RadioGroupField from '@/components/inputs/RadioGroupField';
-import TextField from '@/components/inputs/TextField';
 import { FormField } from '@/components/shadcnUI/form';
 
 const VoucherFormDialog = ({ setOpen, open, title, onSubmit, form }) => {
+  const voucherType = form.watch('type');
   return (
     <FormDialog
       form={form}
@@ -31,11 +32,13 @@ const VoucherFormDialog = ({ setOpen, open, title, onSubmit, form }) => {
         control={form.control}
         name='discountValue'
         render={({ field }) => (
-          <TextField
+          <NumberField
             field={field}
+            min={0}
+            suffix={voucherType === 'percentage' ? ' %' : ' đ'}
             placeholder='Nhập giá trị'
             label='Giá trị khuyến mãi'
-            isError={!!form.formState.errors.discountValue}
+            isError={!!form.formState.errors.usageLimit}
           />
         )}
       />
@@ -43,8 +46,9 @@ const VoucherFormDialog = ({ setOpen, open, title, onSubmit, form }) => {
         control={form.control}
         name='usageLimit'
         render={({ field }) => (
-          <TextField
+          <NumberField
             field={field}
+            min={0}
             placeholder='Nhập giới hạn'
             label='Giới hạn sử dụng'
             isError={!!form.formState.errors.usageLimit}
