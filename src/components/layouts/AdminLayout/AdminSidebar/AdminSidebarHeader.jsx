@@ -5,7 +5,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar
-} from '@/components/ui/sidebar';
+} from '@/components/shadcnUI/sidebar';
 import { Link } from 'react-router';
 
 export default function AdminSidebarHeader() {

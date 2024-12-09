@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 const HeroSection = () => {
@@ -9,8 +9,8 @@ const HeroSection = () => {
           Cách dễ nhất để tìm ra cuốn sách hay nhất
         </h1>
         <p className='text-slate-800'>
-          Khám phá những cuốn sách thú vị, giúp bạn mở rộng tầm hiểu biết và truyền cảm hứng cho
-          cuộc sống.
+          Khám phá những cuốn sách thú vị, giúp bạn mở rộng tầm hiểu biết và
+          truyền cảm hứng cho cuộc sống.
         </p>
         <Button asChild variant='outline'>
           <Link to='/danh-muc/tat-ca'>

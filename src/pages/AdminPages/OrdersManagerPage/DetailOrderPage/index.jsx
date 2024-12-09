@@ -1,4 +1,9 @@
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow
+} from '@/components/shadcnUI/table';
 import {
   Timeline,
   TimelineConnector,
@@ -7,13 +12,11 @@ import {
   TimelineItem,
   TimelineTime,
   TimelineTitle
-} from '@/components/ui/timeline';
-import {
-  convertAddressToString,
-  convertToDDMMYYYY,
-  getOrderStatusLabel
-} from '@/lib/utils';
+} from '@/components/shadcnUI/extensions/timeline';
+
 import { useGetDetailOrderQuery } from '@/redux/apis/ordersApi';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
+import { formatAddress, getOrderStatusLabel } from '@/utils/orderUtils';
 import { useLocation } from 'react-router';
 
 const DetailOrderPage = () => {
@@ -132,7 +135,7 @@ const DetailOrderPage = () => {
                     Ngày đặt hàng:
                   </TableCell>
                   <TableCell className='text-sm text-gray-700'>
-                    {convertToDDMMYYYY(orderInfo.createdAt)}
+                    {convertISODateToDDMMYYYY(orderInfo.createdAt)}
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -140,7 +143,7 @@ const DetailOrderPage = () => {
                     Địa chỉ:
                   </TableCell>
                   <TableCell className='text-sm text-gray-700'>
-                    {convertAddressToString(orderInfo.address)}
+                    {formatAddress(orderInfo.address)}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -160,7 +163,7 @@ const DetailOrderPage = () => {
                   {index < logs.length - 1 && <TimelineConnector />}
                   <TimelineHeader>
                     <TimelineTime className='text-sm text-gray-500'>
-                      {convertToDDMMYYYY(log.date)}
+                      {convertISODateToDDMMYYYY(log.date)}
                     </TimelineTime>
                     <TimelineIcon />
                     <TimelineTitle className='text-lg font-medium text-green-600'>

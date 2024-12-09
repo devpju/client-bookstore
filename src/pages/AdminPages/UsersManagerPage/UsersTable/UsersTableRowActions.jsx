@@ -1,7 +1,7 @@
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import WarningButton from '@/components/buttons/WarningButton';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ export default function UsersTableRowActions({ row }) {
   const onClickUpdateUserRoles = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.UPDATE_USER_ROLES,
+        triggeredBy: DIALOG_ACTION_TYPE.UPDATE_USER_ROLES,
         data: { rowData: row.original }
       })
     );
@@ -22,7 +22,7 @@ export default function UsersTableRowActions({ row }) {
   const handleBanUser = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_BAN_USER,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_BAN_USER,
         data: {
           isUserBanned: row.original.version >= 0 ? false : true
         }

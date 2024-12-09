@@ -1,31 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
-import { normalTextSchema } from '@/lib/validations';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 
-import FormDialog from '@/components/dialogs/FormDialog';
-import TextField from '@/components/inputs/TextField';
-import { FormField } from '@/components/ui/form';
-import { useSidebar } from '@/components/ui/sidebar';
+import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import DataTable from '@/components/table/DataTable';
 import {
   useGetBooksQuery,
-  useToggleVisibilityBooksMutation,
-  useUpdateBookMutation
+  useToggleVisibilityBooksMutation
 } from '@/redux/apis/booksApi';
 import BooksTableToolbar from './BooksTable/BooksTableToolbar';
 import { booksTableColumns } from '@/components/table/columns';
-
-const bookFormSchema = z.object({
-  name: normalTextSchema
-});
 
 const BooksManagerPage = () => {
   const dispatch = useDispatch();
@@ -36,31 +24,11 @@ const BooksManagerPage = () => {
   const { selectedIds } = useSelector((state) => state.selector);
 
   const { data: booksData, isFetching } = useGetBooksQuery();
-  const [updateBook, updateBookState] = useUpdateBookMutation();
   const [toggleVisibilityBooks, toggleVisibilityBooksState] =
     useToggleVisibilityBooksMutation();
 
-  const bookForm = useForm({
-    resolver: zodResolver(bookFormSchema)
-  });
-
-  useEffect(() => {
-    if (dialogData?.rowData) {
-      bookForm.reset({
-        name: dialogData.rowData.name,
-        isDeleted: dialogData.rowData.isDeleted
-      });
-    }
-  }, [dialogData, bookForm]);
-
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
-
-  useEffect(() => {
-    if (updateBookState.isSuccess)
-      handleAPISuccess('Cập nhật thông tin sách thành công!');
-    else if (updateBookState.isError) handleAPIError(updateBookState.error);
-  }, [updateBookState]);
 
   useEffect(() => {
     if (toggleVisibilityBooksState.isSuccess)
@@ -69,8 +37,6 @@ const BooksManagerPage = () => {
       handleAPIError(toggleVisibilityBooksState.error);
   }, [toggleVisibilityBooksState]);
 
-  const handleUpdateBook = (values) =>
-    updateBook({ id: selectedIds[0], ...values });
   const handleToggleVisibilityBook = () =>
     toggleVisibilityBooks({
       bookIds: selectedIds,
@@ -91,31 +57,7 @@ const BooksManagerPage = () => {
         tableToolbar={BooksTableToolbar}
       />
 
-      {triggeredBy === DialogActionType.UPDATE_BOOK && (
-        <FormDialog
-          form={bookForm}
-          onSubmit={handleUpdateBook}
-          title='Chỉnh sửa sách'
-          open={isDialogOpen}
-          setOpen={(open) =>
-            open ? dispatch(openDialog()) : dispatch(closeDialog())
-          }
-        >
-          <FormField
-            control={bookForm.control}
-            name='name'
-            render={({ field }) => (
-              <TextField
-                field={field}
-                placeholder='Nhập tên sách'
-                label='Tên sách'
-                isError={!!bookForm.formState.errors.name}
-              />
-            )}
-          />
-        </FormDialog>
-      )}
-      {triggeredBy === DialogActionType.TOGGLE_VISIBILITY_BOOK && (
+      {triggeredBy === DIALOG_ACTION_TYPE.TOGGLE_VISIBILITY_BOOK && (
         <ConfirmDialog
           title={`Xác nhận ${dialogData?.isBookHidden ? 'hiển thị' : 'ẩn'} sách`}
           description={`Bạn có muốn ${dialogData?.isBookHidden ? 'hiển thị' : 'ẩn'} 

@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'sonner';
 
 import {
@@ -12,21 +11,17 @@ import {
   useToggleVisibilityCategoriesMutation
 } from '@/redux/apis/categoriesApi';
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
-import { normalTextSchema } from '@/lib/validations';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 
 import FormDialog from '@/components/dialogs/FormDialog';
 import TextField from '@/components/inputs/TextField';
-import { FormField } from '@/components/ui/form';
-import { useSidebar } from '@/components/ui/sidebar';
+import { FormField } from '@/components/shadcnUI/form';
+import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import CategoriesTableToolbar from './CategoriesTable/CategoriesTableToolbar';
 import DataTable from '@/components/table/DataTable';
 import { categoriesTableColumns } from '@/components/table/columns';
-
-const addCategoryFormSchema = z.object({
-  name: normalTextSchema
-});
+import { categoryFormSchema } from '@/validations/categorySchema';
 
 const CategoriesManagerPage = () => {
   const dispatch = useDispatch();
@@ -43,7 +38,7 @@ const CategoriesManagerPage = () => {
     useToggleVisibilityCategoriesMutation();
 
   const categoryForm = useForm({
-    resolver: zodResolver(addCategoryFormSchema),
+    resolver: zodResolver(categoryFormSchema),
     defaultValues: { name: '' }
   });
 
@@ -102,7 +97,7 @@ const CategoriesManagerPage = () => {
         tableToolbar={CategoriesTableToolbar}
       />
 
-      {triggeredBy === DialogActionType.ADD_NEW_CATEGORY && (
+      {triggeredBy === DIALOG_ACTION_TYPE.ADD_NEW_CATEGORY && (
         <FormDialog
           form={categoryForm}
           onSubmit={handleAddCategory}
@@ -126,7 +121,7 @@ const CategoriesManagerPage = () => {
           />
         </FormDialog>
       )}
-      {triggeredBy === DialogActionType.UPDATE_CATEGORY && (
+      {triggeredBy === DIALOG_ACTION_TYPE.UPDATE_CATEGORY && (
         <FormDialog
           form={categoryForm}
           onSubmit={handleUpdateCategory}
@@ -150,7 +145,7 @@ const CategoriesManagerPage = () => {
           />
         </FormDialog>
       )}
-      {triggeredBy === DialogActionType.TOGGLE_VISIBILITY_CATEGORY && (
+      {triggeredBy === DIALOG_ACTION_TYPE.TOGGLE_VISIBILITY_CATEGORY && (
         <ConfirmDialog
           title={`Xác nhận ${dialogData?.isCategoryHidden ? 'hiển thị' : 'ẩn'} danh mục`}
           description={`Bạn có muốn ${dialogData?.isCategoryHidden ? 'hiển thị' : 'ẩn'} 

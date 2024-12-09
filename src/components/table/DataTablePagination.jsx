@@ -1,13 +1,18 @@
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight
+} from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from '@/components/ui/select';
+} from '@/components/shadcnUI/select';
 
 export function DataTablePagination({ table }) {
   return (
@@ -38,7 +43,8 @@ export function DataTablePagination({ table }) {
           </Select>
         </div>
         <div className='flex w-[120px] items-center justify-center text-sm font-medium'>
-          Trang {table.getState().pagination.pageIndex + 1} trên {table.getPageCount()}
+          Trang {table.getState().pagination.pageIndex + 1} trên{' '}
+          {table.getPageCount()}
         </div>
         <div className='flex items-center space-x-2'>
           <Button

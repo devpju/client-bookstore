@@ -1,6 +1,12 @@
-import { Button } from '../ui/button';
+import { Button } from '@/components/shadcnUI/button';
 
-const SaveButton = ({ onClick, type = 'submit', className, size = 'lg', name = 'Lưu' }) => {
+const SaveButton = ({
+  onClick,
+  type = 'submit',
+  className,
+  size = 'lg',
+  name = 'Lưu'
+}) => {
   return (
     <Button
       type={type}

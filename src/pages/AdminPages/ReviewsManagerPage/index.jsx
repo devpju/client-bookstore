@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
 
-import { useSidebar } from '@/components/ui/sidebar';
+import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import {
   useGetReviewsQuery,
@@ -14,6 +13,7 @@ import {
 import DataTable from '@/components/table/DataTable';
 import ReviewsTableToolbar from './ReviewsTable/ReviewsTableToolbar';
 import { reviewsTableColumns } from '@/components/table/columns';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 
 const ReviewsManagerPage = () => {
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ const ReviewsManagerPage = () => {
         tableToolbar={ReviewsTableToolbar}
       />
 
-      {triggeredBy === DialogActionType.TOGGLE_VISIBILITY_REVIEW && (
+      {triggeredBy === DIALOG_ACTION_TYPE.TOGGLE_VISIBILITY_REVIEW && (
         <ConfirmDialog
           title={`Xác nhận ${dialogData?.isReviewHidden ? 'hiển thị' : 'ẩn'} đánh giá`}
           description={`Bạn có muốn ${dialogData?.isReviewHidden ? 'hiển thị' : 'ẩn'} 

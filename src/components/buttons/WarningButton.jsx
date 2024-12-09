@@ -1,6 +1,12 @@
-import { Button } from '../ui/button';
+import { Button } from '@/components/shadcnUI/button';
 
-const WarningButton = ({ onClick, name, size = 'sm', className, icon: Icon }) => {
+const WarningButton = ({
+  onClick,
+  name,
+  size = 'sm',
+  className,
+  icon: Icon
+}) => {
   return (
     <Button
       onClick={onClick}

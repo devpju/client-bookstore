@@ -1,6 +1,6 @@
-import { convertToShortenedNumber } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/shadcnUI/separator';
 import RatingStars from './RatingStars';
+import { formatNumberWithK } from '@/utils/numberUtils';
 
 const BookCardStats = ({ rating, sold, reviewCount }) => {
   return (
@@ -10,7 +10,7 @@ const BookCardStats = ({ rating, sold, reviewCount }) => {
         <span>({reviewCount})</span>
       </div>
       <Separator orientation='vertical' className='h-3 bg-slate-400' />
-      <span>Đã bán {convertToShortenedNumber(sold)}</span>
+      <span>Đã bán {formatNumberWithK(sold)}</span>
     </div>
   );
 };

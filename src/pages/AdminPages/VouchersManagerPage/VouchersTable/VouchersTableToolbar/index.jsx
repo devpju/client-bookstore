@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { addIds } from '@/redux/slices/selectorSlice';
 import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
 import DangerButton from '@/components/buttons/DangerButton';
@@ -30,7 +30,7 @@ export default function VouchersTableToolbar({ rowSelection, table }) {
     }
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_ACTIVE_VOUCHER,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_ACTIVE_VOUCHER,
         data: {
           isVoucherActivated: isActivated
         }
@@ -44,7 +44,7 @@ export default function VouchersTableToolbar({ rowSelection, table }) {
     }
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.DELETE_VOUCHER
+        triggeredBy: DIALOG_ACTION_TYPE.DELETE_VOUCHER
       })
     );
   };
@@ -52,7 +52,7 @@ export default function VouchersTableToolbar({ rowSelection, table }) {
   const handleAddNewVoucher = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.ADD_NEW_VOUCHER
+        triggeredBy: DIALOG_ACTION_TYPE.ADD_NEW_VOUCHER
       })
     );
   };

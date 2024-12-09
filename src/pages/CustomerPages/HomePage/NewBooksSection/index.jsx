@@ -1,5 +1,5 @@
 import BooksCarousel from '@/components/carousels/BooksCarousel';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/shadcnUI/separator';
 import { newBooks } from '@/data/books';
 
 const NewBooksSection = () => {

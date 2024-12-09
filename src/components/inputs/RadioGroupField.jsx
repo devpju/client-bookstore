@@ -3,8 +3,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+} from '@/components/shadcnUI/form';
+import { RadioGroup, RadioGroupItem } from '@/components/shadcnUI/radio-group';
 
 const RadioGroupField = ({
   field,

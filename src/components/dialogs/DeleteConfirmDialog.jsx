@@ -5,13 +5,19 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '@/components/ui/dialog';
+} from '@/components/shadcnUI/dialog';
 import CancelButton from '../buttons/CancelButton';
 import { useDispatch } from 'react-redux';
 import { closeDialog } from '@/redux/slices/dialogSlice';
 import DangerTextButton from '../buttons/DangerTextButton';
 
-const DeleteConfirmDialog = ({ open, setOpen, description, title = 'Xác nhận xoá', onClick }) => {
+const DeleteConfirmDialog = ({
+  open,
+  setOpen,
+  description,
+  title = 'Xác nhận xoá',
+  onClick
+}) => {
   const dispatch = useDispatch();
   return (
     <Dialog open={open} onOpenChange={setOpen}>

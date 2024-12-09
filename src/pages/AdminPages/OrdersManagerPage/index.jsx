@@ -2,16 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType, orderStatusList } from '@/lib/constants';
-import { normalTextSchema } from '@/lib/validations';
+import { DIALOG_ACTION_TYPE, ORDER_STATUS_LIST } from '@/utils/constants';
 
 import FormDialog from '@/components/dialogs/FormDialog';
-import { FormField } from '@/components/ui/form';
-import { useSidebar } from '@/components/ui/sidebar';
+import { FormField } from '@/components/shadcnUI/form';
+import { useSidebar } from '@/components/shadcnUI/sidebar';
 import DataTable from '@/components/table/DataTable';
 import {
   useGetOrdersQuery,
@@ -20,13 +18,9 @@ import {
 import { ordersTableColumns } from '@/components/table/columns';
 import RadioGroupField from '@/components/inputs/RadioGroupField';
 import OrdersTableToolbar from './OrdersTable/OrdersTableToolbar';
-import { getLatestStatus } from '@/lib/utils';
 import SelectField from '@/components/inputs/SelectField';
-
-const orderStatusFormSchema = z.object({
-  paymentStatus: z.union([z.string(), z.boolean()]),
-  orderStatus: normalTextSchema
-});
+import { getLatestLogStatus } from '@/utils/orderUtils';
+import { updateOrderStatusFormSchema } from '@/validations/orderSchema';
 
 const OrdersManagerPage = () => {
   const dispatch = useDispatch();
@@ -41,13 +35,13 @@ const OrdersManagerPage = () => {
     useUpdateOrderStatusMutation();
 
   const orderStatusForm = useForm({
-    resolver: zodResolver(orderStatusFormSchema)
+    resolver: zodResolver(updateOrderStatusFormSchema)
   });
 
   useEffect(() => {
     if (dialogData?.rowData) {
       orderStatusForm.reset({
-        orderStatus: getLatestStatus(dialogData?.rowData.logs),
+        orderStatus: getLatestLogStatus(dialogData?.rowData.logs),
         paymentStatus:
           dialogData.rowData?.payment.status === 'paid' ? true : false
       });
@@ -85,7 +79,7 @@ const OrdersManagerPage = () => {
         tableToolbar={OrdersTableToolbar}
       />
 
-      {triggeredBy === DialogActionType.UPDATE_ORDER_STATUS && (
+      {triggeredBy === DIALOG_ACTION_TYPE.UPDATE_ORDER_STATUS && (
         <FormDialog
           form={orderStatusForm}
           onSubmit={handleUpdateOrderStatus}
@@ -122,7 +116,7 @@ const OrdersManagerPage = () => {
               <SelectField
                 field={field}
                 label='Chọn trạng thái đơn hàng'
-                items={orderStatusList}
+                items={ORDER_STATUS_LIST}
               />
             )}
           />

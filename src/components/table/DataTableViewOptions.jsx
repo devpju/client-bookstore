@@ -2,9 +2,8 @@
 
 import { Check, ChevronsUpDown, Settings2 } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 
-import { cn, toSentenceCase } from '@/lib/utils';
 import {
   Command,
   CommandEmpty,
@@ -12,13 +11,15 @@ import {
   CommandInput,
   CommandItem,
   CommandList
-} from '@/components/ui/command';
+} from '@/components/shadcnUI/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
-} from '@/components/ui/popover';
+} from '@/components/shadcnUI/popover';
 import { useRef } from 'react';
+import { cn } from '@/utils/classUtils';
+import { toSentenceCase } from '@/utils/stringUtils';
 
 export function DataTableViewOptions({ table, dataViewOptions }) {
   const triggerRef = useRef(null);

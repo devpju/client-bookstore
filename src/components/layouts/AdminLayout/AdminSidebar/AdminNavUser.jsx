@@ -1,6 +1,6 @@
 import { ChevronsUpDown, CornerDownLeft, LogOut, Settings } from 'lucide-react';
 
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/shadcnUI/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,13 +8,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
+} from '@/components/shadcnUI/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar
-} from '@/components/ui/sidebar';
+} from '@/components/shadcnUI/sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { useEffect } from 'react';
@@ -52,12 +52,18 @@ export default function AdminNavUser() {
             >
               <Avatar className='h-8 w-8 rounded-lg'>
                 <AvatarImage
-                  src={userInfo.urlAvatar ? userInfo.urlAvatar : '/images/avatar.jpg'}
+                  src={
+                    userInfo.urlAvatar
+                      ? userInfo.urlAvatar
+                      : '/images/avatar.jpg'
+                  }
                   alt={userInfo.fullName}
                 />
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-semibold'>{userInfo.fullName}</span>
+                <span className='truncate font-semibold'>
+                  {userInfo.fullName}
+                </span>
                 <span className='truncate text-xs'>{userInfo.email}</span>
               </div>
               <ChevronsUpDown className='ml-auto size-4' />
@@ -73,12 +79,18 @@ export default function AdminNavUser() {
               <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
                 <Avatar className='h-8 w-8 rounded-lg'>
                   <AvatarImage
-                    src={userInfo.urlAvatar ? userInfo.urlAvatar : '/images/avatar.jpg'}
+                    src={
+                      userInfo.urlAvatar
+                        ? userInfo.urlAvatar
+                        : '/images/avatar.jpg'
+                    }
                     alt={userInfo.name}
                   />
                 </Avatar>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>{userInfo.name}</span>
+                  <span className='truncate font-semibold'>
+                    {userInfo.name}
+                  </span>
                   <span className='truncate text-xs'>{userInfo.email}</span>
                 </div>
               </div>
@@ -95,7 +107,10 @@ export default function AdminNavUser() {
                 Về trang chủ
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleSignout} className='py-2 hover:bg-green-200'>
+            <DropdownMenuItem
+              onClick={handleSignout}
+              className='py-2 hover:bg-green-200'
+            >
               <LogOut />
               Đăng xuất
             </DropdownMenuItem>

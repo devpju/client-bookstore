@@ -1,6 +1,5 @@
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from '@/components/shadcnUI/checkbox';
 import { DataTableColumnHeader } from '@/components/table/DataTableColumnHeader';
-import { convertToDDMMYYYY, getLatestStatus } from '@/lib/utils';
 import CategoriesTableRowActions from '@/pages/AdminPages/CategoriesManagerPage/CategoriesTable/CategoriesTableRowActions';
 import VouchersTableRowActions from '@/pages/AdminPages/VouchersManagerPage/VouchersTable/VouchersTableRowActions';
 import RatingStars from '../cards/BookCard/BookCardStats/RatingStars';
@@ -9,6 +8,8 @@ import UsersTableRowActions from '@/pages/AdminPages/UsersManagerPage/UsersTable
 import OrdersTableRowActions from '@/pages/AdminPages/OrdersManagerPage/OrdersTable/OrdersTableRowActions';
 import OrderStatusBlock from '../statusBlocks/orderStatusBlock';
 import BooksTableRowActions from '@/pages/AdminPages/BooksManagerPage/BooksTable/BooksTableRowActions';
+import { formatCurrencyVND } from '@/utils/numberUtils';
+import { getLatestLogStatus } from '@/utils/orderUtils';
 
 const selectColumn = {
   id: 'select',
@@ -94,7 +95,7 @@ export const categoriesTableColumns = [
 
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
-        {convertToDDMMYYYY(row.getValue('createdAt'))}
+        {formatCurrencyVND(row.getValue('createdAt'))}
       </div>
     ),
     enableSorting: true,
@@ -165,7 +166,7 @@ export const vouchersTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='flex justify-center'>
-        {convertToDDMMYYYY(row.getValue('startDate'))}
+        {formatCurrencyVND(row.getValue('startDate'))}
       </div>
     ),
     filterFn: (row, id, filterValue) => {
@@ -186,7 +187,7 @@ export const vouchersTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='flex justify-center'>
-        {convertToDDMMYYYY(row.getValue('endDate'))}
+        {formatCurrencyVND(row.getValue('endDate'))}
       </div>
     ),
     filterFn: (row, id, filterValue) => {
@@ -317,7 +318,7 @@ export const reviewsTableColumns = [
 
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
-        {convertToDDMMYYYY(row.getValue('createdAt'))}
+        {formatCurrencyVND(row.getValue('createdAt'))}
       </div>
     ),
     enableSorting: true,
@@ -423,7 +424,7 @@ export const usersTableColumns = [
 
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
-        {convertToDDMMYYYY(row.getValue('createdAt'))}
+        {formatCurrencyVND(row.getValue('createdAt'))}
       </div>
     ),
     enableSorting: true,
@@ -540,18 +541,18 @@ export const ordersTableColumns = [
       <DataTableColumnHeader column={column} title='TT Đơn hàng' />
     ),
     cell: ({ row }) => {
-      const latestStatus = getLatestStatus(row.getValue('logs'));
+      const latestStatus = getLatestLogStatus(row.getValue('logs'));
       return <OrderStatusBlock status={latestStatus} />;
     },
     sortingFn: (rowA, rowB, columnId) => {
-      const statusA = getLatestStatus(rowA.original[columnId]);
-      const statusB = getLatestStatus(rowB.original[columnId]);
+      const statusA = getLatestLogStatus(rowA.original[columnId]);
+      const statusB = getLatestLogStatus(rowB.original[columnId]);
       return statusA.localeCompare(statusB);
     },
     filterFn: (row, id, filterValue) => {
       if (filterValue.length === 0) return true;
       console.log(filterValue);
-      const latestStatus = getLatestStatus(row.getValue(id));
+      const latestStatus = getLatestLogStatus(row.getValue(id));
       return filterValue.includes(latestStatus);
     },
     enableSorting: true,
@@ -561,7 +562,7 @@ export const ordersTableColumns = [
     accessorKey: 'createdAt',
     size: 80,
     cell: ({ row }) => (
-      <div>{convertToDDMMYYYY(row.getValue('createdAt'))}</div>
+      <div>{formatCurrencyVND(row.getValue('createdAt'))}</div>
     ),
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Ngày đặt' />
@@ -747,7 +748,7 @@ export const booksTableColumns = [
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
         {row.getValue('publishDate')
-          ? convertToDDMMYYYY(row.getValue('publishDate'))
+          ? formatCurrencyVND(row.getValue('publishDate'))
           : 'Không có'}
       </div>
     ),

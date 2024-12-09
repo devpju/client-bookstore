@@ -1,4 +1,4 @@
-import { formatCurrencyToVND } from '@/lib/utils';
+import { formatCurrencyVND } from '@/utils/numberUtils';
 import BookCardStats from './BookCardStats';
 import { Link } from 'react-router';
 
@@ -17,12 +17,16 @@ export const BookCard = ({ book }) => {
           </h3>
         </Link>
         <div>
-          <span className='font-semibold text-red-600'>{formatCurrencyToVND(book.price)}</span>
+          <span className='font-semibold text-red-600'>{book.price}</span>
         </div>
         <span className='text-sm text-gray-400 line-through'>
-          {formatCurrencyToVND(book.originalPrice)}
+          {formatCurrencyVND(book.originalPrice)}
         </span>
-        <BookCardStats rating={book.rating} reviewCount={book.reviewCount} sold={book.sold} />
+        <BookCardStats
+          rating={book.rating}
+          reviewCount={book.reviewCount}
+          sold={book.sold}
+        />
       </div>
     </div>
   );

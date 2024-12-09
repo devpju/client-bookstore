@@ -1,4 +1,4 @@
-import { Button } from '../ui/button';
+import { Button } from '@/components/shadcnUI/button';
 
 const CancelButton = ({ onClick, className }) => {
   return (

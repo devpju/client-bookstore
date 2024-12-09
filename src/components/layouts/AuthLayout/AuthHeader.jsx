@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import { X } from 'lucide-react';
 import { Link } from 'react-router';
 
@@ -9,7 +9,12 @@ const AuthHeader = () => {
         <Link to='/'>
           <img src='/images/brand-logo.png' alt='BookStore' className='h-8' />
         </Link>
-        <Button variant='outline' size='icon' className='rounded-full p-2' asChild>
+        <Button
+          variant='outline'
+          size='icon'
+          className='rounded-full p-2'
+          asChild
+        >
           <Link to='/'>
             <X className='size-4' />
           </Link>

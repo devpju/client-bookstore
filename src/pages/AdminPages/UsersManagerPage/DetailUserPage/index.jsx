@@ -1,4 +1,4 @@
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/shadcnUI/separator';
 import {
   Table,
   TableBody,
@@ -6,15 +6,16 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/components/ui/table';
-import {
-  calculateTotalAmount,
-  convertAddressToString,
-  convertToDDMMYYYY,
-  getLatestStatus,
-  getOrderStatusLabel
-} from '@/lib/utils';
+} from '@/components/shadcnUI/table';
+
 import { useGetDetailUserQuery } from '@/redux/apis/usersApi';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
+import {
+  calculateOrderTotal,
+  formatAddress,
+  getLatestLogStatus,
+  getOrderStatusLabel
+} from '@/utils/orderUtils';
 import { Fragment } from 'react';
 import { useLocation } from 'react-router';
 
@@ -75,7 +76,7 @@ const DetailUserPage = () => {
                 Ngày đăng ký:
               </span>
               <span className='text-gray-600'>
-                {convertToDDMMYYYY(userInfo.createdAt)}
+                {convertISODateToDDMMYYYY(userInfo.createdAt)}
               </span>
             </div>
 
@@ -101,7 +102,7 @@ const DetailUserPage = () => {
               <p className='text-sm text-gray-500'>
                 Tổng chi tiêu:{' '}
                 <span className='font-medium text-gray-800'>
-                  {calculateTotalAmount(userInfo.orders)} VNĐ
+                  {calculateOrderTotal(userInfo.orders)} VNĐ
                 </span>{' '}
                 với {userInfo.orders.length} đơn hàng
               </p>
@@ -125,9 +126,11 @@ const DetailUserPage = () => {
                     className='transition-colors hover:bg-gray-100'
                   >
                     <TableCell>{order.id}</TableCell>
-                    <TableCell>{convertToDDMMYYYY(order.createdAt)}</TableCell>
                     <TableCell>
-                      {getOrderStatusLabel(getLatestStatus(order.logs))}
+                      {convertISODateToDDMMYYYY(order.createdAt)}
+                    </TableCell>
+                    <TableCell>
+                      {getOrderStatusLabel(getLatestLogStatus(order.logs))}
                     </TableCell>
                     <TableCell>{order.paymentMethod}</TableCell>
                     <TableCell>{order.numberBooks}</TableCell>
@@ -156,7 +159,7 @@ const DetailUserPage = () => {
                       <span>{address.phoneNumber}</span>
                     </div>
                     <p className='mt-1 text-gray-600'>
-                      {convertAddressToString(address)}
+                      {formatAddress(address)}
                     </p>
                   </div>
                   <Separator />

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import GoogleLogoIcon from '@/assets/icons/google.svg?react';
 import AppleLogoIcon from '@/assets/icons/apple.svg?react';
 import { Link } from 'react-router';
@@ -10,8 +10,9 @@ const BrandSection = () => {
         <img src='/images/brand-logo.png' alt='Book Store' className='h-8' />
       </Link>
       <p className='text-base text-gray-700'>
-        Hiệu sách trực tuyến lớn nhất, đầy đủ nhất và đáng tin cậy nhất trên thế giới. Với chúng
-        tôi, bạn có thể mua sắm trực tuyến và đồng thời giúp tiết kiệm thời gian của bạn
+        Hiệu sách trực tuyến lớn nhất, đầy đủ nhất và đáng tin cậy nhất trên thế
+        giới. Với chúng tôi, bạn có thể mua sắm trực tuyến và đồng thời giúp
+        tiết kiệm thời gian của bạn
       </p>
       <div className='flex gap-5'>
         <Button asChild>

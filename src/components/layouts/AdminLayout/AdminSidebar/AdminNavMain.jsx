@@ -1,10 +1,10 @@
-import { Collapsible } from '@/components/ui/collapsible';
+import { Collapsible } from '@/components/shadcnUI/collapsible';
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem
-} from '@/components/ui/sidebar';
+} from '@/components/shadcnUI/sidebar';
 import { Link, useLocation } from 'react-router';
 
 export default function AdminNavMain({ items }) {

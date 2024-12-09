@@ -1,18 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormField } from '../ui/form';
+import { Form, FormField } from '@/components/shadcnUI/form';
 import TextField from '../inputs/TextField';
-import { emailSchema } from '@/lib/validations';
 import LoadingButton from '../buttons/LoadingButton';
-
-const formSchema = z.object({
-  email: emailSchema
-});
+import { forgotPasswordFormSchema } from '@/validations/authSchema';
 
 const ForgotPasswordForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(forgotPasswordFormSchema),
     defaultValues: {
       email: ''
     }

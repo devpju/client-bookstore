@@ -14,7 +14,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail
-} from '@/components/ui/sidebar';
+} from '@/components/shadcnUI/sidebar';
 import AdminNavMain from './AdminNavMain';
 import AdminNavUser from './AdminNavUser';
 import AdminSidebarHeader from './AdminSidebarHeader';

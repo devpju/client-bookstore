@@ -1,23 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormField } from '../ui/form';
-import { passwordSchema } from '@/lib/validations';
+import { Form, FormField } from '@/components/shadcnUI/form';
 import LoadingButton from '../buttons/LoadingButton';
 import PasswordField from '../inputs/PasswordField';
-
-const formSchema = z
-  .object({
-    password: passwordSchema,
-    confirmPassword: passwordSchema
-  })
-  .refine((values) => values.password === values.confirmPassword, {
-    message: 'Mật khẩu xác nhận không khớp'
-  });
+import { resetPasswordFormSchema } from '@/validations/authSchema';
 
 const ResetPasswordForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
       password: '',
       confirmPassword: ''

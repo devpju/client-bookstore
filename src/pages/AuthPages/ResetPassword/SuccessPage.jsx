@@ -1,5 +1,5 @@
 import IconCircleWrapper from '@/components/icons/IconCircleWrapper';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import { CircleCheckBig } from 'lucide-react';
 import { Link } from 'react-router';
 

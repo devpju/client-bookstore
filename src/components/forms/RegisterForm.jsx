@@ -1,32 +1,14 @@
-import {
-  emailOrPhoneNumberSchema,
-  fullNameSchema,
-  passwordSchema,
-  phoneNumberSchema
-} from '@/lib/validations';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormField } from '../ui/form';
+import { Form, FormField } from '@/components/shadcnUI/form';
 import TextField from '../inputs/TextField';
 import PasswordField from '../inputs/PasswordField';
 import LoadingButton from '../buttons/LoadingButton';
-
-const formSchema = z
-  .object({
-    fullName: fullNameSchema,
-    email: emailOrPhoneNumberSchema,
-    phoneNumber: phoneNumberSchema,
-    password: passwordSchema,
-    confirmPassword: passwordSchema
-  })
-  .refine((values) => values.password === values.confirmPassword, {
-    message: 'Mật khẩu xác nhận không khớp'
-  });
+import { registerFormSchema } from '@/validations/authSchema';
 
 const RegisterForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       fullName: '',
       email: '',

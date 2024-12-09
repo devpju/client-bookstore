@@ -1,7 +1,7 @@
 import InfoButton from '@/components/buttons/InfoButton';
 import DateField from '@/components/inputs/DateField';
 import TextField from '@/components/inputs/TextField';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import {
   Command,
   CommandEmpty,
@@ -9,7 +9,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList
-} from '@/components/ui/command';
+} from '@/components/shadcnUI/command';
 import {
   Form,
   FormControl,
@@ -17,43 +17,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from '@/components/ui/form';
+} from '@/components/shadcnUI/form';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { numberSchema } from '@/lib/validations';
+} from '@/components/shadcnUI/popover';
 import { useAddBookMutation } from '@/redux/apis/booksApi';
 import { useGetCategoriesQuery } from '@/redux/apis/categoriesApi';
+import { cn } from '@/utils/classUtils';
+import { bookFormSchema } from '@/validations/bookSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
-const formSchema = z.object({
-  name: z.string(),
-  width: numberSchema,
-  height: numberSchema,
-  authors: z.string(),
-  totalPages: numberSchema,
-  description: z.string(),
-  originalPrice: numberSchema,
-  price: numberSchema,
-  publishDate: z.string(),
-  publisher: z.string(),
-  coverType: z.string(),
-  thumbnail: z.string(),
-  images: z.string(),
-  categoryId: z.union([z.string(), z.number()])
-});
+
 const CreateBookPage = () => {
   const { data: categoriesData } = useGetCategoriesQuery();
   const [addBook, addBookState] = useAddBookMutation();
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(bookFormSchema),
     defaultValues: {
       name: '',
       width: '',

@@ -1,20 +1,14 @@
-import { emailOrPhoneNumberSchema, passwordSchema } from '@/lib/validations';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormField } from '../ui/form';
+import { Form, FormField } from '@/components/shadcnUI/form';
 import TextField from '../inputs/TextField';
 import PasswordField from '../inputs/PasswordField';
 import LoadingButton from '../buttons/LoadingButton';
-
-const formSchema = z.object({
-  emailOrPhoneNumber: emailOrPhoneNumberSchema,
-  password: passwordSchema
-});
+import { loginFormSchema } from '@/validations/authSchema';
 
 const LoginForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       emailOrPhoneNumber: 'anhduc08768@gmail.com',
       password: 'Hoaiduc@12a3'

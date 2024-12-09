@@ -4,7 +4,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger
-} from '@/components/ui/hover-card';
+} from '@/components/shadcnUI/hover-card';
 import { useSignoutMutation } from '@/redux/apis/authApi';
 import { useEffect } from 'react';
 import { removeAuth } from '@/redux/slices/authSlice';

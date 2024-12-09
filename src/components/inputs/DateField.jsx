@@ -1,11 +1,20 @@
 import { CalendarIcon } from 'lucide-react';
-import { FormControl, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Button } from '../ui/button';
-import { cn } from '@/lib/utils';
+import {
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/shadcnUI/form';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/shadcnUI/popover';
+import { Button } from '@/components/shadcnUI/button';
 import { format } from 'date-fns';
-import { Calendar } from '../ui/calendar';
+import { Calendar } from '@/components/shadcnUI/calendar';
 import { vi } from 'date-fns/locale';
+import { cn } from '@/utils/classUtils';
 
 const DateField = ({ field, label, placeholder, className }) => {
   return (

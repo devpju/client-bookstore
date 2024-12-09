@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { Form, FormField } from '../ui/form';
+import { Form, FormField } from '@/components/shadcnUI/form';
 import { Search } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Button } from '@/components/shadcnUI/button';
+import { Input } from '@/components/shadcnUI/input';
 
 const SearchForm = ({ onSubmit, className }) => {
   const form = useForm({
     defaultValues: {
-      email: ''
+      searchText: ''
     }
   });
   return (
@@ -18,7 +18,7 @@ const SearchForm = ({ onSubmit, className }) => {
       >
         <FormField
           control={form.control}
-          name='email'
+          name='searchText'
           render={({ field }) => (
             <Input
               {...field}

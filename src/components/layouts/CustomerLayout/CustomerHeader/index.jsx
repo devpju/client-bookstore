@@ -1,5 +1,5 @@
 import SearchForm from '@/components/forms/SearchForm';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import HeaderActions from './HeaderActions';

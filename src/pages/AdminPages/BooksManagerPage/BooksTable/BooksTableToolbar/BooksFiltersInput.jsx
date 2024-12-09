@@ -4,10 +4,10 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { DateRangePicker } from '@/components/ui/date-range-picker';
+} from '@/components/shadcnUI/select';
+import { Input } from '@/components/shadcnUI/input';
+import { Button } from '@/components/shadcnUI/button';
+import { DateRangePicker } from '@/components/shadcnUI/extensions/date-range-picker';
 
 const BooksFiltersInput = ({
   filters = {},

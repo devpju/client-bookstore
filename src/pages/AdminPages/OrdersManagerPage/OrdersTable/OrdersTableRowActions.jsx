@@ -1,6 +1,6 @@
 import InfoButton from '@/components/buttons/InfoButton';
 import WarningButton from '@/components/buttons/WarningButton';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ export default function OrdersTableRowActions({ row }) {
   const onClickUpdateButton = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.UPDATE_ORDER_STATUS,
+        triggeredBy: DIALOG_ACTION_TYPE.UPDATE_ORDER_STATUS,
         data: { rowData: row.original }
       })
     );

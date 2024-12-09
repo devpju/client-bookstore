@@ -5,7 +5,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator
-} from '@/components/ui/breadcrumb';
+} from '@/components/shadcnUI/breadcrumb';
 import { Fragment } from 'react';
 import { Link, useLocation } from 'react-router';
 

@@ -1,9 +1,9 @@
 import IconCircleWrapper from '@/components/icons/IconCircleWrapper';
 import ResendEmailPrompt from '@/components/prompts/ResendEmailPrompt';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import useCountdown from '@/hooks/useCountdown';
-import { maskEmail } from '@/lib/utils';
 import { useForgotPasswordMutation } from '@/redux/apis/authApi';
+import { maskEmail } from '@/utils/stringUtils';
 import { MailOpen } from 'lucide-react';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';

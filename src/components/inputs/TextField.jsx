@@ -1,10 +1,26 @@
-import { FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import {
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/shadcnUI/form';
+import { Input } from '@/components/shadcnUI/input';
 
-const TextField = ({ field, placeholder, label, isError, containerClassName, inputClassName }) => {
+const TextField = ({
+  field,
+  placeholder,
+  label,
+  isError,
+  containerClassName,
+  inputClassName
+}) => {
   return (
     <FormItem className={containerClassName}>
-      {label && <FormLabel className='mb-[5px] block font-medium text-primary'>{label}</FormLabel>}
+      {label && (
+        <FormLabel className='mb-[5px] block font-medium text-primary'>
+          {label}
+        </FormLabel>
+      )}
       <FormControl>
         <div className='relative'>
           <Input

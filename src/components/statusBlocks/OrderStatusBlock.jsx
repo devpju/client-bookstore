@@ -1,7 +1,7 @@
-import { orderStatusList } from '@/lib/constants';
+import { ORDER_STATUS_LIST } from '@/utils/constants';
 
 const OrderStatusBlock = ({ status }) => {
-  const statusItem = orderStatusList.find((item) => item.value === status);
+  const statusItem = ORDER_STATUS_LIST.find((item) => item.value === status);
 
   return <div className={statusItem.style}>{statusItem.label}</div>;
 };

@@ -1,27 +1,20 @@
 export const REGEX = {
   EMAIL: /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/,
   PHONE_NUMBER: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
-  PASSWORD:
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/
+  PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 };
 
-export const SALT_BCRYPT_PASSWORD = 10;
-
-export const ROLE = {
-  ADMIN: 'admin',
-  CUSTOMER: 'customer',
-  SELLER: 'seller',
-  BUYER: 'buyer',
-  EDITOR: 'editor'
+export const USER_ROLES = {
+  ADMIN: { value: 'admin', label: 'Admin' },
+  CUSTOMER: { value: 'customer', label: 'Customer' },
+  SELLER: { value: 'seller', label: 'Seller' },
+  BUYER: { value: 'buyer', label: 'Buyer' },
+  EDITOR: { value: 'editor', label: 'Editor' }
 };
 
-export const ACCOUNT_STATUS = {
-  VERIFIED: 'verified',
-  UNVERIFIED: 'unverified',
-  BANNED: 'banned'
-};
+export const USER_ROLES_ARRAY = Object.values(USER_ROLES);
 
-export const DialogActionType = {
+export const DIALOG_ACTION_TYPE = {
   ADD_NEW_CATEGORY: 'add-new-category',
   UPDATE_CATEGORY: 'update-category',
   TOGGLE_VISIBILITY_CATEGORY: 'delete-category',
@@ -38,30 +31,7 @@ export const DialogActionType = {
   TOGGLE_VISIBILITY_BOOK: 'toggle-visibility-book'
 };
 
-export const rolesList = [
-  {
-    value: 'admin',
-    label: 'Admin'
-  },
-  {
-    value: 'customer',
-    label: 'Customer'
-  },
-  {
-    value: 'seller',
-    label: 'Seller'
-  },
-  {
-    value: 'buyer',
-    label: 'Buyer'
-  },
-  {
-    value: 'editor',
-    label: 'Editor'
-  }
-];
-
-export const orderStatusList = [
+export const ORDER_STATUS_LIST = [
   {
     value: 'pending',
     label: 'Chờ xác nhận',

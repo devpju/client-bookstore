@@ -1,7 +1,7 @@
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import WarningButton from '@/components/buttons/WarningButton';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,7 @@ export default function BooksTableRowActions({ row }) {
   const handleToggleVisibility = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_VISIBILITY_BOOK,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_VISIBILITY_BOOK,
         data: {
           isBookHidden: row.original.stock === -1 ? true : false
         }

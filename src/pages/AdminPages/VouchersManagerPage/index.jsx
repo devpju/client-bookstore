@@ -2,13 +2,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
 
-import { useSidebar } from '@/components/ui/sidebar';
+import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import {
   useAddVoucherMutation,
@@ -18,45 +16,13 @@ import {
   useUpdateVoucherMutation
 } from '@/redux/apis/vouchersApi';
 
-import { numberSchema } from '@/lib/validations';
 import { vouchersTableColumns } from '@/components/table/columns';
 import DataTable from '@/components/table/DataTable';
 import VouchersTableToolbar from './VouchersTable/VouchersTableToolbar';
 import VoucherFormDialog from './VouchersTable/VoucherFormDialog';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
+import { voucherFormSchema } from '@/validations/voucherSchema';
 
-const voucherFormSchema = z
-  .object({
-    type: z.enum(['percentage', 'fixed']),
-    discountValue: numberSchema,
-    usageLimit: numberSchema,
-    startDate: z.string(),
-    endDate: z.string()
-  })
-  .refine(
-    (data) => {
-      if (data.type === 'percentage') {
-        return data.discountValue >= 0 && data.discountValue <= 100;
-      } else if (data.type === 'fixed') {
-        return data.discountValue >= 0;
-      }
-      return true;
-    },
-    {
-      message: 'Giá trị giảm giá không hợp lệ cho loại khuyến mãi này',
-      path: ['discountValue']
-    }
-  )
-  .refine(
-    (data) => {
-      const startDate = new Date(data.startDate);
-      const endDate = new Date(data.endDate);
-      return startDate <= endDate;
-    },
-    {
-      message: 'Ngày kết thúc không thể nhỏ hơn ngày bắt đầu',
-      path: ['endDate']
-    }
-  );
 const VouchersManagerPage = () => {
   const dispatch = useDispatch();
   const { state: sidebarState } = useSidebar();
@@ -76,8 +42,8 @@ const VouchersManagerPage = () => {
     resolver: zodResolver(voucherFormSchema),
     defaultValues: {
       type: 'fixed',
-      discountValue: '',
-      usageLimit: '',
+      discountValue: 0,
+      usageLimit: 0,
       startDate: new Date().toISOString(),
       endDate: new Date().toISOString()
     }
@@ -88,7 +54,7 @@ const VouchersManagerPage = () => {
       voucherForm.reset({
         type: dialogData.rowData.type,
         discountValue: dialogData.rowData.discountValue,
-        usageLimit: dialogData.rowData.usageLimit.toString(),
+        usageLimit: dialogData.rowData.usageLimit,
         startDate: dialogData.rowData.startDate,
         endDate: dialogData.rowData.endDate
       });
@@ -154,7 +120,7 @@ const VouchersManagerPage = () => {
         tableToolbar={VouchersTableToolbar}
       />
 
-      {triggeredBy === DialogActionType.ADD_NEW_VOUCHER && (
+      {triggeredBy === DIALOG_ACTION_TYPE.ADD_NEW_VOUCHER && (
         <VoucherFormDialog
           form={voucherForm}
           onSubmit={handleAddVoucher}
@@ -165,7 +131,7 @@ const VouchersManagerPage = () => {
           }
         />
       )}
-      {triggeredBy === DialogActionType.UPDATE_VOUCHER && (
+      {triggeredBy === DIALOG_ACTION_TYPE.UPDATE_VOUCHER && (
         <VoucherFormDialog
           form={voucherForm}
           onSubmit={handleUpdateVoucher}
@@ -176,7 +142,7 @@ const VouchersManagerPage = () => {
           }
         />
       )}
-      {triggeredBy === DialogActionType.TOGGLE_ACTIVE_VOUCHER && (
+      {triggeredBy === DIALOG_ACTION_TYPE.TOGGLE_ACTIVE_VOUCHER && (
         <ConfirmDialog
           title={`Xác nhận ${!dialogData?.isVoucherActivated ? 'kích hoạt' : 'huỷ kích hoạt'} mã giảm giá`}
           description={`Bạn có muốn ${!dialogData?.isVoucherActivated ? 'kích hoạt' : 'huỷ kích hoạt'} 
@@ -188,7 +154,7 @@ const VouchersManagerPage = () => {
           onClick={handleActiveVouchers}
         />
       )}
-      {triggeredBy === DialogActionType.DELETE_VOUCHER && (
+      {triggeredBy === DIALOG_ACTION_TYPE.DELETE_VOUCHER && (
         <ConfirmDialog
           title={`Xác nhận xoá mã giảm giá`}
           description={`Bạn có muốn xoá 

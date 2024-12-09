@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 
 const GoogleLoginButton = ({ className }) => {
   const onClick = () => {
@@ -10,7 +10,11 @@ const GoogleLoginButton = ({ className }) => {
       onClick={onClick}
       className={`w-full border-slate-200 hover:bg-sky-900 ${className}`}
     >
-      <img src='/images/google-logo.png' alt='Login with Google' className='mr-2.5 size-5' />
+      <img
+        src='/images/google-logo.png'
+        alt='Login with Google'
+        className='mr-2.5 size-5'
+      />
       Đăng nhập bằng Google
     </Button>
   );

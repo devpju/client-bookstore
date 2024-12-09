@@ -1,11 +1,16 @@
-import { FormControl, FormItem, FormLabel, FormMessage } from '../ui/form';
+import {
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/shadcnUI/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from '../ui/select';
+} from '@/components/shadcnUI/select';
 
 const SelectField = ({ field, placeholder, items, label }) => {
   return (

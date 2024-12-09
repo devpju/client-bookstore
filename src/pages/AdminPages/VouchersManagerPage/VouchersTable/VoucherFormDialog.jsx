@@ -2,7 +2,7 @@ import FormDialog from '@/components/dialogs/FormDialog';
 import DateField from '@/components/inputs/DateField';
 import RadioGroupField from '@/components/inputs/RadioGroupField';
 import TextField from '@/components/inputs/TextField';
-import { FormField } from '@/components/ui/form';
+import { FormField } from '@/components/shadcnUI/form';
 
 const VoucherFormDialog = ({ setOpen, open, title, onSubmit, form }) => {
   return (

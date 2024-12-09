@@ -1,7 +1,7 @@
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import WarningButton from '@/components/buttons/WarningButton';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ export default function VouchersTableRowActions({ row }) {
   const onClickEditButton = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.UPDATE_VOUCHER,
+        triggeredBy: DIALOG_ACTION_TYPE.UPDATE_VOUCHER,
         data: { rowData: row.original }
       })
     );
@@ -20,7 +20,7 @@ export default function VouchersTableRowActions({ row }) {
   const handleActiveVoucher = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_ACTIVE_VOUCHER,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_ACTIVE_VOUCHER,
         data: {
           isVoucherActivated: row.original.isActivated
         }
@@ -31,7 +31,7 @@ export default function VouchersTableRowActions({ row }) {
   const handleDeleteVoucher = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.DELETE_VOUCHER
+        triggeredBy: DIALOG_ACTION_TYPE.DELETE_VOUCHER
       })
     );
     dispatch(addId(row.original.id));

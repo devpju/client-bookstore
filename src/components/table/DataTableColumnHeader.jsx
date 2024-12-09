@@ -1,14 +1,14 @@
 import { ArrowDown, ArrowUp, Ban, ChevronsUpDown, EyeOff } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcnUI/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
+} from '@/components/shadcnUI/dropdown-menu';
+import { cn } from '@/utils/classUtils';
 
 export function DataTableColumnHeader({ column, title, className }) {
   if (!column.getCanSort()) {

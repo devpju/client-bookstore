@@ -1,7 +1,15 @@
 import { Loader2 } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '@/components/shadcnUI/button';
 
-const LoadingButton = ({ onClick, isLoading, className, children, variant, size, type }) => {
+const LoadingButton = ({
+  onClick,
+  isLoading,
+  className,
+  children,
+  variant,
+  size,
+  type
+}) => {
   return (
     <Button
       className={` ${className}`}

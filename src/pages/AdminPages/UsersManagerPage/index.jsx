@@ -2,30 +2,25 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType, rolesList } from '@/lib/constants';
-import { stringArraySchema } from '@/lib/validations';
 
 import FormDialog from '@/components/dialogs/FormDialog';
-import { FormField } from '@/components/ui/form';
-import { useSidebar } from '@/components/ui/sidebar';
+import { FormField } from '@/components/shadcnUI/form';
+import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import {
   useGetUsersQuery,
   useToggleBanUsersMutation,
   useUpdateUserRolesMutation
 } from '@/redux/apis/usersApi';
-import { MultiSelect } from '@/components/ui/multi-select';
 import DataTable from '@/components/table/DataTable';
 import UsersTableToolbar from './UsersTable/UsersTableToolbar';
 import { usersTableColumns } from '@/components/table/columns';
-
-const updateUserRolesFormSchema = z.object({
-  roles: stringArraySchema
-});
+import { DIALOG_ACTION_TYPE, USER_ROLES_ARRAY } from '@/utils/constants';
+import { MultiSelect } from '@/components/shadcnUI/extensions/multi-select';
+import { rolesFormSchema } from '@/validations/userSchema';
 
 const UsersManagerPage = () => {
   const dispatch = useDispatch();
@@ -40,7 +35,7 @@ const UsersManagerPage = () => {
   const [toggleBanUsers, toggleBanUsersState] = useToggleBanUsersMutation();
 
   const updateUserRolesForm = useForm({
-    resolver: zodResolver(updateUserRolesFormSchema)
+    resolver: zodResolver(rolesFormSchema)
   });
 
   useEffect(() => {
@@ -90,7 +85,7 @@ const UsersManagerPage = () => {
         tableToolbar={UsersTableToolbar}
       />
 
-      {triggeredBy === DialogActionType.UPDATE_USER_ROLES && (
+      {triggeredBy === DIALOG_ACTION_TYPE.UPDATE_USER_ROLES && (
         <FormDialog
           form={updateUserRolesForm}
           onSubmit={handleUpdateUserRoles}
@@ -105,7 +100,7 @@ const UsersManagerPage = () => {
             name='roles'
             render={({ field }) => (
               <MultiSelect
-                options={rolesList}
+                options={USER_ROLES_ARRAY}
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 placeholder='Lựa chọn các vai trò'
@@ -114,7 +109,7 @@ const UsersManagerPage = () => {
           />
         </FormDialog>
       )}
-      {triggeredBy === DialogActionType.TOGGLE_BAN_USER && (
+      {triggeredBy === DIALOG_ACTION_TYPE.TOGGLE_BAN_USER && (
         <ConfirmDialog
           title={`Xác nhận ${dialogData?.isUserBanned ? 'bỏ cấm' : 'cấm'} người dùng`}
           description={`Bạn có muốn ${dialogData?.isUserBanned ? 'bỏ cấm' : 'cấm'} 

@@ -5,7 +5,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '@/components/ui/dialog';
+} from '@/components/shadcnUI/dialog';
 import CancelButton from '../buttons/CancelButton';
 import { useDispatch } from 'react-redux';
 import { closeDialog } from '@/redux/slices/dialogSlice';

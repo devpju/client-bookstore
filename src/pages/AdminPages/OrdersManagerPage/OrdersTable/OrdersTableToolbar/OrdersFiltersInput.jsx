@@ -1,16 +1,16 @@
 import { X } from 'lucide-react';
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { DateRangePicker } from '@/components/ui/date-range-picker';
-import { MultiSelect } from '@/components/ui/multi-select';
-import { orderStatusList } from '@/lib/constants';
+import { Input } from '@/components/shadcnUI/input';
+import { Button } from '@/components/shadcnUI/button';
+import { DateRangePicker } from '@/components/shadcnUI/extensions/date-range-picker';
+import { MultiSelect } from '@/components/shadcnUI/extensions/multi-select';
+import { ORDER_STATUS_LIST } from '@/utils/constants';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger
-} from '@/components/ui/select';
+} from '@/components/shadcnUI/select';
 
 const OrdersFiltersInput = ({
   filters = {},
@@ -61,7 +61,7 @@ const OrdersFiltersInput = ({
       />
 
       <MultiSelect
-        options={orderStatusList}
+        options={ORDER_STATUS_LIST}
         onValueChange={handleOrderStatusChange}
         defaultValue={orderStatus}
         placeholder='Chọn trạng thái đơn hàng'

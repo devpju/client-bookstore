@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { addIds } from '@/redux/slices/selectorSlice';
 import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
 import DangerButton from '@/components/buttons/DangerButton';
@@ -29,7 +29,7 @@ export default function ReviewsTableToolbar({ rowSelection, table }) {
     }
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_VISIBILITY_REVIEW,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_VISIBILITY_REVIEW,
         data: {
           isReviewHidden: isHidden
         }

@@ -1,5 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Button } from '@/components/shadcnUI/button';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger
+} from '@/components/shadcnUI/hover-card';
 import { ChevronDown } from 'lucide-react';
 import BookCategoryContent from './BookCategoryContent';
 import { categories } from '@/data/categories';
@@ -9,7 +13,11 @@ const BookCategory = () => {
   return (
     <HoverCard openDelay={30}>
       <HoverCardTrigger asChild>
-        <Button variant='ghost' size='icon' className='mx-5 flex items-center gap-1 lg:mx-10'>
+        <Button
+          variant='ghost'
+          size='icon'
+          className='mx-5 flex items-center gap-1 lg:mx-10'
+        >
           <span className='hidden lg:inline'>Danh mục</span>
           <ChevronDown />
         </Button>

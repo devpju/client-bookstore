@@ -1,7 +1,7 @@
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import WarningButton from '@/components/buttons/WarningButton';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ export default function CategoriesTableRowActions({ row }) {
   const onClickEditButton = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.UPDATE_CATEGORY,
+        triggeredBy: DIALOG_ACTION_TYPE.UPDATE_CATEGORY,
         data: { rowData: row.original }
       })
     );
@@ -20,7 +20,7 @@ export default function CategoriesTableRowActions({ row }) {
   const handleToggleVisibility = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_VISIBILITY_CATEGORY,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_VISIBILITY_CATEGORY,
         data: {
           isCategoryHidden: row.original.isHidden
         }

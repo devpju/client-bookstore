@@ -1,18 +1,13 @@
-import { otpSchema } from '@/lib/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Form, FormField } from '../ui/form';
+import { Form, FormField } from '@/components/shadcnUI/form';
 import OTPField from '../inputs/OTPField';
 import LoadingButton from '../buttons/LoadingButton';
-
-const formSchema = z.object({
-  otp: otpSchema
-});
+import { otpVerificationFormSchema } from '@/validations/authSchema';
 
 const OTPVerificationForm = ({ onSubmit, isLoading }) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(otpVerificationFormSchema),
     defaultValues: {
       otp: ''
     }

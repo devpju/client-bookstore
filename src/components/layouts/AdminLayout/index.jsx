@@ -1,5 +1,9 @@
-import { Separator } from '@/components/ui/separator';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { Separator } from '@/components/shadcnUI/separator';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger
+} from '@/components/shadcnUI/sidebar';
 import { Outlet } from 'react-router';
 import { AdminSidebar } from './AdminSidebar';
 import AdminBreadcrumb from './AdminBreadcrumb';

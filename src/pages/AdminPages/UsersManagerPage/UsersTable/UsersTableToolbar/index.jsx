@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { openDialog } from '@/redux/slices/dialogSlice';
-import { DialogActionType } from '@/lib/constants';
 import { addIds } from '@/redux/slices/selectorSlice';
 import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import UsersFiltersInput from './UsersFiltersInput';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 
 export default function UsersTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function UsersTableToolbar({ rowSelection, table }) {
     }
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_BAN_USER,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_BAN_USER,
         data: {
           isUserBanned: isHidden
         }

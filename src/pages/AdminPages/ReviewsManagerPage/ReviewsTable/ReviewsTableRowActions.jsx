@@ -1,6 +1,6 @@
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
-import { DialogActionType } from '@/lib/constants';
+import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ export default function ReviewsTableRowActions({ row }) {
   const handleToggleVisibility = () => {
     dispatch(
       openDialog({
-        triggeredBy: DialogActionType.TOGGLE_VISIBILITY_REVIEW,
+        triggeredBy: DIALOG_ACTION_TYPE.TOGGLE_VISIBILITY_REVIEW,
         data: {
           isReviewHidden: row.original.isHidden
         }

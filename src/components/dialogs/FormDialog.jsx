@@ -5,8 +5,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '@/components/ui/dialog';
-import { Form } from '../ui/form';
+} from '@/components/shadcnUI/dialog';
+import { Form } from '@/components/shadcnUI/form';
 import SaveButton from '../buttons/SaveButton';
 import CancelButton from '../buttons/CancelButton';
 import { useDispatch } from 'react-redux';
