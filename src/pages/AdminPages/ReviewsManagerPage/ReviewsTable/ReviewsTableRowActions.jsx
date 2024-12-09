@@ -23,11 +23,7 @@ export default function ReviewsTableRowActions({ row }) {
   return (
     <div className='flex items-center justify-center gap-2'>
       {row.original.isHidden === true ? (
-        <InfoButton
-          name='Hiện'
-          className='w-12'
-          onClick={handleToggleVisibility}
-        />
+        <InfoButton name='Hiện' onClick={handleToggleVisibility} />
       ) : (
         <DangerButton
           name='Ẩn'

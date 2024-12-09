@@ -1,24 +1,26 @@
 import { Button } from '@/components/shadcnUI/button';
 import { cn } from '@/utils/classUtils';
 
-const CancelButton = ({
+const SuccessButton = ({
   onClick,
-  name = 'Huỷ bỏ',
+  name,
   className,
   iconClassName,
-  size = 'lg',
+  size = 'sm',
   icon: Icon
 }) => {
   return (
     <Button
-      size={size}
-      variant='outline'
       onClick={onClick}
-      className={cn('border-primary', className)}
+      size={size}
+      className={cn(
+        'bg-success text-success-foreground hover:bg-success/90 hover:text-success-foreground',
+        className
+      )}
     >
       {Icon && <Icon className={iconClassName} />}
       {name}
     </Button>
   );
 };
-export default CancelButton;
+export default SuccessButton;

@@ -6,7 +6,7 @@ import HeaderActions from './HeaderActions';
 import BookCategory from './BookCategory';
 
 const CustomerHeader = () => {
-  const accessToken = useSelector((state) => state.auth.accessToken);
+  const accessToken = useSelector((state) => state.auth?.accessToken);
   return (
     <div className='fixed left-0 top-0 z-50 w-full border-b bg-[#FAFAFA] py-5'>
       <header className='container mx-auto flex items-center'>

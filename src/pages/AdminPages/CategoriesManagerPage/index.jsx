@@ -16,7 +16,7 @@ import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import FormDialog from '@/components/dialogs/FormDialog';
 import TextField from '@/components/inputs/TextField';
 import { FormField } from '@/components/shadcnUI/form';
-import { useSidebar } from '@/components/shadcnUI/sidebar';
+
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import CategoriesTableToolbar from './CategoriesTable/CategoriesTableToolbar';
 import DataTable from '@/components/table/DataTable';
@@ -25,7 +25,7 @@ import { categoryFormSchema } from '@/validations/categorySchema';
 
 const CategoriesManagerPage = () => {
   const dispatch = useDispatch();
-  const { state: sidebarState } = useSidebar();
+  const isSidebarOpen = useSelector((state) => state.sidebar?.isSidebarOpen);
   const { isDialogOpen, triggeredBy, dialogData } = useSelector(
     (state) => state.dialog
   );
@@ -90,7 +90,7 @@ const CategoriesManagerPage = () => {
         loading={isFetching}
         columns={categoriesTableColumns}
         className={`mt-3 transition-width duration-200 ${
-          sidebarState === 'collapsed'
+          !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}

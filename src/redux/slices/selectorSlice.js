@@ -24,4 +24,4 @@ const selectorSlice = createSlice({
 
 export const { addId, addIds, clearIds } = selectorSlice.actions;
 
-export default selectorSlice.reducer;
+export const selectorReducer = selectorSlice.reducer;

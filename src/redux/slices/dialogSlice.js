@@ -25,4 +25,4 @@ const dialogSlice = createSlice({
 
 export const { openDialog, closeDialog } = dialogSlice.actions;
 
-export default dialogSlice.reducer;
+export const dialogReducer = dialogSlice.reducer;

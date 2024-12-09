@@ -1,4 +1,3 @@
-import { X } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -6,8 +5,8 @@ import {
   SelectTrigger
 } from '@/components/shadcnUI/select';
 import { Input } from '@/components/shadcnUI/input';
-import { Button } from '@/components/shadcnUI/button';
 import { DateRangePicker } from '@/components/shadcnUI/extensions/date-range-picker';
+import DashedButton from '@/components/buttons/DashedButton';
 
 const ReviewsFiltersInput = ({
   filters = {},
@@ -55,11 +54,11 @@ const ReviewsFiltersInput = ({
         placeholder='Tìm kiếm theo tên sách...'
         value={searchText}
         onChange={handleSearchTextChange}
-        className='h-8 w-52 border-dashed border-slate-400 focus-visible:ring-0'
+        className='h-8 w-52 border-dashed border-slate-400 placeholder:text-xs focus-visible:ring-0'
       />
 
       <Select value={status.toString()} onValueChange={handleStatusChange}>
-        <SelectTrigger className='h-8 w-32 border-dashed border-slate-400 focus:ring-0'>
+        <SelectTrigger className='h-8 w-28 border-dashed border-slate-400 text-xs focus:ring-0'>
           {getStatusLabel()}
         </SelectTrigger>
         <SelectContent>
@@ -76,16 +75,7 @@ const ReviewsFiltersInput = ({
         align='center'
         onUpdate={handleDateRangeChange}
       />
-      {isFiltered && (
-        <Button
-          variant='ghost'
-          onClick={resetFilters}
-          className='h-8 border border-dashed border-slate-400 px-2 text-sm text-slate-500 lg:px-3'
-        >
-          Làm mới
-          <X className='!size-4' />
-        </Button>
-      )}
+      {isFiltered && <DashedButton onClick={resetFilters} />}
     </div>
   );
 };

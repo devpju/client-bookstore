@@ -1,13 +1,24 @@
 import { Button } from '@/components/shadcnUI/button';
+import { cn } from '@/utils/classUtils';
 
-const InfoButton = ({ onClick, name, size = 'sm', className, icon: Icon }) => {
+const InfoButton = ({
+  onClick,
+  name,
+  className,
+  iconClassName,
+  size = 'sm',
+  icon: Icon
+}) => {
   return (
     <Button
       onClick={onClick}
       size={size}
-      className={`bg-info p-0 px-2 py-1 text-sm text-info-foreground hover:border-info hover:bg-info/80 hover:text-info-foreground ${className}`}
+      className={cn(
+        'bg-info text-info-foreground hover:bg-info/90 hover:text-info-foreground',
+        className
+      )}
     >
-      {Icon && <Icon className='text-white' />}
+      {Icon && <Icon className={iconClassName} />}
       {name}
     </Button>
   );

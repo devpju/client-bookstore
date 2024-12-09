@@ -6,7 +6,7 @@ const baseQuery = fetchBaseQuery({
   credentials: 'same-origin',
   prepareHeaders: (headers, { getState }) => {
     const accessToken = getState()?.auth?.accessToken;
-    headers.set('ngrok-skip-browser-warning', 'true');
+    // headers.set('ngrok-skip-browser-warning', 'true');
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }

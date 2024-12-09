@@ -8,7 +8,6 @@ import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 
 import FormDialog from '@/components/dialogs/FormDialog';
 import { FormField } from '@/components/shadcnUI/form';
-import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import {
   useGetUsersQuery,
@@ -24,7 +23,7 @@ import { rolesFormSchema } from '@/validations/userSchema';
 
 const UsersManagerPage = () => {
   const dispatch = useDispatch();
-  const { state: sidebarState } = useSidebar();
+  const isSidebarOpen = useSelector((state) => state.sidebar?.isSidebarOpen);
   const { isDialogOpen, triggeredBy, dialogData } = useSelector(
     (state) => state.dialog
   );
@@ -78,7 +77,7 @@ const UsersManagerPage = () => {
         loading={isFetching}
         columns={usersTableColumns}
         className={`mt-3 transition-width duration-200 ${
-          sidebarState === 'collapsed'
+          !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}

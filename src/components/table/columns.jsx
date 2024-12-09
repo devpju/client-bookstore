@@ -10,6 +10,8 @@ import OrderStatusBlock from '../statusBlocks/orderStatusBlock';
 import BooksTableRowActions from '@/pages/AdminPages/BooksManagerPage/BooksTable/BooksTableRowActions';
 import { formatCurrencyVND } from '@/utils/numberUtils';
 import { getLatestLogStatus } from '@/utils/orderUtils';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
+import DataTableColumnHeaderNormal from './DataTableColumnHeaderNormal';
 
 const selectColumn = {
   id: 'select',
@@ -40,7 +42,7 @@ const selectColumn = {
 const indexColumn = {
   accessorKey: 'index',
   size: 30,
-  header: () => <div className='w-full text-center'>STT</div>,
+  header: () => <div className='w-full text-center text-xs'>STT</div>,
   cell: ({ row }) => <div className='w-full text-center'>{row.index + 1}</div>,
   enableSorting: false,
   enableHiding: true
@@ -103,7 +105,7 @@ export const categoriesTableColumns = [
   },
   {
     id: 'actions',
-    header: () => <div className='w-full text-center'>Thao tác</div>,
+    header: () => <DataTableColumnHeaderNormal name='Hành động' />,
     size: 100,
     cell: ({ row }) => <CategoriesTableRowActions row={row} />
   }
@@ -224,7 +226,7 @@ export const vouchersTableColumns = [
   },
   {
     id: 'actions',
-    header: () => <div className='w-full text-center'>Thao tác</div>,
+    header: () => <DataTableColumnHeaderNormal name='Hành động' />,
     size: 100,
     cell: ({ row }) => <VouchersTableRowActions row={row} />
   }
@@ -318,7 +320,7 @@ export const reviewsTableColumns = [
 
     cell: ({ row }) => (
       <div className='flex w-full justify-center font-medium'>
-        {formatCurrencyVND(row.getValue('createdAt'))}
+        {convertISODateToDDMMYYYY(row.getValue('createdAt'))}
       </div>
     ),
     enableSorting: true,
@@ -327,7 +329,7 @@ export const reviewsTableColumns = [
 
   {
     id: 'actions',
-    header: () => <div className='w-full text-center'>Thao tác</div>,
+    header: () => <DataTableColumnHeaderNormal name='Hành động' />,
     size: 60,
     cell: ({ row }) => <ReviewsTableRowActions row={row} />
   }
@@ -433,7 +435,7 @@ export const usersTableColumns = [
 
   {
     id: 'actions',
-    header: () => <div className='w-full text-center'>Thao tác</div>,
+    header: () => <DataTableColumnHeaderNormal name='Hành động' />,
     size: 100,
     cell: ({ row }) => <UsersTableRowActions row={row} />
   }
@@ -578,7 +580,7 @@ export const ordersTableColumns = [
   },
   {
     id: 'actions',
-    header: () => <div className='w-full text-center'>Thao tác</div>,
+    header: () => <DataTableColumnHeaderNormal name='Hành động' />,
     size: 100,
     cell: ({ row }) => <OrdersTableRowActions row={row} />
   }
@@ -757,7 +759,7 @@ export const booksTableColumns = [
   },
   {
     id: 'actions',
-    header: () => <div className='w-full text-center'>Thao tác</div>,
+    header: () => <DataTableColumnHeaderNormal name='Hành động' />,
     size: 100,
     cell: ({ row }) => <BooksTableRowActions row={row} />
   }

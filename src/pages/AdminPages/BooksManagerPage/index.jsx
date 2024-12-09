@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 
-import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import DataTable from '@/components/table/DataTable';
 import {
@@ -17,7 +16,7 @@ import { booksTableColumns } from '@/components/table/columns';
 
 const BooksManagerPage = () => {
   const dispatch = useDispatch();
-  const { state: sidebarState } = useSidebar();
+  const isSidebarOpen = useSelector((state) => state.sidebar?.isSidebarOpen);
   const { isDialogOpen, triggeredBy, dialogData } = useSelector(
     (state) => state.dialog
   );
@@ -50,7 +49,7 @@ const BooksManagerPage = () => {
         loading={isFetching}
         columns={booksTableColumns}
         className={`mt-3 transition-width duration-200 ${
-          sidebarState === 'collapsed'
+          !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}

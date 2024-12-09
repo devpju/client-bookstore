@@ -6,7 +6,7 @@ const passwordSchema = z
   .min(1, 'Vui lòng nhập mật khẩu')
   .regex(
     REGEX.PASSWORD,
-    'Mật khẩu tối thiểu 8 ký tự, ít nhất chữ cái và một số'
+    'Mật khẩu tối thiểu 6 ký tự, ít nhất chữ cái và một số'
   );
 
 const emailOrPhoneNumberSchema = z

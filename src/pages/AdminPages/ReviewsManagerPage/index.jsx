@@ -4,7 +4,6 @@ import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 
-import { useSidebar } from '@/components/shadcnUI/sidebar';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import {
   useGetReviewsQuery,
@@ -14,10 +13,11 @@ import DataTable from '@/components/table/DataTable';
 import ReviewsTableToolbar from './ReviewsTable/ReviewsTableToolbar';
 import { reviewsTableColumns } from '@/components/table/columns';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
+import { cn } from '@/utils/classUtils';
 
 const ReviewsManagerPage = () => {
   const dispatch = useDispatch();
-  const { state: sidebarState } = useSidebar();
+  const isSidebarOpen = useSelector((state) => state.sidebar?.isSidebarOpen);
   const { isDialogOpen, triggeredBy, dialogData } = useSelector(
     (state) => state.dialog
   );
@@ -47,11 +47,12 @@ const ReviewsManagerPage = () => {
         data={reviewsData?.results}
         loading={isFetching}
         columns={reviewsTableColumns}
-        className={`mt-3 transition-width duration-200 ${
-          sidebarState === 'collapsed'
+        className={cn(
+          'mt-3 transition-width duration-200',
+          !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
-        }`}
+        )}
         tableToolbar={ReviewsTableToolbar}
       />
 
@@ -65,6 +66,7 @@ const ReviewsManagerPage = () => {
             open ? dispatch(openDialog()) : dispatch(closeDialog())
           }
           onClick={handleToggleVisibilityReviews}
+          isDanger={!dialogData?.isReviewHidden}
         />
       )}
     </div>

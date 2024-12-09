@@ -9,7 +9,7 @@ import { DIALOG_ACTION_TYPE, ORDER_STATUS_LIST } from '@/utils/constants';
 
 import FormDialog from '@/components/dialogs/FormDialog';
 import { FormField } from '@/components/shadcnUI/form';
-import { useSidebar } from '@/components/shadcnUI/sidebar';
+
 import DataTable from '@/components/table/DataTable';
 import {
   useGetOrdersQuery,
@@ -24,7 +24,7 @@ import { updateOrderStatusFormSchema } from '@/validations/orderSchema';
 
 const OrdersManagerPage = () => {
   const dispatch = useDispatch();
-  const { state: sidebarState } = useSidebar();
+  const isSidebarOpen = useSelector((state) => state.sidebar?.isSidebarOpen);
   const { isDialogOpen, triggeredBy, dialogData } = useSelector(
     (state) => state.dialog
   );
@@ -72,7 +72,7 @@ const OrdersManagerPage = () => {
         loading={isFetching}
         columns={ordersTableColumns}
         className={`mt-3 transition-width duration-200 ${
-          sidebarState === 'collapsed'
+          !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
         }`}

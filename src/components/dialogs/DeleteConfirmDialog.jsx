@@ -30,7 +30,6 @@ const DeleteConfirmDialog = ({
           <CancelButton onClick={() => dispatch(closeDialog())} />
           <DangerTextButton
             name='Đồng ý'
-            size='lg'
             onClick={() => {
               onClick();
               dispatch(closeDialog());

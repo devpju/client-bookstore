@@ -7,10 +7,18 @@ import {
 import { Outlet } from 'react-router';
 import { AdminSidebar } from './AdminSidebar';
 import AdminBreadcrumb from './AdminBreadcrumb';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSidebar } from '@/redux/slices/sidebarSlice';
 
 function AdminLayout() {
+  const isSidebarOpen =
+    useSelector((state) => state.sidebar?.isSidebarOpen) || false;
+  const dispatch = useDispatch();
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      onOpenChange={(open) => dispatch(toggleSidebar(open))}
+      open={isSidebarOpen}
+    >
       <AdminSidebar />
       <SidebarInset>
         <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
