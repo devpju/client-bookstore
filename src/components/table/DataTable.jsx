@@ -82,7 +82,7 @@ export default function DataTable({
         />
       )}
       <div className='rounded-md border'>
-        <Table>
+        <Table containerClassname='max-h-[calc(100vh-220px)]'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

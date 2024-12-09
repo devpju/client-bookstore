@@ -55,7 +55,8 @@ export const DateRangePicker = ({
   onUpdate,
   align = 'end',
   locale = 'vi-VN',
-  showCompare = true
+  showCompare = true,
+  className = 'h-8 border-dashed border-slate-400 hover:bg-white hover:text-primary'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -293,11 +294,7 @@ export const DateRangePicker = ({
       }}
     >
       <PopoverTrigger asChild>
-        <Button
-          size={'sm'}
-          variant='outline'
-          className='h-8 border-dashed border-slate-400 hover:bg-white hover:text-primary'
-        >
+        <Button size={'sm'} variant='outline' className={className}>
           <div className='text-right'>
             <div className='py-1'>
               <div>{`${formatDate(range.from, locale)}${

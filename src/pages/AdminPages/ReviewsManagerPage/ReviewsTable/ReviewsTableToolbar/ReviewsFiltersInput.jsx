@@ -70,11 +70,13 @@ const ReviewsFiltersInput = ({
           </SelectItem>
         </SelectContent>
       </Select>
+
       <DateRangePicker
         showCompare={false}
         align='center'
         onUpdate={handleDateRangeChange}
       />
+
       {isFiltered && <DashedButton onClick={resetFilters} />}
     </div>
   );

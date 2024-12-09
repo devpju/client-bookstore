@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 
@@ -14,6 +13,7 @@ import ReviewsTableToolbar from './ReviewsTable/ReviewsTableToolbar';
 import { reviewsTableColumns } from '@/components/table/columns';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { cn } from '@/utils/classUtils';
+import { handleAPIError, handleAPISuccess } from '@/utils/apiUtils';
 
 const ReviewsManagerPage = () => {
   const dispatch = useDispatch();
@@ -27,8 +27,6 @@ const ReviewsManagerPage = () => {
   const [toggleVisibilityReviews, toggleVisibilityReviewsState] =
     useToggleReviewsVisibilityMutation();
 
-  const handleAPISuccess = (message) => toast.success(message);
-  const handleAPIError = (error) => toast.error(error?.data?.message);
   const handleToggleVisibilityReviews = () =>
     toggleVisibilityReviews({
       reviewIds: selectedIds,
@@ -48,7 +46,7 @@ const ReviewsManagerPage = () => {
         loading={isFetching}
         columns={reviewsTableColumns}
         className={cn(
-          'mt-3 transition-width duration-200',
+          'transition-width duration-200',
           !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'

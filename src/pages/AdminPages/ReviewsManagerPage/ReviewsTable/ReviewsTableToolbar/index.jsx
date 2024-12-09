@@ -7,6 +7,7 @@ import { DataTableViewOptions } from '@/components/table/DataTableViewOptions';
 import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import ReviewsFiltersInput from './ReviewsFiltersInput';
+import { cn } from '@/utils/classUtils';
 
 export default function ReviewsTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
@@ -48,15 +49,18 @@ export default function ReviewsTableToolbar({ rowSelection, table }) {
     <div className='flex flex-col gap-2'>
       <div className='flex gap-3'>
         <div
-          className={`space-x-3 transition-opacity duration-200 ${selectedIds.length > 0 ? 'visible opacity-100' : 'invisible opacity-0'}`}
+          className={cn(
+            'flex gap-3 transition-opacity duration-200',
+            selectedIds.length > 0
+              ? 'visible opacity-100'
+              : 'invisible opacity-0'
+          )}
         >
           <InfoButton
-            className='px-3 py-2'
             name='Hiển thị các DM đã chọn'
             onClick={() => handleToggleVisibilityReviews({ isHidden: true })}
           />
           <DangerButton
-            className='px-3 py-2'
             name='Ẩn các DM đã chọn'
             onClick={() => handleToggleVisibilityReviews({ isHidden: false })}
           />

@@ -12,6 +12,7 @@ import { formatCurrencyVND } from '@/utils/numberUtils';
 import { getLatestLogStatus } from '@/utils/orderUtils';
 import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
 import DataTableColumnHeaderNormal from './DataTableColumnHeaderNormal';
+import ShowHideWrapper from '../wrappers/ShowHideWrapper';
 
 const selectColumn = {
   id: 'select',
@@ -42,7 +43,7 @@ const selectColumn = {
 const indexColumn = {
   accessorKey: 'index',
   size: 30,
-  header: () => <div className='w-full text-center text-xs'>STT</div>,
+  header: () => <DataTableColumnHeaderNormal name='STT' />,
   cell: ({ row }) => <div className='w-full text-center'>{row.index + 1}</div>,
   enableSorting: false,
   enableHiding: true
@@ -117,9 +118,9 @@ export const vouchersTableColumns = [
   {
     accessorKey: 'code',
     size: 80,
-    header: () => <span className='flex w-full justify-center'>CODE</span>,
+    header: () => <DataTableColumnHeaderNormal name='CODE' />,
     cell: ({ row }) => (
-      <div className='flex justify-center rounded-md border border-sky-500 px-2 py-1 font-medium text-sky-500'>
+      <div className='flex justify-center rounded-md bg-sky-200 px-2 py-1 font-medium'>
         {row.getValue('code')}
       </div>
     )
@@ -130,10 +131,10 @@ export const vouchersTableColumns = [
       <DataTableColumnHeader column={column} title='Giá trị' />
     ),
     cell: ({ row }) => (
-      <div className='flex w-28 items-center justify-center rounded-sm border border-red-500 py-1 font-semibold text-red-500'>
+      <div className='flex justify-center rounded-md bg-purple-400 px-2 py-1 font-medium text-white'>
         {row.getValue('discountValue') <= 100
           ? `${row.getValue('discountValue')} %`
-          : `${row.getValue('discountValue')} VNĐ`}
+          : `${formatCurrencyVND(row.getValue('discountValue'))}`}
       </div>
     ),
     enableSorting: true,
@@ -168,7 +169,7 @@ export const vouchersTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='flex justify-center'>
-        {formatCurrencyVND(row.getValue('startDate'))}
+        {convertISODateToDDMMYYYY(row.getValue('startDate'))}
       </div>
     ),
     filterFn: (row, id, filterValue) => {
@@ -189,7 +190,7 @@ export const vouchersTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='flex justify-center'>
-        {formatCurrencyVND(row.getValue('endDate'))}
+        {convertISODateToDDMMYYYY(row.getValue('endDate'))}
       </div>
     ),
     filterFn: (row, id, filterValue) => {
@@ -210,15 +211,16 @@ export const vouchersTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='flex w-full justify-center'>
-        {row.getValue('isActivated') ? (
-          <div className='flex w-[120px] justify-center rounded-sm border border-info font-semibold text-info'>
-            Đang kích hoạt
-          </div>
-        ) : (
-          <div className='flex w-[120px] justify-center rounded-sm border border-danger font-semibold text-danger'>
-            Đã bị huỷ
-          </div>
-        )}
+        {
+          <ShowHideWrapper
+            isShow={row.getValue('isActivated')}
+            className='w-28'
+            labels={{
+              true: 'Đang kích hoạt',
+              false: 'Đã bị huỷ'
+            }}
+          />
+        }
       </div>
     ),
     enableSorting: true,
@@ -237,7 +239,7 @@ export const reviewsTableColumns = [
   indexColumn,
   {
     accessorKey: 'bookName',
-    size: 150,
+    size: 120,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Tên sách' />
     ),
@@ -273,31 +275,13 @@ export const reviewsTableColumns = [
   },
   {
     accessorKey: 'description',
-    size: 250,
+    size: 300,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Nội dung' />
     ),
-    cell: ({ row }) => <div>{row.getValue('description')}</div>,
-    enableSorting: true,
-    enableHiding: true
-  },
-  {
-    accessorKey: 'isHidden',
-    size: 100,
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Trạng thái' />
-    ),
     cell: ({ row }) => (
-      <div className='flex w-full justify-center'>
-        {!row.getValue('isHidden') ? (
-          <div className='flex w-24 justify-center rounded-sm border border-info font-semibold text-info'>
-            Đang hiện
-          </div>
-        ) : (
-          <div className='flex w-24 justify-center rounded-sm border border-danger font-semibold text-danger'>
-            Đang ẩn
-          </div>
-        )}
+      <div className='line-clamp-2 lg:line-clamp-3'>
+        {row.getValue('description')}
       </div>
     ),
     enableSorting: true,
@@ -328,9 +312,24 @@ export const reviewsTableColumns = [
   },
 
   {
+    accessorKey: 'isHidden',
+    size: 40,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Trạng thái' />
+    ),
+    cell: ({ row }) => (
+      <div className='flex w-full justify-center'>
+        <ShowHideWrapper isShow={!row.getValue('isHidden')} />
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: true
+  },
+
+  {
     id: 'actions',
     header: () => <DataTableColumnHeaderNormal name='Hành động' />,
-    size: 60,
+    size: 70,
     cell: ({ row }) => <ReviewsTableRowActions row={row} />
   }
 ];

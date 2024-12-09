@@ -14,7 +14,7 @@ const DangerButton = ({
       onClick={onClick}
       size={size}
       className={cn(
-        'bg-danger text-danger-foreground hover:bg-danger/90 hover:text-danger-foreground',
+        'flex items-center justify-center gap-2 bg-danger text-danger-foreground hover:bg-danger/90 hover:text-danger-foreground',
         className
       )}
     >

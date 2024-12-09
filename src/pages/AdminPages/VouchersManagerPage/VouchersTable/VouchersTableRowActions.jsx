@@ -5,6 +5,7 @@ import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
+import { cn } from '@/utils/classUtils';
 
 export default function VouchersTableRowActions({ row }) {
   const dispatch = useDispatch();
@@ -42,29 +43,27 @@ export default function VouchersTableRowActions({ row }) {
       {row.original.isActivated === false ? (
         <InfoButton
           name='Kích hoạt'
-          className='w-[120px]'
+          className='w-[100px]'
           onClick={handleActiveVoucher}
         />
       ) : (
         <DangerButton
           name='Huỷ kích hoạt'
-          className='w-[120px]'
+          className='w-[100px]'
           onClick={handleActiveVoucher}
         />
       )}
-      {row.original.isActivated === false ? (
+      {
         <DangerButton
           name='Xoá'
-          className='bg-red-800 hover:border-red-800/80 hover:bg-red-800/80'
+          className={cn(
+            !row.original.isActivated
+              ? 'bg-red-800 hover:border-red-800/80 hover:bg-red-800/80'
+              : 'invisible opacity-0'
+          )}
           onClick={handleDeleteVoucher}
         />
-      ) : (
-        <DangerButton
-          name='Xoá'
-          disabled={true}
-          className='invisible opacity-0'
-        />
-      )}
+      }
     </div>
   );
 }

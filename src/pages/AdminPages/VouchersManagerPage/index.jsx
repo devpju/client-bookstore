@@ -21,6 +21,7 @@ import VouchersTableToolbar from './VouchersTable/VouchersTableToolbar';
 import VoucherFormDialog from './VouchersTable/VoucherFormDialog';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { voucherFormSchema } from '@/validations/voucherSchema';
+import { cn } from '@/utils/classUtils';
 
 const VouchersManagerPage = () => {
   const dispatch = useDispatch();
@@ -111,11 +112,12 @@ const VouchersManagerPage = () => {
         data={vouchersData?.results}
         loading={isFetching}
         columns={vouchersTableColumns}
-        className={`mt-3 transition-width duration-200 ${
+        className={cn(
+          'transition-width duration-200',
           !isSidebarOpen
             ? 'w-[calc(100vw-5rem)]'
             : 'w-[calc(100vw-var(--sidebar-width)-3rem)]'
-        }`}
+        )}
         tableToolbar={VouchersTableToolbar}
       />
 

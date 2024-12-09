@@ -55,11 +55,11 @@ const VouchersFiltersInput = ({
         placeholder='Tìm kiếm theo CODE...'
         value={searchText}
         onChange={handleSearchTextChange}
-        className='h-8 w-48 border-dashed border-slate-400 focus-visible:ring-0'
+        className='h-8 w-48 border-dashed border-slate-400 placeholder:text-xs focus-visible:ring-0'
       />
 
       <Select value={status.toString()} onValueChange={handleStatusChange}>
-        <SelectTrigger className='h-8 w-[150px] border-dashed border-slate-400 focus:ring-0'>
+        <SelectTrigger className='h-8 w-[135px] border-dashed border-slate-400 text-xs focus:ring-0'>
           {getStatusLabel()}
         </SelectTrigger>
         <SelectContent>

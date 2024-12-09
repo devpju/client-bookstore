@@ -1,19 +1,23 @@
 import { Button } from '@/components/shadcnUI/button';
+import { cn } from '@/utils/classUtils';
 
 const NormalButton = ({
   onClick,
   name,
-  size = 'sm',
   className,
+  iconClassName,
+  size = 'sm',
+  variant = 'default',
   icon: Icon
 }) => {
   return (
     <Button
       onClick={onClick}
       size={size}
-      className={`bg-primary p-0 px-2 py-1 text-sm text-primary-foreground hover:border-primary hover:bg-primary/80 hover:text-primary-foreground ${className}`}
+      variant={variant}
+      className={cn(className)}
     >
-      {Icon && <Icon className='text-white' />}
+      {Icon && <Icon className={iconClassName} />}
       {name}
     </Button>
   );
