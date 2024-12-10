@@ -18,11 +18,43 @@ import { useGetDetailOrderQuery } from '@/redux/apis/ordersApi';
 import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
 import { formatAddress, getOrderStatusLabel } from '@/utils/orderUtils';
 import { useLocation } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { addBreadcrumb } from '@/redux/slices/breadcrumbSlice';
 
 const DetailOrderPage = () => {
   const { state } = useLocation();
-  const { data } = useGetDetailOrderQuery({ id: state.id });
+  const { data, isLoading, isError } = useGetDetailOrderQuery({ id: state.id });
   const orderInfo = data?.results || null;
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (orderInfo) {
+      dispatch(
+        addBreadcrumb({
+          path: pathname,
+          label: orderInfo?.orderId || 'Not found'
+        })
+      );
+    }
+  }, [dispatch, pathname, orderInfo]);
+
+  if (isLoading) {
+    return (
+      <div className='flex h-screen items-center justify-center text-xl font-medium text-gray-600'>
+        Loading...
+      </div>
+    );
+  }
+
+  if (isError || !orderInfo) {
+    return (
+      <div className='flex h-screen items-center justify-center text-xl font-medium text-gray-600'>
+        Không tìm thấy đơn hàng này
+      </div>
+    );
+  }
   if (!orderInfo) return <div>Loading...</div>;
   const voucher = orderInfo.voucher || null;
   const logs = orderInfo.logs || null;

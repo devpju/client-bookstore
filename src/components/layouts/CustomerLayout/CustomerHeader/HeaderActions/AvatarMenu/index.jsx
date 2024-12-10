@@ -41,7 +41,7 @@ const AvatarMenu = () => {
       <HoverCardContent className='flex w-auto flex-col p-0 py-2'>
         <Link
           className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-sky-200/30'
-          to='/admin/dashboard'
+          to='/admin'
         >
           Quản lý cửa hàng
         </Link>

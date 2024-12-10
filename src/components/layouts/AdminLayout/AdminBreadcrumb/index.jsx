@@ -6,75 +6,91 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/shadcnUI/breadcrumb';
-import { Fragment } from 'react';
+import {
+  addBreadcrumb,
+  resetBreadcrumbs
+} from '@/redux/slices/breadcrumbSlice';
+import { Fragment, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
-const breadcrumbNameMap = {
-  '/dashboard': 'Dashboard',
-  '/users': 'Quản lý Người dùng',
-  '/vouchers': 'Quản lý Mã giảm giá',
-  '/reviews': 'Quản lý Đánh giá',
-  '/orders': 'Quản lý Đơn hàng',
-  '/books': 'Quản lý Sách',
-  '/categories': 'Quản lý Danh mục'
-};
-
-const AdminBreadcrumb = () => {
-  const location = useLocation();
-  const pathnames = location.pathname
-    .split('/')
-    .filter((x) => x && x !== 'admin'); // Bỏ qua "admin"
+const AdminBreadCrumb = () => {
+  const { breadcrumbs, currentUser } = useSelector((state) => state.breadcrumb);
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const pathnames = pathname.split('/').filter((x) => x);
+  const getBreadcrumbLabel = (path) => {
+    switch (path) {
+      case '/admin':
+        return 'Dashboard';
+      case '/admin/users':
+        return 'Quản lý người dùng';
+      case '/admin/books':
+        return 'Quản lý sách';
+      case '/admin/categories':
+        return 'Quản lý danh mục';
+      case '/admin/vouchers':
+        return 'Quản lý mã giảm giá';
+      case '/admin/orders':
+        return 'Quản lý đơn hàng';
+      case '/admin/reviews':
+        return 'Quản lý đánh giá';
+      case '/admin/books/create-new-book':
+        return 'Tạo sách mới';
+      case '/admin/books/update-book':
+        return 'Cập nhật thông tin sách';
+      default:
+        return 'Not Found';
+    }
+  };
+  useEffect(() => {
+    dispatch(resetBreadcrumbs());
+    dispatch(
+      addBreadcrumb({
+        path: '/admin',
+        label: getBreadcrumbLabel('/admin')
+      })
+    );
+    if (pathnames.length === 2) {
+      dispatch(
+        addBreadcrumb({
+          path: pathname,
+          label: getBreadcrumbLabel(pathname)
+        })
+      );
+    } else if (pathnames.length === 3) {
+      dispatch(
+        addBreadcrumb({
+          path: `/admin/${pathnames[1]}`,
+          label: getBreadcrumbLabel(`/admin/${pathnames[1]}`)
+        })
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, pathname, pathnames.length]);
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {/* Nếu không phải đang ở trang Dashboard, hiển thị Dashboard */}
-        {location.pathname !== '/admin/dashboard' && (
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to='/admin/dashboard'>Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        )}
-        {/* Nếu không phải trang Dashboard, thêm Separator */}
-        {location.pathname !== '/admin/dashboard' && <BreadcrumbSeparator />}
-
-        {pathnames.map((value, index) => {
-          const to = `/admin/${pathnames.slice(0, index + 1).join('/')}`;
-          const isLast = index === pathnames.length - 1;
-
-          // Tìm tên cho breadcrumb
-          let name;
-          if (to.endsWith('/create-new-book')) {
-            name = 'Tạo mới Sách';
-          } else if (to.endsWith('/create-new-user')) {
-            name = 'Tạo mới Người dùng';
-          } else if (to.endsWith('/update-book')) {
-            name = 'Chỉnh sửa thông tin Sách';
-          } else if (to.endsWith('/detail-book')) {
-            name = 'Xem chi tiết Sách';
-          } else if (index === 1 && pathnames[0] === 'users') {
-            // Nếu là chi tiết người dùng
-            name = 'Chi tiết Người dùng';
-          } else {
-            name =
-              breadcrumbNameMap[
-                `/${pathnames.slice(0, index + 1).join('/')}`
-              ] || value;
-          }
+        {breadcrumbs.map((breadcrumb, index) => {
+          const isLast = index === breadcrumbs.length - 1;
 
           return (
-            <Fragment key={to}>
-              <BreadcrumbItem>
-                {isLast ? (
-                  <BreadcrumbPage>{name}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink asChild>
-                    <Link to={to}>{name}</Link>
-                  </BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-              {!isLast && <BreadcrumbSeparator />}
+            <Fragment key={breadcrumb.path}>
+              {isLast ? (
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+                </BreadcrumbItem>
+              ) : (
+                <>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link to={breadcrumb.path}>{breadcrumb.label}</Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                </>
+              )}
             </Fragment>
           );
         })}
@@ -83,4 +99,4 @@ const AdminBreadcrumb = () => {
   );
 };
 
-export default AdminBreadcrumb;
+export default AdminBreadCrumb;

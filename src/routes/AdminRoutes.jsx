@@ -17,7 +17,7 @@ const AdminRoutes = () => {
   return (
     <Routes>
       <Route element={<AdminLayout />}>
-        <Route path='/dashboard' element={<DashboardPage />} />
+        <Route path='/' element={<DashboardPage />} />
         <Route path='/users' element={<UsersManagerPage />} />
         <Route path='/users/:slug' element={<DetailUserPage />} />
         <Route path='/vouchers' element={<VouchersManagerPage />} />

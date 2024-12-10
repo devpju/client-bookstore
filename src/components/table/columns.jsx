@@ -367,7 +367,7 @@ export const usersTableColumns = [
         {row.getValue('roles').map((role) => (
           <span
             key={role}
-            className='block rounded-md border border-yellow-700 p-1 font-semibold text-yellow-700'
+            className='block rounded-sm border border-yellow-700 p-[2px] text-xs font-semibold text-yellow-700'
           >
             {role.toUpperCase()}
           </span>
@@ -492,6 +492,25 @@ export const ordersTableColumns = [
     enableSorting: true,
     enableHiding: true
   },
+
+  {
+    accessorKey: 'createdAt',
+    size: 80,
+    cell: ({ row }) => (
+      <div>{convertISODateToDDMMYYYY(row.getValue('createdAt'))}</div>
+    ),
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Ngày đặt' />
+    ),
+    filterFn: (row, id, filterValue) => {
+      const rowValue = new Date(row.getValue(id));
+      const { from, to } = filterValue || {};
+      if (!from || !to) return true;
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+      return rowValue >= fromDate && rowValue <= toDate;
+    }
+  },
   {
     accessorKey: 'payment',
     header: ({ column }) => (
@@ -551,24 +570,6 @@ export const ordersTableColumns = [
     },
     enableSorting: true,
     enableHiding: true
-  },
-  {
-    accessorKey: 'createdAt',
-    size: 80,
-    cell: ({ row }) => (
-      <div>{convertISODateToDDMMYYYY(row.getValue('createdAt'))}</div>
-    ),
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Ngày đặt' />
-    ),
-    filterFn: (row, id, filterValue) => {
-      const rowValue = new Date(row.getValue(id));
-      const { from, to } = filterValue || {};
-      if (!from || !to) return true;
-      const fromDate = new Date(from);
-      const toDate = new Date(to);
-      return rowValue >= fromDate && rowValue <= toDate;
-    }
   },
   {
     id: 'actions',

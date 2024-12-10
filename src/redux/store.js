@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import storage from 'redux-persist/lib/storage';
 import {
   authReducer,
+  breadcrumbReducer,
   dialogReducer,
   selectorReducer,
   sidebarReducer
@@ -15,12 +17,33 @@ import {
   usersApi,
   vouchersApi
 } from './apis';
+import persistReducer from 'redux-persist/es/persistReducer';
+import persistStore from 'redux-persist/es/persistStore';
+
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['accessToken', 'userInfo']
+};
+
+const breadcrumbPersistConfig = {
+  key: 'breadcrumb',
+  storage,
+  whitelist: ['breadcrumb']
+};
+
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedBreadcrumbReducer = persistReducer(
+  breadcrumbPersistConfig,
+  breadcrumbReducer
+);
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer,
+    auth: persistedAuthReducer,
     dialog: dialogReducer,
     selector: selectorReducer,
+    breadcrumb: persistedBreadcrumbReducer,
     sidebar: sidebarReducer,
     [authApi.reducerPath]: authApi.reducer,
     [categoriesApi.reducerPath]: categoriesApi.reducer,
@@ -31,7 +54,9 @@ export const store = configureStore({
     [ordersApi.reducerPath]: ordersApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
       .concat(authApi.middleware)
       .concat(categoriesApi.middleware)
       .concat(usersApi.middleware)
@@ -41,4 +66,5 @@ export const store = configureStore({
       .concat(booksApi.middleware)
 });
 
+export const persistor = persistStore(store);
 setupListeners(store.dispatch);

@@ -22,7 +22,14 @@ export default function AdminNavMain({ items }) {
             <SidebarMenuItem>
               <SidebarMenuButton
                 tooltip={item.title}
-                className={`py-6 text-primary transition-colors ${location.pathname.includes(item.url) ? 'bg-green-200 hover:bg-green-200' : 'hover:bg-sky-200/70'}`}
+                className={`py-6 text-primary transition-colors ${
+                  item.url === location.pathname ||
+                  (location.pathname.startsWith(item.url) &&
+                    item.url !== '/admin') ||
+                  (item.url === '/admin' && location.pathname === '/admin')
+                    ? 'bg-green-200 hover:bg-green-200'
+                    : 'hover:bg-sky-200/70'
+                }`}
               >
                 {item.icon && <item.icon />}
                 <Link to={item.url} className='w-full py-4'>
