@@ -21,6 +21,7 @@ import { useEffect } from 'react';
 import { removeAuth } from '@/redux/slices/authSlice';
 import { toast } from 'sonner';
 import { useSignoutMutation } from '@/redux/apis/authApi';
+import { generateShortenedName } from '@/utils/stringUtils';
 
 export default function AdminNavUser() {
   const { isMobile } = useSidebar();
@@ -33,7 +34,9 @@ export default function AdminNavUser() {
       dispatch(removeAuth());
       navigate('/login');
     } else if (signoutState.isError) {
-      toast.error(signoutState.error.data.message);
+      toast.error(
+        signoutState.error.data.message || 'Lỗi khi đăng xuất tài khoản'
+      );
     }
   }, [signoutState, navigate, dispatch]);
 
@@ -62,7 +65,7 @@ export default function AdminNavUser() {
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
                 <span className='truncate font-semibold'>
-                  {userInfo.fullName}
+                  {generateShortenedName(userInfo.fullName)}
                 </span>
                 <span className='truncate text-xs'>{userInfo.email}</span>
               </div>
@@ -84,12 +87,12 @@ export default function AdminNavUser() {
                         ? userInfo.urlAvatar
                         : '/images/avatar.jpg'
                     }
-                    alt={userInfo.name}
+                    alt={userInfo.fullName}
                   />
                 </Avatar>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
                   <span className='truncate font-semibold'>
-                    {userInfo.name}
+                    {userInfo.fullName}
                   </span>
                   <span className='truncate text-xs'>{userInfo.email}</span>
                 </div>

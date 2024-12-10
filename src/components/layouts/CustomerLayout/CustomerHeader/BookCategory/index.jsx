@@ -13,11 +13,7 @@ const BookCategory = () => {
   return (
     <HoverCard openDelay={30}>
       <HoverCardTrigger asChild>
-        <Button
-          variant='ghost'
-          size='icon'
-          className='mx-5 flex items-center gap-1 lg:mx-10'
-        >
+        <Button variant='ghost' className='mx-4 lg:mx-8'>
           <span className='hidden lg:inline'>Danh mục</span>
           <ChevronDown />
         </Button>

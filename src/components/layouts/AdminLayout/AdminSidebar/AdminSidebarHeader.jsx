@@ -3,13 +3,13 @@
 import {
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar
+  SidebarMenuItem
 } from '@/components/shadcnUI/sidebar';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 export default function AdminSidebarHeader() {
-  const { state } = useSidebar();
+  const { isSidebarOpen } = useSelector((state) => state.sidebar);
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -19,10 +19,10 @@ export default function AdminSidebarHeader() {
         >
           <div className='flex aspect-square items-center justify-center rounded-lg text-sidebar-primary-foreground'>
             <Link to='/'>
-              {state === 'collapsed' ? (
-                <img src='/images/logo.png' alt='' />
+              {!isSidebarOpen ? (
+                <img src='/images/logo.png' alt='' className='w-full' />
               ) : (
-                <img src='/images/brand-logo.png' alt='' />
+                <img src='/images/brand-logo.png' alt='' className='w-full' />
               )}
             </Link>
           </div>

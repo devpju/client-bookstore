@@ -18,6 +18,9 @@ function AdminLayout() {
     <SidebarProvider
       onOpenChange={(open) => dispatch(toggleSidebar(open))}
       open={isSidebarOpen}
+      style={{
+        '--sidebar-width': '12rem'
+      }}
     >
       <AdminSidebar />
       <SidebarInset>
