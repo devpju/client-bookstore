@@ -12,6 +12,7 @@ import {
   authApi,
   booksApi,
   categoriesApi,
+  cloudinaryApi,
   ordersApi,
   reviewsApi,
   usersApi,
@@ -51,7 +52,8 @@ export const store = configureStore({
     [reviewsApi.reducerPath]: reviewsApi.reducer,
     [vouchersApi.reducerPath]: vouchersApi.reducer,
     [booksApi.reducerPath]: booksApi.reducer,
-    [ordersApi.reducerPath]: ordersApi.reducer
+    [ordersApi.reducerPath]: ordersApi.reducer,
+    [cloudinaryApi.reducerPath]: cloudinaryApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -64,6 +66,7 @@ export const store = configureStore({
       .concat(vouchersApi.middleware)
       .concat(ordersApi.middleware)
       .concat(booksApi.middleware)
+      .concat(cloudinaryApi.middleware)
 });
 
 export const persistor = persistStore(store);

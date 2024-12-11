@@ -1,5 +1,7 @@
 import InfoButton from '@/components/buttons/InfoButton';
+import { FileUploader } from '@/components/FileUploader';
 import DateField from '@/components/inputs/DateField';
+import NumberField from '@/components/inputs/NumberField';
 import TextField from '@/components/inputs/TextField';
 import { Button } from '@/components/shadcnUI/button';
 import {
@@ -25,10 +27,14 @@ import {
 } from '@/components/shadcnUI/popover';
 import { useAddBookMutation } from '@/redux/apis/booksApi';
 import { useGetCategoriesQuery } from '@/redux/apis/categoriesApi';
+import {
+  useUploadImageMutation,
+  useUploadMultipleImagesMutation
+} from '@/redux/apis/cloudinaryApi';
 import { cn } from '@/utils/classUtils';
 import { bookFormSchema } from '@/validations/bookSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -36,26 +42,44 @@ import { toast } from 'sonner';
 const CreateBookPage = () => {
   const { data: categoriesData } = useGetCategoriesQuery();
   const [addBook, addBookState] = useAddBookMutation();
+  const [uploadMultipleImages, uploadMultipleImagesState] =
+    useUploadMultipleImagesMutation();
   const form = useForm({
     resolver: zodResolver(bookFormSchema),
+    // defaultValues: {
+    //   name: '',
+    //   width: 0,
+    //   height: 0,
+    //   authors: '',
+    //   totalPages: 0,
+    //   description: '',
+    //   originalPrice: 0,
+    //   price: 0,
+    //   publishDate: new Date().toISOString(),
+    //   publisher: '',
+    //   coverType: '',
+    //   thumbnail: '',
+    //   images: [],
+    //   categoryId: ''
+    // }
     defaultValues: {
-      name: '',
-      width: '',
-      height: '',
-      authors: '',
-      totalPages: '',
-      description: '',
-      originalPrice: '',
-      price: '',
-      publishDate: '',
-      publisher: '',
-      coverType: '',
+      name: 'ewfuiwfeuih',
+      width: 12,
+      height: 12,
+      authors: 'đsadsa',
+      totalPages: 12,
+      description: '21213',
+      originalPrice: 12,
+      price: 12,
+      publishDate: new Date().toISOString(),
+      publisher: '213231231',
+      coverType: '2123213',
       thumbnail: '',
-      images: '',
+      images: [],
       categoryId: ''
     }
   });
-
+  console.log(uploadMultipleImagesState);
   const handleAPISuccess = (message) => toast.success(message);
   const handleAPIError = (error) => toast.error(error?.data?.message);
 
@@ -65,10 +89,13 @@ const CreateBookPage = () => {
   }, [addBookState]);
 
   const onSubmit = (values) => {
-    addBook({ ...values, images: values.images.split(',') });
+    console.log(values);
+    uploadMultipleImages([values.thumbnail, ...values.images]);
+    // uploadMultipleImages(values.images);
+    // addBook({ ...values, images: values.images.split(',') });
   };
 
-  if (!categoriesData?.results) return <div>Loading...</div>;
+  if (!categoriesData?.results) return <Loader2 className='animate-spin' />;
   return (
     <div className='w-full'>
       <div className='mb-8 ml-10 text-lg font-semibold'>Tạo mới sách</div>
@@ -92,30 +119,6 @@ const CreateBookPage = () => {
             />
             <FormField
               control={form.control}
-              name='width'
-              render={({ field }) => (
-                <TextField
-                  field={field}
-                  placeholder='Nhập chiều dài'
-                  label='Chiều dài'
-                  isError={!!form.formState.errors.width}
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='height'
-              render={({ field }) => (
-                <TextField
-                  field={field}
-                  placeholder='Nhập chiều cao'
-                  label='Chiều cao'
-                  isError={!!form.formState.errors.height}
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
               name='authors'
               render={({ field }) => (
                 <TextField
@@ -128,25 +131,55 @@ const CreateBookPage = () => {
             />
             <FormField
               control={form.control}
-              name='totalPages'
+              name='width'
               render={({ field }) => (
-                <TextField
+                <NumberField
                   field={field}
-                  placeholder='Nhập số trang'
-                  label='Số trang'
-                  isError={!!form.formState.errors.totalPages}
+                  min={0}
+                  suffix=' cm'
+                  placeholder='Nhập chiều rộng'
+                  label='Chiều rộng'
+                  isError={!!form.formState.errors.discountValue}
                 />
               )}
             />
             <FormField
               control={form.control}
-              name='description'
+              name='height'
+              render={({ field }) => (
+                <NumberField
+                  field={field}
+                  min={0}
+                  suffix=' cm'
+                  placeholder='Nhập chiều dài'
+                  label='Chiều dài'
+                  isError={!!form.formState.errors.discountValue}
+                />
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='totalPages'
+              render={({ field }) => (
+                <NumberField
+                  field={field}
+                  min={0}
+                  placeholder='Nhập số trang'
+                  label='Số trang'
+                  isError={!!form.formState.errors.discountValue}
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='coverType'
               render={({ field }) => (
                 <TextField
                   field={field}
-                  placeholder='Nhập mô tả'
-                  label='Mô tả'
-                  isError={!!form.formState.errors.description}
+                  placeholder='Nhập loại bìa'
+                  label='Loại bìa'
+                  isError={!!form.formState.errors.coverType}
                 />
               )}
             />
@@ -174,15 +207,16 @@ const CreateBookPage = () => {
                 />
               )}
             />
+
             <FormField
               control={form.control}
-              name='coverType'
+              name='description'
               render={({ field }) => (
                 <TextField
                   field={field}
-                  placeholder='Nhập loại bìa'
-                  label='Loại bìa'
-                  isError={!!form.formState.errors.coverType}
+                  placeholder='Nhập mô tả'
+                  label='Mô tả'
+                  isError={!!form.formState.errors.description}
                 />
               )}
             />
@@ -199,7 +233,7 @@ const CreateBookPage = () => {
                           variant='outline'
                           role='combobox'
                           className={cn(
-                            'h-[52px] w-full justify-between hover:bg-white hover:text-primary',
+                            'h-12 w-full justify-between hover:bg-white hover:text-primary',
                             !field.value && 'text-muted-foreground'
                           )}
                         >
@@ -255,11 +289,13 @@ const CreateBookPage = () => {
               control={form.control}
               name='originalPrice'
               render={({ field }) => (
-                <TextField
+                <NumberField
                   field={field}
+                  min={0}
+                  suffix=' đ'
                   placeholder='Nhập giá gốc'
                   label='Giá gốc'
-                  isError={!!form.formState.errors.originalPrice}
+                  isError={!!form.formState.errors.discountValue}
                 />
               )}
             />
@@ -267,11 +303,13 @@ const CreateBookPage = () => {
               control={form.control}
               name='price'
               render={({ field }) => (
-                <TextField
+                <NumberField
                   field={field}
-                  placeholder='Nhập giá'
-                  label='Giá'
-                  isError={!!form.formState.errors.price}
+                  min={0}
+                  suffix=' đ'
+                  placeholder='Nhập giá hiển thị'
+                  label='Giá hiển thị'
+                  isError={!!form.formState.errors.discountValue}
                 />
               )}
             />
@@ -279,12 +317,16 @@ const CreateBookPage = () => {
               control={form.control}
               name='thumbnail'
               render={({ field }) => (
-                <TextField
-                  field={field}
-                  placeholder='Nhập URL ảnh bìa'
-                  label='Ảnh bìa'
-                  isError={!!form.formState.errors.name}
-                />
+                <FormItem>
+                  <FormControl>
+                    <FileUploader
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      className='w-full'
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
             />
             <FormField
@@ -292,12 +334,18 @@ const CreateBookPage = () => {
               control={form.control}
               name='images'
               render={({ field }) => (
-                <TextField
-                  field={field}
-                  placeholder='Nhập các URL ảnh thường, cách nhau bởi 1 dấu phẩy'
-                  label='Ảnh thường'
-                  isError={!!form.formState.errors.name}
-                />
+                <FormItem>
+                  <FormControl>
+                    <FileUploader
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      multiple={true}
+                      maxFileCount={4}
+                      className='w-full'
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
             />
           </div>

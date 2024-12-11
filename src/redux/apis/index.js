@@ -5,3 +5,4 @@ export { reviewsApi } from './reviewsApi';
 export { usersApi } from './usersApi';
 export { vouchersApi } from './vouchersApi';
 export { categoriesApi } from './categoriesApi';
+export { cloudinaryApi } from './cloudinaryApi';
