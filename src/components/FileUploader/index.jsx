@@ -5,7 +5,6 @@ import { FileText, Upload, X } from 'lucide-react';
 
 import { toast } from 'sonner';
 import { Button } from '../shadcnUI/button';
-import { Progress } from '../shadcnUI/progress';
 import { cn, formatBytes } from '@/utils/classUtils';
 import { ScrollArea } from '../shadcnUI/scroll-area';
 import { useControllableState } from '@/hooks/useControllableState';
@@ -21,16 +20,6 @@ import Dropzone from 'react-dropzone';
  * @default undefined
  * @example
  * onValueChange={(files) => setFiles(files)}
- *
- * @property {(files: File[]) => Promise<void>} [onUpload] Function to be called when files are uploaded.
- * @default undefined
- * @example
- * onUpload={(files) => uploadFiles(files)}
- *
- * @property {Record<string, number>} [progresses] Progress of the uploaded files.
- * @default undefined
- * @example
- * progresses={{ "file1.png": 50 }}
  *
  * @property {Object.<string, string[]>} [accept] Accepted file types for the uploader.
  * @default
@@ -62,8 +51,6 @@ export function FileUploader(props) {
   const {
     value: valueProp,
     onValueChange,
-    onUpload,
-    progresses,
     accept = {
       'image/*': []
     },
@@ -106,27 +93,9 @@ export function FileUploader(props) {
           toast.error(`File ${file.name} was rejected`);
         });
       }
-
-      if (
-        onUpload &&
-        updatedFiles.length > 0 &&
-        updatedFiles.length <= maxFileCount
-      ) {
-        const target =
-          updatedFiles.length > 0 ? `${updatedFiles.length} files` : `file`;
-
-        toast.promise(onUpload(updatedFiles), {
-          loading: `Uploading ${target}...`,
-          success: () => {
-            setFiles([]);
-            return `${target} uploaded`;
-          },
-          error: `Failed to upload ${target}`
-        });
-      }
     },
 
-    [files, maxFileCount, multiple, onUpload, setFiles]
+    [files, maxFileCount, multiple, setFiles]
   );
 
   function onRemove(index) {
@@ -219,7 +188,6 @@ export function FileUploader(props) {
                 key={index}
                 file={file}
                 onRemove={() => onRemove(index)}
-                progress={progresses?.[file.name]}
               />
             ))}
           </div>
@@ -229,7 +197,7 @@ export function FileUploader(props) {
   );
 }
 
-function FileCard({ file, progress, onRemove }) {
+function FileCard({ file, onRemove }) {
   return (
     <div className='relative flex items-center gap-2.5'>
       <div className='flex flex-1 gap-2.5'>
@@ -243,7 +211,6 @@ function FileCard({ file, progress, onRemove }) {
               {formatBytes(file.size)}
             </p>
           </div>
-          {progress ? <Progress value={progress} /> : null}
         </div>
       </div>
       <div className='flex items-center gap-2'>

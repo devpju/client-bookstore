@@ -5,6 +5,7 @@ import {
   FormMessage
 } from '@/components/shadcnUI/form';
 import { Input } from '@/components/shadcnUI/input';
+import { cn } from '@/utils/classUtils';
 
 const TextField = ({
   field,
@@ -26,7 +27,11 @@ const TextField = ({
           <Input
             type='text'
             autoComplete='off'
-            className={`h-12 bg-white p-4 text-sm text-primary placeholder:text-slate-400 focus-visible:ring-0 ${isError && 'border-danger'} ${inputClassName}`}
+            className={cn(
+              'h-12 bg-white p-4 text-sm text-primary placeholder:text-slate-400 focus-visible:ring-0',
+              isError && 'border-danger',
+              inputClassName
+            )}
             {...field}
             placeholder={placeholder}
           />

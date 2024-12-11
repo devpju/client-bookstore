@@ -29,12 +29,13 @@ export const bookFormSchema = z.object({
       required_error: 'Vui lòng nhập giá hiển thị'
     })
     .nonnegative('Giá hiển thị phải lớn hơn hoặc bằng 0'),
-  publishDate: z.string(),
-  publisher: z.string(),
-  coverType: z.string(),
-  thumbnail: z.preprocess((value) => value[0], z.instanceof(File)),
-  images: z
-    .array(z.instanceof(File))
-    .nonempty('Vui lòng chọn ít nhất một file để upload!'),
+  publishDate: z.string().min(1, 'Vui lòng chọn ngày xuất bản'),
+  publisher: z.string().min(1, 'Vui lòng nhập nhà xuất bản'),
+  coverType: z.string().min(1, 'Vui lòng nhập loại bìa sách'),
+  thumbnail: z.preprocess(
+    (value) => (Array.isArray(value) ? value[0] : value),
+    z.instanceof(File, { message: 'Vui lòng chọn ảnh bìa' })
+  ),
+  images: z.array(z.instanceof(File)).nonempty('Vui lòng chọn ít nhất một ảnh'),
   categoryId: z.string().min(1, 'Vui lòng chọn một danh mục')
 });

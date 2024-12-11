@@ -26,10 +26,10 @@ const DateField = ({ field, label, placeholder, className, isError }) => {
             <Button
               variant={'outline'}
               className={cn(
-                'h-12 w-full px-5 text-left font-normal hover:bg-white hover:text-primary',
-                !field.value && 'text-muted-foreground',
-                className,
-                isError && 'border-danger'
+                'h-12 w-full justify-between text-sm font-normal text-primary hover:bg-white',
+                !field.value && 'text-slate-400 hover:text-slate-400',
+                isError && 'border-danger',
+                className
               )}
             >
               {field.value ? (

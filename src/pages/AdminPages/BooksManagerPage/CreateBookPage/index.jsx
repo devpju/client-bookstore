@@ -1,49 +1,32 @@
 import InfoButton from '@/components/buttons/InfoButton';
-import { FileUploader } from '@/components/FileUploader';
 import DateField from '@/components/inputs/DateField';
+import ImagesField from '@/components/inputs/ImagesField';
 import NumberField from '@/components/inputs/NumberField';
+import SelectWithSearchField from '@/components/inputs/SelectWithSearchField';
 import TextField from '@/components/inputs/TextField';
-import { Button } from '@/components/shadcnUI/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList
-} from '@/components/shadcnUI/command';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/shadcnUI/form';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@/components/shadcnUI/popover';
+
+import { Form, FormField } from '@/components/shadcnUI/form';
+
 import { useAddBookMutation } from '@/redux/apis/booksApi';
 import { useGetCategoriesQuery } from '@/redux/apis/categoriesApi';
 import {
   useUploadImageMutation,
   useUploadMultipleImagesMutation
 } from '@/redux/apis/cloudinaryApi';
-import { cn } from '@/utils/classUtils';
+import { handleAPIError, handleAPISuccess } from '@/utils/apiUtils';
 import { bookFormSchema } from '@/validations/bookSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 
 const CreateBookPage = () => {
-  const { data: categoriesData } = useGetCategoriesQuery();
+  const { data: categoriesData, ...getCategoriesState } =
+    useGetCategoriesQuery();
   const [addBook, addBookState] = useAddBookMutation();
   const [uploadMultipleImages, uploadMultipleImagesState] =
     useUploadMultipleImagesMutation();
+  const [uploadImage, uploadImageState] = useUploadImageMutation();
   const form = useForm({
     resolver: zodResolver(bookFormSchema),
     // defaultValues: {
@@ -71,17 +54,14 @@ const CreateBookPage = () => {
       description: '21213',
       originalPrice: 12,
       price: 12,
-      publishDate: new Date().toISOString(),
+      publishDate: '',
       publisher: '213231231',
       coverType: '2123213',
-      thumbnail: '',
+      thumbnail: null,
       images: [],
       categoryId: ''
     }
   });
-  console.log(uploadMultipleImagesState);
-  const handleAPISuccess = (message) => toast.success(message);
-  const handleAPIError = (error) => toast.error(error?.data?.message);
 
   useEffect(() => {
     if (addBookState.isSuccess) handleAPISuccess('Thêm sách thành công!');
@@ -95,7 +75,7 @@ const CreateBookPage = () => {
     // addBook({ ...values, images: values.images.split(',') });
   };
 
-  if (!categoriesData?.results) return <Loader2 className='animate-spin' />;
+  if (getCategoriesState.isLoading) return <Loader2 className='animate-spin' />;
   return (
     <div className='w-full'>
       <div className='mb-8 ml-10 text-lg font-semibold'>Tạo mới sách</div>
@@ -191,7 +171,7 @@ const CreateBookPage = () => {
                   field={field}
                   label='Ngày xuất bản'
                   placeholder='Chọn ngày xuất bản'
-                  className='h-[52px] w-full'
+                  isError={form.formState.errors.publishDate}
                 />
               )}
             />
@@ -224,65 +204,12 @@ const CreateBookPage = () => {
               control={form.control}
               name='categoryId'
               render={({ field }) => (
-                <FormItem className='flex flex-col'>
-                  <FormLabel>Danh mục</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant='outline'
-                          role='combobox'
-                          className={cn(
-                            'h-12 w-full justify-between hover:bg-white hover:text-primary',
-                            !field.value && 'text-muted-foreground'
-                          )}
-                        >
-                          {field.value
-                            ? categoriesData.results.find(
-                                (category) => category.id === field.value
-                              )?.name
-                            : 'Lựa chọn danh mục'}
-                          <ChevronsUpDown className='opacity-50' />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className='w-full p-0'>
-                      <Command>
-                        <CommandInput
-                          placeholder='Tìm danh mục...'
-                          className='h-9'
-                        />
-                        <CommandList>
-                          <CommandEmpty>
-                            Không tìm thấy danh mục nào.
-                          </CommandEmpty>
-                          <CommandGroup>
-                            {categoriesData.results.map((category) => (
-                              <CommandItem
-                                key={category.id}
-                                value={category.name}
-                                onSelect={() => {
-                                  form.setValue('categoryId', category.id);
-                                }}
-                              >
-                                {category.name}
-                                <Check
-                                  className={cn(
-                                    'ml-auto',
-                                    category.id === field.value
-                                      ? 'opacity-100'
-                                      : 'opacity-0'
-                                  )}
-                                />
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
+                <SelectWithSearchField
+                  field={field}
+                  label='Danh mục'
+                  options={categoriesData.results}
+                  isError={!!form.formState.errors.categoryId}
+                />
               )}
             />
             <FormField
@@ -313,41 +240,35 @@ const CreateBookPage = () => {
                 />
               )}
             />
-            <FormField
-              control={form.control}
-              name='thumbnail'
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <FileUploader
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      className='w-full'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              containerClassName='w-full'
-              control={form.control}
-              name='images'
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <FileUploader
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      multiple={true}
-                      maxFileCount={4}
-                      className='w-full'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className='col-span-2'>
+              <FormField
+                control={form.control}
+                name='thumbnail'
+                render={({ field }) => (
+                  <ImagesField
+                    field={field}
+                    isError={form.formState.errors.thumbnail}
+                    label='Ảnh bìa'
+                  />
+                )}
+              />
+            </div>
+            <div className='col-span-2'>
+              <FormField
+                containerClassName='w-full'
+                control={form.control}
+                name='images'
+                render={({ field }) => (
+                  <ImagesField
+                    multiple={true}
+                    maxFileCount={4}
+                    field={field}
+                    isError={form.formState.errors.images}
+                    label='Các ảnh về sách'
+                  />
+                )}
+              />
+            </div>
           </div>
 
           <InfoButton name='Tạo mới' className='mt-5 px-5 py-2' />
