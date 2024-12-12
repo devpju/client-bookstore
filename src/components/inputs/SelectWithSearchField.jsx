@@ -16,9 +16,11 @@ import {
   CommandList
 } from '../shadcnUI/command';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { Skeleton } from '../shadcnUI/skeleton';
 
 const SelectWithSearchField = ({
   field,
+  onClick,
   options,
   label,
   keyName = { value: 'id', name: 'name' },
@@ -35,6 +37,7 @@ const SelectWithSearchField = ({
         <PopoverTrigger asChild>
           <FormControl>
             <Button
+              onClick={onClick}
               variant='outline'
               role='combobox'
               className={cn(
@@ -63,25 +66,31 @@ const SelectWithSearchField = ({
                 Không tìm thấy {label.toLowerCase()} nào.
               </CommandEmpty>
               <CommandGroup>
-                {options.map((option) => (
-                  <CommandItem
-                    key={option[keyName.value]}
-                    value={option[keyName.name]}
-                    onSelect={() => {
-                      field.onChange(option[keyName.value]);
-                    }}
-                  >
-                    {option[keyName.name]}
-                    <Check
-                      className={cn(
-                        'ml-auto',
-                        option[keyName.value] === field.value
-                          ? 'opacity-100'
-                          : 'opacity-0'
-                      )}
-                    />
-                  </CommandItem>
-                ))}
+                {options.length === 0
+                  ? Array.from({ length: 7 }).map((_, index) => (
+                      <CommandItem key={index}>
+                        <Skeleton className='h-3 w-full' />
+                      </CommandItem>
+                    ))
+                  : options.map((option) => (
+                      <CommandItem
+                        key={option[keyName.value]}
+                        value={option[keyName.name]}
+                        onSelect={() => {
+                          field.onChange(option[keyName.value]);
+                        }}
+                      >
+                        {option[keyName.name]}
+                        <Check
+                          className={cn(
+                            'ml-auto',
+                            option[keyName.value] === field.value
+                              ? 'opacity-100'
+                              : 'opacity-0'
+                          )}
+                        />
+                      </CommandItem>
+                    ))}
               </CommandGroup>
             </CommandList>
           </Command>

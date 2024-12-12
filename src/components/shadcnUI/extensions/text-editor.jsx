@@ -57,7 +57,12 @@ const RichTextEditor = ({ value, onChange, className }) => {
   return (
     <article className='prose min-w-full'>
       <EditorContent editor={editor} />
-      {editor ? <RichTextEditorToolbar editor={editor} /> : null}
+      {editor ? (
+        <RichTextEditorToolbar
+          editor={editor}
+          className={cn(className.includes('border-danger') && 'border-danger')}
+        />
+      ) : null}
     </article>
   );
 };
@@ -119,9 +124,14 @@ const FormatType = ({ editor }) => {
   );
 };
 
-const RichTextEditorToolbar = ({ editor }) => {
+const RichTextEditorToolbar = ({ editor, className }) => {
   return (
-    <div className='flex flex-row items-center gap-1 rounded-bl-md rounded-br-md border border-input bg-transparent p-1'>
+    <div
+      className={cn(
+        'flex flex-row items-center gap-1 rounded-bl-md rounded-br-md border border-input bg-transparent p-1',
+        className
+      )}
+    >
       <Toggle
         size='sm'
         pressed={editor.isActive('bold')}

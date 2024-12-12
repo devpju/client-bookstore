@@ -1,5 +1,6 @@
 import { Button } from '@/components/shadcnUI/button';
 import { cn } from '@/utils/classUtils';
+import { Loader2 } from 'lucide-react';
 
 const InfoButton = ({
   onClick,
@@ -7,7 +8,8 @@ const InfoButton = ({
   className,
   iconClassName,
   size = 'sm',
-  icon: Icon
+  icon: Icon,
+  isLoading
 }) => {
   return (
     <Button
@@ -18,7 +20,8 @@ const InfoButton = ({
         className
       )}
     >
-      {Icon && <Icon className={iconClassName} />}
+      {Icon && !isLoading && <Icon className={iconClassName} />}
+      {isLoading && <Loader2 className='animate-spin' />}
       {name}
     </Button>
   );

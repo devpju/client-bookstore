@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
 const AdminBreadCrumb = () => {
-  const { breadcrumbs, currentUser } = useSelector((state) => state.breadcrumb);
+  const { breadcrumbs } = useSelector((state) => state.breadcrumb);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const pathnames = pathname.split('/').filter((x) => x);

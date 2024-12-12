@@ -7,9 +7,9 @@ import {
   TableHeader,
   TableRow
 } from '@/components/shadcnUI/table';
+import useBreadcrumb from '@/hooks/useBreadcrumb';
 
 import { useGetDetailUserQuery } from '@/redux/apis/usersApi';
-import { addBreadcrumb } from '@/redux/slices/breadcrumbSlice';
 import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
 import {
   calculateOrderTotal,
@@ -17,28 +17,14 @@ import {
   getLatestLogStatus,
   getOrderStatusLabel
 } from '@/utils/orderUtils';
-import { Fragment, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { Fragment } from 'react';
 import { useLocation } from 'react-router';
 
 const DetailUserPage = () => {
   const { state } = useLocation();
   const { data, isLoading, isError } = useGetDetailUserQuery({ id: state.id });
   const userInfo = data?.results || null;
-  const dispatch = useDispatch();
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    if (userInfo) {
-      dispatch(
-        addBreadcrumb({
-          path: pathname,
-          label: userInfo?.fullName || 'Not found'
-        })
-      );
-    }
-  }, [dispatch, pathname, userInfo]);
-
+  useBreadcrumb(userInfo?.fullName);
   if (isLoading) {
     return (
       <div className='flex h-screen items-center justify-center text-xl font-medium text-gray-600'>
