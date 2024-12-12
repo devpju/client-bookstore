@@ -10,7 +10,6 @@ export const cloudinaryApi = createApi({
   endpoints: (builder) => ({
     uploadImage: builder.mutation({
       query: (image) => {
-        console.log(image);
         const formData = new FormData();
         formData.append('file', image);
         formData.append('upload_preset', env.CLOUDINARY_UPLOAD_PRESET);

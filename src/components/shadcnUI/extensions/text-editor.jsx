@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '../select';
+import { useEffect } from 'react';
 
 const RichTextEditor = ({ value, onChange, className }) => {
   const editor = useEditor({
@@ -49,11 +50,13 @@ const RichTextEditor = ({ value, onChange, className }) => {
         }
       })
     ],
-    content: value, // Set the initial content with the provided value
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML()); // Call the onChange callback with the updated HTML content
+      onChange(editor.getHTML());
     }
   });
+  useEffect(() => {
+    editor?.commands.setContent(value);
+  }, [value, editor]);
   return (
     <article className='prose min-w-full'>
       <EditorContent editor={editor} />
