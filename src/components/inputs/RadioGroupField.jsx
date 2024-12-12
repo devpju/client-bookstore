@@ -24,7 +24,7 @@ const RadioGroupField = ({
   return (
     <FormItem className={containerClassName}>
       {label && (
-        <FormLabel className='mb-3 block font-medium text-primary'>
+        <FormLabel className='mb-2 block font-medium text-primary'>
           {label}
         </FormLabel>
       )}

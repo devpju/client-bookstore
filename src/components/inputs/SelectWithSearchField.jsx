@@ -26,7 +26,11 @@ const SelectWithSearchField = ({
 }) => {
   return (
     <FormItem className='flex flex-col'>
-      <FormLabel>{label}</FormLabel>
+      {label && (
+        <FormLabel className='mb-2 block font-medium text-primary'>
+          {label}
+        </FormLabel>
+      )}
       <Popover>
         <PopoverTrigger asChild>
           <FormControl>

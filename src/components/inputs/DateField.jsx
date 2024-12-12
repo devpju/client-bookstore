@@ -19,14 +19,18 @@ import { cn } from '@/utils/classUtils';
 const DateField = ({ field, label, placeholder, className, isError }) => {
   return (
     <FormItem className='flex flex-col'>
-      <FormLabel>{label}</FormLabel>
+      {label && (
+        <FormLabel className='block font-medium text-primary'>
+          {label}
+        </FormLabel>
+      )}
       <Popover>
         <PopoverTrigger asChild>
           <FormControl>
             <Button
               variant={'outline'}
               className={cn(
-                'h-12 w-full justify-between text-sm font-normal text-primary hover:bg-white',
+                'h-12 w-full justify-between !space-y-0 text-sm font-normal text-primary hover:bg-white',
                 !field.value && 'text-slate-400 hover:text-slate-400',
                 isError && 'border-danger',
                 className

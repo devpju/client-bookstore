@@ -3,6 +3,7 @@ import DateField from '@/components/inputs/DateField';
 import ImagesField from '@/components/inputs/ImagesField';
 import NumberField from '@/components/inputs/NumberField';
 import SelectWithSearchField from '@/components/inputs/SelectWithSearchField';
+import TextEditorField from '@/components/inputs/TextEditorField';
 import TextField from '@/components/inputs/TextField';
 
 import { Form, FormField } from '@/components/shadcnUI/form';
@@ -187,28 +188,17 @@ const CreateBookPage = () => {
                 />
               )}
             />
-
             <FormField
               control={form.control}
-              name='description'
+              name='price'
               render={({ field }) => (
-                <TextField
+                <NumberField
                   field={field}
-                  placeholder='Nhập mô tả'
-                  label='Mô tả'
-                  isError={!!form.formState.errors.description}
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='categoryId'
-              render={({ field }) => (
-                <SelectWithSearchField
-                  field={field}
-                  label='Danh mục'
-                  options={categoriesData.results}
-                  isError={!!form.formState.errors.categoryId}
+                  min={0}
+                  suffix=' đ'
+                  placeholder='Nhập giá hiển thị'
+                  label='Giá hiển thị'
+                  isError={!!form.formState.errors.discountValue}
                 />
               )}
             />
@@ -226,20 +216,33 @@ const CreateBookPage = () => {
                 />
               )}
             />
-            <FormField
-              control={form.control}
-              name='price'
-              render={({ field }) => (
-                <NumberField
-                  field={field}
-                  min={0}
-                  suffix=' đ'
-                  placeholder='Nhập giá hiển thị'
-                  label='Giá hiển thị'
-                  isError={!!form.formState.errors.discountValue}
-                />
-              )}
-            />
+            <div className='col-span-1'>
+              <FormField
+                control={form.control}
+                name='categoryId'
+                render={({ field }) => (
+                  <SelectWithSearchField
+                    field={field}
+                    label='Danh mục'
+                    options={categoriesData.results}
+                    isError={!!form.formState.errors.categoryId}
+                  />
+                )}
+              />
+            </div>
+            <div className='col-span-2'>
+              <FormField
+                control={form.control}
+                name='description'
+                render={({ field }) => (
+                  <TextEditorField
+                    field={field}
+                    label='Mô tả'
+                    isError={!!form.formState.errors.description}
+                  />
+                )}
+              />
+            </div>
             <div className='col-span-2'>
               <FormField
                 control={form.control}

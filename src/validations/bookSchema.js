@@ -18,7 +18,7 @@ export const bookFormSchema = z.object({
       required_error: 'Vui lòng nhập số trang'
     })
     .positive('Số trang phải lớn hơn 0'),
-  description: z.string(),
+  description: z.string().min(1, 'Vui lòng nhập mô tả'),
   originalPrice: z
     .number({
       required_error: 'Vui lòng nhập giá gốc'

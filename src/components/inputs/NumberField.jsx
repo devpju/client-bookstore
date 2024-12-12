@@ -22,7 +22,7 @@ const NumberField = ({
   return (
     <FormItem className={containerClassName}>
       {label && (
-        <FormLabel className='mb-[5px] block font-medium text-primary'>
+        <FormLabel className='mb-2 block font-medium text-primary'>
           {label}
         </FormLabel>
       )}

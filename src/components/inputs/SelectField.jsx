@@ -15,7 +15,11 @@ import {
 const SelectField = ({ field, placeholder, items, label }) => {
   return (
     <FormItem>
-      <FormLabel>{label}</FormLabel>
+      {label && (
+        <FormLabel className='mb-2 block font-medium text-primary'>
+          {label}
+        </FormLabel>
+      )}
       <Select onValueChange={field.onChange} defaultValue={field.value}>
         <FormControl>
           <SelectTrigger>

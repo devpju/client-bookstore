@@ -12,9 +12,11 @@ const PasswordField = ({ field, placeholder, label, isError }) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   return (
     <FormItem>
-      <FormLabel className='mb-[5px] block font-medium text-primary'>
-        {label}
-      </FormLabel>
+      {label && (
+        <FormLabel className='mb-2 block font-medium text-primary'>
+          {label}
+        </FormLabel>
+      )}
       <FormControl>
         <div className='relative'>
           <Input
