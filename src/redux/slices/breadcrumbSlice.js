@@ -9,7 +9,12 @@ const breadcrumbSlice = createSlice({
   initialState,
   reducers: {
     addBreadcrumb(state, action) {
-      state.breadcrumbs.push(action.payload);
+      const breadcrumbExists = state.breadcrumbs.some(
+        (breadcrumb) => breadcrumb.path === action.payload.path
+      );
+      if (!breadcrumbExists) {
+        state.breadcrumbs.push(action.payload);
+      }
     },
     resetBreadcrumbs(state) {
       state.breadcrumbs = [];

@@ -29,7 +29,7 @@ const CreateBookPage = () => {
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full pb-12'>
       <div className='mb-8 ml-10 text-lg font-semibold'>Tạo mới sách</div>
       <BookForm
         onSubmit={handleAddNewBook}

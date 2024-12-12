@@ -8,42 +8,22 @@ import TextField from '@/components/inputs/TextField';
 import { Form, FormField } from '@/components/shadcnUI/form';
 import { useGetCategoriesQuery } from '@/redux/apis/categoriesApi';
 import { handleAPIError } from '@/utils/apiUtils';
-import { bookFormSchema } from '@/validations/bookSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 
-const BookForm = ({ onSubmit, isLoading, isSuccess }) => {
+import { useEffect, useState } from 'react';
+import CancelButton from '../buttons/CancelButton';
+
+const BookForm = ({ onSubmit, isLoading, form }) => {
   const [isClickedOnCategorySelectField, setIsClickedOnCategorySelectField] =
     useState(false);
+  console.log(1);
   const { data: categoriesData, ...getCategoriesState } = useGetCategoriesQuery(
     null,
     { skip: !isClickedOnCategorySelectField }
   );
 
-  const form = useForm({
-    resolver: zodResolver(bookFormSchema),
-    defaultValues: {
-      name: '',
-      width: 0,
-      height: 0,
-      authors: '',
-      totalPages: 0,
-      description: '',
-      originalPrice: 0,
-      price: 0,
-      publishDate: '',
-      publisher: '',
-      coverType: '',
-      thumbnail: null,
-      images: [],
-      categoryId: ''
-    }
-  });
   useEffect(() => {
-    if (isSuccess) form.reset();
     if (getCategoriesState.isError) handleAPIError(getCategoriesState.error);
-  }, [form, isSuccess, getCategoriesState.isError, getCategoriesState.error]);
+  }, [getCategoriesState.isError, getCategoriesState.error]);
   return (
     <Form {...form}>
       <form
@@ -242,11 +222,15 @@ const BookForm = ({ onSubmit, isLoading, isSuccess }) => {
           </div>
         </div>
 
-        <InfoButton
-          name='Tạo mới'
-          className='mt-5 px-5 py-2'
-          isLoading={isLoading}
-        />
+        <div className='mt-5 flex gap-2'>
+          <CancelButton />
+          <InfoButton
+            name='Lưu'
+            className='px-16 py-2'
+            size='lg'
+            isLoading={isLoading}
+          />
+        </div>
       </form>
     </Form>
   );
