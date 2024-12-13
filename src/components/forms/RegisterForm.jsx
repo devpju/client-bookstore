@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/shadcnUI/form';
 import TextField from '../inputs/TextField';
 import PasswordField from '../inputs/PasswordField';
-import LoadingButton from '../buttons/LoadingButton';
+import SubmitFormButton from '../buttons/SubmitFormButton';
 import { registerFormSchema } from '@/validations/authSchema';
 
 const RegisterForm = ({ onSubmit, isLoading }) => {
@@ -80,9 +80,9 @@ const RegisterForm = ({ onSubmit, isLoading }) => {
             />
           )}
         />
-        <LoadingButton isLoading={isLoading} className='w-full'>
+        <SubmitFormButton isLoading={isLoading} className='w-full'>
           Đăng ký
-        </LoadingButton>
+        </SubmitFormButton>
       </form>
     </Form>
   );

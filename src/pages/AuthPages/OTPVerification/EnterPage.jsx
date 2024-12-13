@@ -17,10 +17,7 @@ const OTPVerificationPage = () => {
   const [verifyOTP, verifyOTPState] = useVerifyOTPMutation();
   useEffect(() => {
     if (!email) navigate('/login');
-    else {
-      sendOTP({ email });
-    }
-  }, [email, navigate, sendOTP]);
+  }, [email, navigate]);
 
   useEffect(() => {
     if (verifyOTPState.isSuccess) {

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/shadcnUI/form';
-import LoadingButton from '../buttons/LoadingButton';
+import SubmitFormButton from '../buttons/SubmitFormButton';
 import PasswordField from '../inputs/PasswordField';
 import { resetPasswordFormSchema } from '@/validations/authSchema';
 
@@ -41,9 +41,9 @@ const ResetPasswordForm = ({ onSubmit, isLoading }) => {
           )}
         />
 
-        <LoadingButton isLoading={isLoading} className='w-full'>
+        <SubmitFormButton isLoading={isLoading} className='w-full'>
           Gửi ngay bây giờ
-        </LoadingButton>
+        </SubmitFormButton>
       </form>
     </Form>
   );

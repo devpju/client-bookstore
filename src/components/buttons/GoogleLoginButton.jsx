@@ -1,4 +1,5 @@
 import { Button } from '@/components/shadcnUI/button';
+import { cn } from '@/utils/classUtils';
 
 const GoogleLoginButton = ({ className }) => {
   const onClick = () => {
@@ -8,7 +9,7 @@ const GoogleLoginButton = ({ className }) => {
     <Button
       variant='outline'
       onClick={onClick}
-      className={`w-full border-slate-200 hover:bg-sky-900 ${className}`}
+      className={cn('w-full', className)}
     >
       <img
         src='/images/google-logo.png'

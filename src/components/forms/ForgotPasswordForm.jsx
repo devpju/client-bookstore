@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/shadcnUI/form';
 import TextField from '../inputs/TextField';
-import LoadingButton from '../buttons/LoadingButton';
+import SubmitFormButton from '../buttons/SubmitFormButton';
 import { forgotPasswordFormSchema } from '@/validations/authSchema';
 
 const ForgotPasswordForm = ({ onSubmit, isLoading }) => {
@@ -28,9 +28,9 @@ const ForgotPasswordForm = ({ onSubmit, isLoading }) => {
           )}
         />
 
-        <LoadingButton isLoading={isLoading} className='w-full'>
+        <SubmitFormButton isLoading={isLoading} className='w-full'>
           Gửi ngay bây giờ
-        </LoadingButton>
+        </SubmitFormButton>
       </form>
     </Form>
   );

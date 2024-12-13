@@ -28,7 +28,11 @@ const RegisterPage = () => {
       <h1 className='text-center text-3xl font-semibold'>Đăng ký</h1>
       <RegisterForm onSubmit={onSubmit} isLoading={registerState.isLoading} />
       <GoogleLoginButton />
-      <AuthLinkPrompt message='Bạn đã có tài khoản' linkText='Đăng nhập' linkTo='/login' />
+      <AuthLinkPrompt
+        message='Bạn đã có tài khoản?'
+        linkText='Đăng nhập'
+        linkTo='/login'
+      />
     </div>
   );
 };

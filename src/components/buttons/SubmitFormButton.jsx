@@ -1,18 +1,19 @@
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/shadcnUI/button';
+import { cn } from '@/utils/classUtils';
 
-const LoadingButton = ({
+const SubmitFormButton = ({
   onClick,
   isLoading,
   className,
   children,
   variant,
-  size,
+  size = 'lg',
   type
 }) => {
   return (
     <Button
-      className={` ${className}`}
+      className={cn('', className)}
       onClick={onClick}
       variant={variant}
       size={size}
@@ -24,4 +25,4 @@ const LoadingButton = ({
     </Button>
   );
 };
-export default LoadingButton;
+export default SubmitFormButton;

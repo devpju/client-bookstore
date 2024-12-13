@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Form, FormField } from '@/components/shadcnUI/form';
 import OTPField from '../inputs/OTPField';
-import LoadingButton from '../buttons/LoadingButton';
+import SubmitFormButton from '../buttons/SubmitFormButton';
 import { otpVerificationFormSchema } from '@/validations/authSchema';
 
 const OTPVerificationForm = ({ onSubmit, isLoading }) => {
@@ -21,9 +21,9 @@ const OTPVerificationForm = ({ onSubmit, isLoading }) => {
           render={({ field }) => <OTPField field={field} />}
         />
 
-        <LoadingButton isLoading={isLoading} className='w-full'>
+        <SubmitFormButton isLoading={isLoading} className='w-full'>
           Xác minh
-        </LoadingButton>
+        </SubmitFormButton>
       </form>
     </Form>
   );

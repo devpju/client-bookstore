@@ -3,10 +3,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/shadcnUI/form';
 import TextField from '../inputs/TextField';
 import PasswordField from '../inputs/PasswordField';
-import LoadingButton from '../buttons/LoadingButton';
+import SubmitFormButton from '../buttons/SubmitFormButton';
 import { loginFormSchema } from '@/validations/authSchema';
+import { Button } from '../shadcnUI/button';
+import { useNavigate } from 'react-router';
 
 const LoginForm = ({ onSubmit, isLoading }) => {
+  const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -41,9 +44,19 @@ const LoginForm = ({ onSubmit, isLoading }) => {
             />
           )}
         />
-        <LoadingButton isLoading={isLoading} className='w-full'>
+        <div className='!mt-0 text-right'>
+          <Button
+            variant='link'
+            className='p-0 hover:text-sky-700 hover:no-underline'
+            type='button'
+            onClick={() => navigate('/forgot-password')}
+          >
+            Quên mật khẩu?
+          </Button>
+        </div>
+        <SubmitFormButton isLoading={isLoading} className='w-full'>
           Đăng nhập
-        </LoadingButton>
+        </SubmitFormButton>
       </form>
     </Form>
   );

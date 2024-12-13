@@ -1,5 +1,5 @@
 import useCountdown from '@/hooks/useCountdown';
-import LoadingButton from '../buttons/LoadingButton';
+import SubmitFormButton from '../buttons/SubmitFormButton';
 import { toast } from 'sonner';
 
 const ResendEmailPrompt = ({ onClick, isLoading }) => {
@@ -16,14 +16,14 @@ const ResendEmailPrompt = ({ onClick, isLoading }) => {
   return (
     <div className='flex items-center justify-center text-sm text-primary'>
       <p>Bạn không nhận được email?</p>
-      <LoadingButton
+      <SubmitFormButton
         variant='ghost'
         isLoading={isLoading}
         onClick={handleClick}
         className='px-2 text-sky-500 hover:text-sky-600'
       >
         Gửi lại
-      </LoadingButton>
+      </SubmitFormButton>
     </div>
   );
 };

@@ -29,7 +29,11 @@ const LoginPage = () => {
       <h1 className='text-center text-3xl font-semibold'>Đăng nhập</h1>
       <LoginForm onSubmit={handleLogin} isLoading={loginState.isLoading} />
       <GoogleLoginButton />
-      <AuthLinkPrompt message='Bạn chưa có tài khoản' linkText='Đăng ký' linkTo='/register' />
+      <AuthLinkPrompt
+        message='Bạn chưa có tài khoản?'
+        linkText='Đăng ký'
+        linkTo='/register'
+      />
     </div>
   );
 };

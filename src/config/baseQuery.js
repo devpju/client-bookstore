@@ -1,9 +1,10 @@
 import { removeAuth, updateToken } from '@/redux/slices/authSlice';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
+import { env } from './environment';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL_API,
-  credentials: 'same-origin',
+  credentials: env.NODE_ENV === 'postman' ? 'same-origin' : 'include',
   prepareHeaders: (headers, { getState }) => {
     const accessToken = getState()?.auth?.accessToken;
     // headers.set('ngrok-skip-browser-warning', 'true');
