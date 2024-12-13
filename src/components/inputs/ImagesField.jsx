@@ -1,11 +1,11 @@
 import { cn } from '@/utils/classUtils';
-import { FileUploader } from '../FileUploader';
 import {
   FormControl,
   FormItem,
   FormLabel,
   FormMessage
-} from '../shadcnUI/form';
+} from '@/components/shadcnUI/form';
+import { FileUploader } from '../shadcnUI/extensions/file-uploader';
 
 const ImagesField = ({ field, label, isError, multiple, maxFileCount }) => {
   return (

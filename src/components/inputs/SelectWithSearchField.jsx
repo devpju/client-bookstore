@@ -20,7 +20,6 @@ import { Skeleton } from '../shadcnUI/skeleton';
 
 const SelectWithSearchField = ({
   field,
-  onClick,
   options,
   label,
   keyName = { value: 'id', name: 'name' },
@@ -37,7 +36,6 @@ const SelectWithSearchField = ({
         <PopoverTrigger asChild>
           <FormControl>
             <Button
-              onClick={onClick}
               variant='outline'
               role='combobox'
               className={cn(

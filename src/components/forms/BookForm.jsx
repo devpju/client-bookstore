@@ -11,15 +11,13 @@ import { handleAPIError } from '@/utils/apiUtils';
 
 import { useEffect, useState } from 'react';
 import CancelButton from '../buttons/CancelButton';
+import { useNavigate } from 'react-router';
 
 const BookForm = ({ onSubmit, isLoading, form }) => {
-  const [isClickedOnCategorySelectField, setIsClickedOnCategorySelectField] =
-    useState(false);
-  console.log(1);
-  const { data: categoriesData, ...getCategoriesState } = useGetCategoriesQuery(
-    null,
-    { skip: !isClickedOnCategorySelectField }
-  );
+  useState(false);
+  const { data: categoriesData, ...getCategoriesState } =
+    useGetCategoriesQuery();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (getCategoriesState.isError) handleAPIError(getCategoriesState.error);
@@ -167,9 +165,6 @@ const BookForm = ({ onSubmit, isLoading, form }) => {
               name='categoryId'
               render={({ field }) => (
                 <SelectWithSearchField
-                  onClick={() => {
-                    setIsClickedOnCategorySelectField(true);
-                  }}
                   field={field}
                   label='Danh mục'
                   options={categoriesData?.results || []}
@@ -223,7 +218,12 @@ const BookForm = ({ onSubmit, isLoading, form }) => {
         </div>
 
         <div className='mt-5 flex gap-2'>
-          <CancelButton />
+          <CancelButton
+            onClick={() => {
+              form.reset();
+              navigate('/admin/books');
+            }}
+          />
           <InfoButton
             name='Lưu'
             className='px-16 py-2'

@@ -4,9 +4,9 @@ import * as React from 'react';
 import { FileText, Upload, X } from 'lucide-react';
 
 import { toast } from 'sonner';
-import { Button } from '../shadcnUI/button';
+import { Button } from '@/components/shadcnUI/button';
 import { cn, formatBytes } from '@/utils/classUtils';
-import { ScrollArea } from '../shadcnUI/scroll-area';
+import { ScrollArea } from '@/components/shadcnUI/scroll-area';
 import { useControllableState } from '@/hooks/useControllableState';
 import Dropzone from 'react-dropzone';
 /**
