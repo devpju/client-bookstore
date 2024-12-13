@@ -6,7 +6,7 @@ const BookCategoryContent = ({ categories }) => {
       {categories.map((category) => (
         <Link
           to={`/danh-muc/${category.slug}`}
-          className='p-3 hover:font-semibold hover:text-green-600'
+          className='p-3 hover:font-semibold'
           key={category.id}
         >
           <span className='line-clamp-1 text-sm'>{category.name}</span>

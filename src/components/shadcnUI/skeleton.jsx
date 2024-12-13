@@ -1,14 +1,12 @@
-import { cn } from "@/utils/classUtils"
+import { cn } from '@/utils/classUtils';
 
-function Skeleton({
-  className,
-  ...props
-}) {
+function Skeleton({ className, ...props }) {
   return (
-    (<div
-      className={cn("animate-pulse rounded-md bg-primary/10", className)}
-      {...props} />)
+    <div
+      className={cn('animate-pulse rounded-md bg-primary/10', className)}
+      {...props}
+    />
   );
 }
 
-export { Skeleton }
+export { Skeleton };

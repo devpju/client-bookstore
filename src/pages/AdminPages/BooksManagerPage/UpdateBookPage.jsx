@@ -14,8 +14,8 @@ import { bookFormSchema } from '@/validations/bookSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocation, useNavigate } from 'react-router';
-import { Loader2 } from 'lucide-react';
 import { urlToFile } from '@/utils/fileUtils';
+import Loading from '@/components/Loading';
 const initialValues = {
   name: '',
   width: 0,
@@ -110,11 +110,7 @@ const UpdateBookPage = () => {
   }, [updateBookState]);
 
   if (isLoadingBookDetails) {
-    return (
-      <div className='flex h-screen items-center justify-center'>
-        <Loader2 className='animate-spin' />
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleUpdateBook = async (values) => {

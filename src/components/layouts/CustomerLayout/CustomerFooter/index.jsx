@@ -10,7 +10,9 @@ const CustomerFooter = () => {
           <FooterLinks />
         </div>
         <div className='mt-6 flex items-center justify-between'>
-          <p className='text-sm text-gray-400'>Copyright © 2022 Bookstore. All rights reserved</p>
+          <p className='text-sm text-gray-400'>
+            Copyright © 2022 Bookstore. All rights reserved
+          </p>
           <SocialMediaLinks />
         </div>
       </footer>

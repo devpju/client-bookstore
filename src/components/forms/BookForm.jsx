@@ -22,6 +22,7 @@ const BookForm = ({ onSubmit, isLoading, form }) => {
   useEffect(() => {
     if (getCategoriesState.isError) handleAPIError(getCategoriesState.error);
   }, [getCategoriesState.isError, getCategoriesState.error]);
+
   return (
     <Form {...form}>
       <form

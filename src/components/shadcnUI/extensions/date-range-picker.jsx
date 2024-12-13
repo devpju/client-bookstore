@@ -248,10 +248,7 @@ export const DateRangePicker = ({
 
   const PresetButton = ({ preset, label, isSelected }) => (
     <Button
-      className={cn(
-        'p-2 hover:bg-slate-200',
-        isSelected && 'pointer-events-none'
-      )}
+      className={cn('p-2 hover:bg-accent', isSelected && 'pointer-events-none')}
       variant='ghost'
       onClick={() => {
         setPreset(preset);
@@ -494,7 +491,7 @@ export const DateRangePicker = ({
         </div>
         <div className='flex justify-end gap-2 py-2 pr-4'>
           <Button
-            className='px-6 hover:bg-primary/10 hover:text-primary'
+            className='px-6'
             variant='outline'
             onClick={() => {
               setIsOpen(false);

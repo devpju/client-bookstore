@@ -19,8 +19,9 @@ const BookCategory = () => {
         </Button>
       </HoverCardTrigger>
       <HoverCardContent
+        hideWhenDetected={true}
         sideOffset={10}
-        className='h-[calc(100vh-500px)] min-h-[400px] w-[300px] border-0 bg-slate-200 shadow-2xl sm:w-[500px]'
+        className='h-[calc(100vh-500px)] min-h-[400px] w-[300px] border-0 shadow-2xl sm:w-[500px]'
       >
         <BookCategoryContent categories={categoriesInHomePage} />
       </HoverCardContent>

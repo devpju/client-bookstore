@@ -20,16 +20,31 @@ const PublicRoutes = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/verify-otp' element={<OTPVerificationPage />} />
-        <Route path='/verify-otp-success' element={<OTPVerificationSuccessPage />} />
+        <Route
+          path='/verify-otp-success'
+          element={<OTPVerificationSuccessPage />}
+        />
         <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-        <Route path='/forgot-password-success' element={<ForgotPasswordSuccessPage />} />
+        <Route
+          path='/forgot-password-success'
+          element={<ForgotPasswordSuccessPage />}
+        />
         <Route path='/reset-password' element={<ResetPasswordPage />} />
-        <Route path='/reset-password-success' element={<ResetPasswordSuccessPage />} />
+        <Route
+          path='/reset-password-success'
+          element={<ResetPasswordSuccessPage />}
+        />
       </Route>
       <Route element={<CustomerLayout />}>
         <Route path='/' element={<HomePage />} />
-        <Route path='/danh-muc/:catSlugLv1/:catSlugLv2/:catSlugLv3' element={<ProductListPage />} />
-        <Route path='/danh-muc/:catSlugLv1/:catSlugLv2' element={<ProductListPage />} />
+        <Route
+          path='/danh-muc/:catSlugLv1/:catSlugLv2/:catSlugLv3'
+          element={<ProductListPage />}
+        />
+        <Route
+          path='/danh-muc/:catSlugLv1/:catSlugLv2'
+          element={<ProductListPage />}
+        />
         <Route path='/danh-muc/:catSlugLv1' element={<ProductListPage />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />

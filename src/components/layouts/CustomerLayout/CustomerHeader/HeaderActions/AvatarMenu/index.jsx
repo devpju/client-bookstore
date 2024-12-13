@@ -40,19 +40,19 @@ const AvatarMenu = () => {
       </HoverCardTrigger>
       <HoverCardContent className='flex w-auto flex-col p-0 py-2'>
         <Link
-          className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-sky-200/30'
+          className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-accent'
           to='/admin'
         >
           Quản lý cửa hàng
         </Link>
         <Link
-          className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-sky-200/30'
+          className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-accent'
           to='/user/info'
         >
           Thông tin tài khoản
         </Link>
         <Link
-          className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-sky-200/30'
+          className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-accent'
           onClick={handleSignout}
         >
           Đăng xuất

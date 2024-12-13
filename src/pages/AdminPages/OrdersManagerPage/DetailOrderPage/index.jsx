@@ -21,6 +21,7 @@ import { useLocation } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { addBreadcrumb } from '@/redux/slices/breadcrumbSlice';
+import Loading from '@/components/Loading';
 
 const DetailOrderPage = () => {
   const { state } = useLocation();
@@ -41,11 +42,7 @@ const DetailOrderPage = () => {
   }, [dispatch, pathname, orderInfo]);
 
   if (isLoading) {
-    return (
-      <div className='flex h-screen items-center justify-center text-xl font-medium text-gray-600'>
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   if (isError || !orderInfo) {

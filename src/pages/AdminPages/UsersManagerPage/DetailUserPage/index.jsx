@@ -1,3 +1,4 @@
+import Loading from '@/components/Loading';
 import { Separator } from '@/components/shadcnUI/separator';
 import {
   Table,
@@ -26,11 +27,7 @@ const DetailUserPage = () => {
   const userInfo = data?.results || null;
   useBreadcrumb(userInfo?.fullName);
   if (isLoading) {
-    return (
-      <div className='flex h-screen items-center justify-center text-xl font-medium text-gray-600'>
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   if (isError || !userInfo) {
