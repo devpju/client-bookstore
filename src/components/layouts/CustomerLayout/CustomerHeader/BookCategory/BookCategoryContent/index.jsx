@@ -5,7 +5,7 @@ const BookCategoryContent = ({ categories }) => {
     <div className='grid h-full grid-cols-2 gap-x-4 overflow-y-auto'>
       {categories.map((category) => (
         <Link
-          to={`/danh-muc/${category.slug}`}
+          to={`/danh-muc/${category.slug}-c${category.id}`}
           className='p-3 hover:font-semibold'
           key={category.id}
         >

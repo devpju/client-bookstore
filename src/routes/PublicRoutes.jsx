@@ -8,6 +8,7 @@ import OTPVerificationSuccessPage from '@/pages/AuthPages/OTPVerification/Succes
 import RegisterPage from '@/pages/AuthPages/RegisterPage';
 import ResetPasswordPage from '@/pages/AuthPages/ResetPassword/EnterPage';
 import ResetPasswordSuccessPage from '@/pages/AuthPages/ResetPassword/SuccessPage';
+import DetailBookPage from '@/pages/CustomerPages/DetailBookPage';
 import HomePage from '@/pages/CustomerPages/HomePage';
 import ProductListPage from '@/pages/CustomerPages/ProductListPage';
 import NotFoundPage from '@/pages/NotFoundPage';
@@ -37,15 +38,8 @@ const PublicRoutes = () => {
       </Route>
       <Route element={<CustomerLayout />}>
         <Route path='/' element={<HomePage />} />
-        <Route
-          path='/danh-muc/:catSlugLv1/:catSlugLv2/:catSlugLv3'
-          element={<ProductListPage />}
-        />
-        <Route
-          path='/danh-muc/:catSlugLv1/:catSlugLv2'
-          element={<ProductListPage />}
-        />
-        <Route path='/danh-muc/:catSlugLv1' element={<ProductListPage />} />
+        <Route path='/danh-muc/:slug' element={<ProductListPage />} />
+        <Route path='/sach/:slug' element={<DetailBookPage />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />
     </Routes>

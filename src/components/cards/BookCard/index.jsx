@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 export const BookCard = ({ book }) => {
   return (
     <div className='group w-full p-4 transition-transform hover:scale-105'>
-      <Link to={`/${book.slug}`} className='w-full'>
+      <Link to={`/sach/${book.slug}-p${book.id}`} className='w-full'>
         <div className='flex h-[250px] w-full justify-center'>
           <img src={book.thumbnailUrl} alt='' className='h-full object-cover' />
         </div>
