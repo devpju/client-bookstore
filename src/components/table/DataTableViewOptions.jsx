@@ -46,10 +46,10 @@ export function DataTableViewOptions({ table, dataViewOptions, data = [] }) {
           <Button
             ref={triggerRef}
             aria-label='Toggle columns'
-            variant='outline'
+            variant='ghost'
             role='combobox'
             size='sm'
-            className='ml-auto h-8 gap-2 border-dashed border-slate-400 hover:bg-white hover:text-primary lg:flex'
+            className='h-8 border border-dashed border-slate-400 text-slate-500'
           >
             <Settings2 className='size-3' />
             Hiển thị
