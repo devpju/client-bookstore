@@ -17,7 +17,9 @@ export const BookCard = ({ book }) => {
           </h3>
         </Link>
         <div>
-          <span className='font-semibold text-red-600'>{book.price}</span>
+          <span className='font-semibold text-red-600'>
+            {formatCurrencyVND(book.price)}
+          </span>
         </div>
         <span className='text-sm text-gray-400 line-through'>
           {formatCurrencyVND(book.originalPrice)}

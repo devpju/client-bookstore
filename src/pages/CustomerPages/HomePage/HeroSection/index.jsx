@@ -4,12 +4,12 @@ import { Link } from 'react-router';
 const HeroSection = () => {
   return (
     <section className='flex items-center'>
-      <div className='w-[55%] space-y-8 pr-28'>
+      <div className='w-[55%] space-y-8 pr-8'>
         <h1 className='text-5xl font-semibold leading-snug'>
-          Cách dễ nhất để tìm ra cuốn sách hay nhất
+          Khám phá thế giới sách tuyệt vời
         </h1>
         <p className='text-slate-800'>
-          Khám phá những cuốn sách thú vị, giúp bạn mở rộng tầm hiểu biết và
+          Tìm kiếm những cuốn sách hay nhất, giúp bạn nâng cao kiến thức và
           truyền cảm hứng cho cuộc sống.
         </p>
         <Button asChild variant='outline'>
@@ -19,9 +19,9 @@ const HeroSection = () => {
         </Button>
         <div className='!mt-12 hidden items-center gap-5 xl:flex'>
           {[
-            { title: 'Vận chuyển', desc: 'Giao hàng nhanh chóng, an toàn' },
-            { title: 'Giá cả', desc: 'Sách chất lượng, giá hợp lý' },
-            { title: 'Dịch vụ', desc: 'Hỗ trợ tận tâm, chu đáo' }
+            { title: 'Chất lượng', desc: 'Sách được chọn lọc kỹ lưỡng' },
+            { title: 'Ưu đãi', desc: 'Nhiều chương trình khuyến mãi hấp dẫn' },
+            { title: 'Hỗ trợ', desc: 'Tư vấn nhiệt tình, chuyên nghiệp' }
           ].map((item, index) => (
             <div key={index} className='flex gap-2'>
               <span className='text-lg font-bold text-gray-400'>{`0${index + 1}`}</span>
@@ -33,8 +33,8 @@ const HeroSection = () => {
           ))}
         </div>
       </div>
-      <div className='w-[45%] pl-10'>
-        <img src='/images/hero.jpg' alt='' className='w-full' />
+      <div className='w-[65%] pl-10'>
+        <img src='/images/hero-2.jpg' alt='' className='w-full' />
       </div>
     </section>
   );
