@@ -11,7 +11,12 @@ export const booksApi = createApi({
       providesTags: ['Books']
     }),
     getUserBooks: builder.query({
-      query: ({ limit = 10, page = 1, sort = '', filters = {} }) => {
+      query: ({
+        limit = 10,
+        page = 1,
+        sort = 'desc-createdAt',
+        filters = {}
+      }) => {
         const filterString = JSON.stringify(filters);
         return {
           url: `/user/books/`,

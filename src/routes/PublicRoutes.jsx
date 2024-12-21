@@ -40,6 +40,7 @@ const PublicRoutes = () => {
         <Route path='/' element={<HomePage />} />
         <Route path='/danh-muc/:slug' element={<ProductListPage />} />
         <Route path='/sach/:slug' element={<DetailBookPage />} />
+        <Route path='/tim-kiem/:content' element={<ProductListPage />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />
     </Routes>
