@@ -9,10 +9,17 @@ import InfoButton from '@/components/buttons/InfoButton';
 import NormalButton from '@/components/buttons/NormalButton';
 import CategoriesFiltersInput from './CategoriesFiltersInput';
 import { cn } from '@/utils/classUtils';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
 
 export default function CategoriesTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
   const selectedIds = Object.keys(rowSelection);
+
+  const dataToExport = table.getFilteredRowModel().rows.map((item) => ({
+    ...item.original,
+    isHidden: item.original.isHidden ? 'Đang ẩn' : 'Đang hiển ',
+    createdAt: convertISODateToDDMMYYYY(item.original?.createdAt)
+  }));
 
   const [filters, setFilters] = useState({
     searchText: '',
@@ -98,6 +105,7 @@ export default function CategoriesTableToolbar({ rowSelection, table }) {
             isHidden: 'Trạng thái',
             name: 'Tên danh mục'
           }}
+          data={dataToExport}
         />
       </div>
     </div>

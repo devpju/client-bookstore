@@ -657,7 +657,7 @@ export const booksTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='m-w-[30px] flex justify-center'>
-        {row.getValue('originalPrice')}
+        {formatCurrencyVND(row.getValue('originalPrice'))}
       </div>
     ),
     enableSorting: true,
@@ -671,7 +671,7 @@ export const booksTableColumns = [
     ),
     cell: ({ row }) => (
       <div className='m-w-[30px] flex justify-center text-danger'>
-        {row.getValue('price')}
+        {formatCurrencyVND(row.getValue('price'))}
       </div>
     ),
     enableSorting: true,
@@ -743,7 +743,7 @@ export const booksTableColumns = [
     accessorKey: 'publishDate',
     size: 120,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Ngày tạo' />
+      <DataTableColumnHeader column={column} title='Ngày xuất bản' />
     ),
     filterFn: (row, id, filterValue) => {
       const rowValue = new Date(row.getValue(id));

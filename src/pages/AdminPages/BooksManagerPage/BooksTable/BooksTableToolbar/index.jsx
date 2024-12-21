@@ -10,11 +10,19 @@ import NormalButton from '@/components/buttons/NormalButton';
 import BooksFiltersInput from './BooksFiltersInput';
 import { useNavigate } from 'react-router';
 import { cn } from '@/utils/classUtils';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
 
 export default function BooksTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
   const selectedIds = Object.keys(rowSelection);
   const navigate = useNavigate();
+
+  const dataToExport = table.getFilteredRowModel().rows.map((item) => ({
+    ...item.original,
+    isHidden: item.original.isHidden ? 'Đang ẩn' : 'Đang hiển ',
+    createdAt: convertISODateToDDMMYYYY(item.original?.createdAt)
+  }));
+  console.log(dataToExport);
   const [filters, setFilters] = useState({
     searchText: '',
     status: '',
@@ -91,8 +99,19 @@ export default function BooksTableToolbar({ rowSelection, table }) {
             index: 'STT',
             createdAt: 'Ngày tạo',
             isHidden: 'Trạng thái',
-            name: 'Tên danh mục'
+            name: 'Tên sách',
+            width: 'Chiều dài',
+            height: 'Chiều rộng',
+            stock: 'Tồn kho',
+            authors: 'Tác giả',
+            totalPages: 'Số trang',
+            price: 'Giá bán',
+            originalPrice: 'Giá gốc',
+            categoryName: 'Danh mục',
+            publishDate: 'Ngày xuất bản',
+            sold: 'Đã bán'
           }}
+          data={dataToExport}
         />
       </div>
     </div>

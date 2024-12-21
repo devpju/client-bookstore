@@ -7,7 +7,8 @@ const DashedButton = ({
   icon: Icon = X,
   iconClassName,
   className,
-  size = 'sm'
+  size = 'sm',
+  name = 'Làm mới'
 }) => {
   return (
     <Button
@@ -19,7 +20,7 @@ const DashedButton = ({
         className
       )}
     >
-      Làm mới
+      {name}
       {<Icon className={cn('!size-3', iconClassName)} />}
     </Button>
   );

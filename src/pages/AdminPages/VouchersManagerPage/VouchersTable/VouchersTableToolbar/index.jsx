@@ -9,11 +9,22 @@ import InfoButton from '@/components/buttons/InfoButton';
 import NormalButton from '@/components/buttons/NormalButton';
 import VouchersFiltersInput from './VouchersFiltersInput';
 import { cn } from '@/utils/classUtils';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
+import { formatCurrencyVND } from '@/utils/numberUtils';
 
 export default function VouchersTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
   const selectedIds = Object.keys(rowSelection);
-
+  const dataToExport = table.getFilteredRowModel().rows.map((item) => ({
+    ...item.original,
+    startDate: convertISODateToDDMMYYYY(item.original?.startDate),
+    endDate: convertISODateToDDMMYYYY(item.original?.endDate),
+    isActivated: item.original.isActivated ? 'Đang kích hoạt' : 'Đã bị huỷ',
+    discountValue:
+      item.original.type === 'percentage'
+        ? `${item.original.discountValue}%`
+        : formatCurrencyVND(item.original.discountValue)
+  }));
   const [filters, setFilters] = useState({
     searchText: '',
     status: '',
@@ -117,6 +128,7 @@ export default function VouchersTableToolbar({ rowSelection, table }) {
             endDate: 'Ngày kết thúc',
             isActivated: 'Trạng thái'
           }}
+          data={dataToExport}
         />
       </div>
     </div>

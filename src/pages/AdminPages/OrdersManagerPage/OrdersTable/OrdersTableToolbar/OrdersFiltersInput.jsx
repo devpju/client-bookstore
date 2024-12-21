@@ -45,7 +45,7 @@ const OrdersFiltersInput = ({
       case false:
         return 'Chưa thanh toán';
       default:
-        return 'TT Thanh toán';
+        return 'Trạng thái TT';
     }
   };
 

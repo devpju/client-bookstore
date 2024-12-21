@@ -8,10 +8,18 @@ import InfoButton from '@/components/buttons/InfoButton';
 import UsersFiltersInput from './UsersFiltersInput';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { cn } from '@/utils/classUtils';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
 
 export default function UsersTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
   const selectedIds = Object.keys(rowSelection);
+
+  const dataToExport = table.getFilteredRowModel().rows.map((item) => ({
+    ...item.original,
+    roles: (item.original?.roles || []).join(', '),
+    version: item.original?.version < 0 ? 'Bị cấm' : 'Đang hoạt động',
+    createdAt: convertISODateToDDMMYYYY(item.original?.createdAt)
+  }));
 
   const [filters, setFilters] = useState({
     searchText: '',
@@ -85,6 +93,7 @@ export default function UsersTableToolbar({ rowSelection, table }) {
             roles: 'Vai trò',
             version: 'Trạng thái'
           }}
+          data={dataToExport}
         />
       </div>
     </div>

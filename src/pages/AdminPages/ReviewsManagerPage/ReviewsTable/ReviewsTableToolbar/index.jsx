@@ -8,11 +8,17 @@ import DangerButton from '@/components/buttons/DangerButton';
 import InfoButton from '@/components/buttons/InfoButton';
 import ReviewsFiltersInput from './ReviewsFiltersInput';
 import { cn } from '@/utils/classUtils';
+import { convertISODateToDDMMYYYY } from '@/utils/dateUtils';
 
 export default function ReviewsTableToolbar({ rowSelection, table }) {
   const dispatch = useDispatch();
   const selectedIds = Object.keys(rowSelection);
-
+  const dataToExport = table.getFilteredRowModel().rows.map((item) => ({
+    ...item.original,
+    createdAt: convertISODateToDDMMYYYY(item.original?.createdAt),
+    isHidden: item.original.isHidden ? 'Đang ẩn' : 'Đang hiện'
+  }));
+  console.log(dataToExport);
   const [filters, setFilters] = useState({
     searchText: '',
     status: '',
@@ -83,6 +89,7 @@ export default function ReviewsTableToolbar({ rowSelection, table }) {
             rating: 'Đánh giá',
             description: 'Nội dung'
           }}
+          data={dataToExport}
         />
       </div>
     </div>

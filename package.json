@@ -39,6 +39,7 @@
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.5.1",
+    "export-to-csv": "^1.4.0",
     "form": "^0.2.5",
     "input-otp": "^1.4.1",
     "label": "^0.2.2",
