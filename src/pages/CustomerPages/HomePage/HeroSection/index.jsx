@@ -34,7 +34,7 @@ const HeroSection = () => {
         </div>
       </div>
       <div className='w-[65%] pl-10'>
-        <img src='/images/hero-2.jpg' alt='' className='w-full' />
+        <img src='/images/hero.jpg' alt='' className='w-full' />
       </div>
     </section>
   );

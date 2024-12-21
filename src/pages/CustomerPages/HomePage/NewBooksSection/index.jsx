@@ -6,7 +6,7 @@ const NewBooksSection = () => {
   return (
     <section className='py-12'>
       <div className='flex items-center justify-between'>
-        <h2 className='mb-2 text-3xl font-medium'>SÁCH MỚI</h2>
+        <h2 className='mb-2 text-3xl font-medium'>Sách mới</h2>
       </div>
       <Separator />
       <div className='mt-5'>

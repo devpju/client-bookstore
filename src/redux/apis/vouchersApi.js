@@ -12,6 +12,12 @@ export const vouchersApi = createApi({
       }),
       providesTags: ['Vouchers']
     }),
+    getUncollectedVouchers: builder.query({
+      query: () => ({
+        url: '/user/vouchers/uncollected'
+      }),
+      providesTags: ['Vouchers']
+    }),
     addVoucher: builder.mutation({
       query: ({ type, discountValue, usageLimit, endDate, startDate }) => ({
         url: '/admin/vouchers',
@@ -52,5 +58,6 @@ export const {
   useAddVoucherMutation,
   useUpdateVoucherMutation,
   useDeleteVouchersMutation,
-  useToggleActiveVouchersMutation
+  useToggleActiveVouchersMutation,
+  useGetUncollectedVouchersQuery
 } = vouchersApi;
