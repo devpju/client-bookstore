@@ -1,3 +1,4 @@
+import BestSellerBooksSection from './BestSellerBooksSection';
 import HeroSection from './HeroSection';
 import NewBooksSection from './NewBooksSection';
 import VouchersSection from './VouchersSection';
@@ -8,6 +9,7 @@ const HomePage = () => {
       <HeroSection />
       <NewBooksSection />
       <VouchersSection />
+      <BestSellerBooksSection />
     </div>
   );
 };
