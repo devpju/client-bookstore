@@ -43,7 +43,7 @@ const BooksCarousel = ({ books }) => {
     nextArrow: <SampleNextArrow className='!z-20' />,
     prevArrow: <SamplePrevArrow className='!z-20' />,
     appendDots: (dots) => (
-      <div style={{ bottom: '-30px' }}>
+      <div style={{ bottom: '-40px' }}>
         <ul> {dots} </ul>
       </div>
     ),
