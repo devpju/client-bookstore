@@ -6,7 +6,7 @@ import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import DataTable from '@/components/table/DataTable';
 import {
-  useGetBooksQuery,
+  useGetAdminBooksQuery,
   useToggleVisibilityBooksMutation
 } from '@/redux/apis/booksApi';
 import BooksTableToolbar from './BooksTable/BooksTableToolbar';
@@ -21,7 +21,7 @@ const BooksManagerPage = () => {
   );
   const { selectedIds } = useSelector((state) => state.selector);
 
-  const { data: booksData, isFetching } = useGetBooksQuery();
+  const { data: booksData, isFetching } = useGetAdminBooksQuery();
   const [toggleVisibilityBooks, toggleVisibilityBooksState] =
     useToggleVisibilityBooksMutation();
 

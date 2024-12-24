@@ -6,7 +6,7 @@ export const booksApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Books'],
   endpoints: (builder) => ({
-    getBooks: builder.query({
+    getAdminBooks: builder.query({
       query: () => ({ url: '/admin/books' }),
       providesTags: ['Books']
     }),
@@ -55,7 +55,7 @@ export const booksApi = createApi({
       invalidatesTags: ['Books']
     }),
     getDetailBook: builder.query({
-      query: ({ id }) => ({ url: `admin/books/${id}` })
+      query: ({ id }) => ({ url: `books/${id}` })
     })
   })
 });
@@ -63,7 +63,7 @@ export const booksApi = createApi({
 export const {
   useAddBookMutation,
   useToggleVisibilityBooksMutation,
-  useGetBooksQuery,
+  useGetAdminBooksQuery,
   useUpdateBookMutation,
   useGetDetailBookQuery,
   useGetUserBooksQuery

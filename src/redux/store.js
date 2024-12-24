@@ -16,7 +16,8 @@ import {
   ordersApi,
   reviewsApi,
   usersApi,
-  vouchersApi
+  vouchersApi,
+  dashboardApi
 } from './apis';
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
@@ -53,6 +54,7 @@ export const store = configureStore({
     [vouchersApi.reducerPath]: vouchersApi.reducer,
     [booksApi.reducerPath]: booksApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
+    [dashboardApi.reducerPath]: dashboardApi.reducer,
     [cloudinaryApi.reducerPath]: cloudinaryApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -67,6 +69,7 @@ export const store = configureStore({
       .concat(ordersApi.middleware)
       .concat(booksApi.middleware)
       .concat(cloudinaryApi.middleware)
+      .concat(dashboardApi.middleware)
 });
 
 export const persistor = persistStore(store);
