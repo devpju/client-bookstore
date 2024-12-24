@@ -22,7 +22,6 @@ export default function BooksTableToolbar({ rowSelection, table }) {
     isHidden: item.original.isHidden ? 'Đang ẩn' : 'Đang hiển ',
     createdAt: convertISODateToDDMMYYYY(item.original?.createdAt)
   }));
-  console.log(dataToExport);
   const [filters, setFilters] = useState({
     searchText: '',
     status: '',

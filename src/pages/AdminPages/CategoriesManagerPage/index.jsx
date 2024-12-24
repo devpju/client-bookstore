@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 import {
   useAddCategoryMutation,
@@ -23,6 +22,7 @@ import DataTable from '@/components/table/DataTable';
 import { categoriesTableColumns } from '@/components/table/columns';
 import { categoryFormSchema } from '@/validations/categorySchema';
 import { cn } from '@/utils/classUtils';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const CategoriesManagerPage = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,8 @@ const CategoriesManagerPage = () => {
   );
   const { selectedIds } = useSelector((state) => state.selector);
 
-  const { data: categoriesData, isFetching } = useGetCategoriesQuery();
+  const { data: categories, isFetching: isCategoriesFetching } =
+    useGetCategoriesQuery();
   const [addCategory, addCategoryState] = useAddCategoryMutation();
   const [updateCategory, updateCategoryState] = useUpdateCategoryMutation();
   const [toggleVisibilityCategories, toggleVisibilityCategoriesState] =
@@ -45,36 +46,40 @@ const CategoriesManagerPage = () => {
 
   useEffect(() => {
     if (dialogData?.rowData) {
-      categoryForm.reset({
-        name: dialogData.rowData.name,
-        isDeleted: dialogData.rowData.isDeleted
-      });
+      categoryForm.reset({ ...dialogData.rowData });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dialogData]);
 
-  const handleAPISuccess = (message) => toast.success(message);
-  const handleAPIError = (error) => toast.error(error?.data?.message);
+  useApiToastNotifications({
+    isLoading: addCategoryState.isLoading,
+    isSuccess: addCategoryState.isSuccess,
+    isError: addCategoryState.isError,
+    error: addCategoryState.error,
+    loadingMessage: 'Đang thêm danh mục...',
+    successMessage: 'Thêm danh mục thành công!',
+    fallbackErrorMessage: 'Đã xảy ra lỗi khi thêm danh mục!'
+  });
 
-  useEffect(() => {
-    if (addCategoryState.isSuccess)
-      handleAPISuccess('Thêm danh mục thành công!');
-    else if (addCategoryState.isError) handleAPIError(addCategoryState.error);
-  }, [addCategoryState]);
+  useApiToastNotifications({
+    isLoading: updateCategoryState.isLoading,
+    isSuccess: updateCategoryState.isSuccess,
+    isError: updateCategoryState.isError,
+    error: updateCategoryState.error,
+    loadingMessage: 'Đang cập nhật danh mục...',
+    successMessage: 'Cập nhật thông tin danh mục thành công!',
+    fallbackErrorMessage: 'Đã xảy ra lỗi khi cập nhật danh mục!'
+  });
 
-  useEffect(() => {
-    if (updateCategoryState.isSuccess)
-      handleAPISuccess('Cập nhật thông tin danh mục thành công!');
-    else if (updateCategoryState.isError)
-      handleAPIError(updateCategoryState.error);
-  }, [updateCategoryState]);
-
-  useEffect(() => {
-    if (toggleVisibilityCategoriesState.isSuccess)
-      handleAPISuccess('Cập nhật trạng thái danh mục thành công!');
-    else if (toggleVisibilityCategoriesState.isError)
-      handleAPIError(toggleVisibilityCategoriesState.error);
-  }, [toggleVisibilityCategoriesState]);
+  useApiToastNotifications({
+    isLoading: toggleVisibilityCategoriesState.isLoading,
+    isSuccess: toggleVisibilityCategoriesState.isSuccess,
+    isError: toggleVisibilityCategoriesState.isError,
+    error: toggleVisibilityCategoriesState.error,
+    loadingMessage: 'Đang cập nhật trạng thái danh mục...',
+    successMessage: 'Cập nhật trạng thái danh mục thành công!',
+    fallbackErrorMessage: 'Cập nhật trạng thái danh mục thất bại!'
+  });
 
   const handleAddCategory = (values) => addCategory(values);
   const handleUpdateCategory = (values) =>
@@ -88,8 +93,8 @@ const CategoriesManagerPage = () => {
   return (
     <div>
       <DataTable
-        data={categoriesData?.results}
-        loading={isFetching}
+        data={categories?.results}
+        loading={isCategoriesFetching}
         columns={categoriesTableColumns}
         className={cn(
           'transition-width duration-200',

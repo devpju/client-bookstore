@@ -16,8 +16,6 @@ const MultiSelectField = ({
   containerClassName,
   inputClassName
 }) => {
-  console.log(isError);
-  console.log(field);
   return (
     <FormItem className={containerClassName}>
       {label && (

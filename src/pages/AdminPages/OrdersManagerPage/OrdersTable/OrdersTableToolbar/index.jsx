@@ -30,7 +30,6 @@ export default function OrdersTableToolbar({ table }) {
       totalAmount: formatCurrencyVND(item.original?.totalAmount)
     };
   });
-  console.log(dataToExport);
 
   const isFiltered =
     filters.searchText !== '' ||

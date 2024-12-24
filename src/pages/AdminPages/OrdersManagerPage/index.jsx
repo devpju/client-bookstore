@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DIALOG_ACTION_TYPE, ORDER_STATUS_LIST } from '@/utils/constants';
@@ -22,6 +21,7 @@ import SelectField from '@/components/inputs/SelectField';
 import { getLatestLogStatus } from '@/utils/orderUtils';
 import { updateOrderStatusFormSchema } from '@/validations/orderSchema';
 import { cn } from '@/utils/classUtils';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const OrdersManagerPage = () => {
   const dispatch = useDispatch();
@@ -48,15 +48,16 @@ const OrdersManagerPage = () => {
       });
     }
   }, [dialogData, orderStatusForm]);
-  const handleAPISuccess = (message) => toast.success(message);
-  const handleAPIError = (error) => toast.error(error?.data?.message);
 
-  useEffect(() => {
-    if (updateOrderStatusState.isSuccess)
-      handleAPISuccess('Cập nhật trạng thái đơn hàng thành công!');
-    else if (updateOrderStatusState.isError)
-      handleAPIError(updateOrderStatusState.error);
-  }, [updateOrderStatusState]);
+  useApiToastNotifications({
+    isSuccess: updateOrderStatusState.isSuccess,
+    successMessage: 'Cập nhật trạng thái đơn hàng thành công!',
+    isLoading: updateOrderStatusState.isLoading,
+    loadingMessage: 'Đang cập nhật trạng thái đơn hàng...',
+    isError: updateOrderStatusState.isError,
+    error: updateOrderStatusState.error,
+    fallbackErrorMessage: 'Cập nhật trạng thái đơn hàng thất bại!'
+  });
 
   const handleUpdateOrderStatus = (values) => {
     updateOrderStatus({

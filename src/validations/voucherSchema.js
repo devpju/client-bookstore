@@ -27,12 +27,12 @@ export const voucherFormSchema = z
       .number({
         required_error: 'Vui lòng nhập giá trị giảm giá'
       })
-      .nonpositive('Giá trị giảm giá phải lớn hơn hoặc bằng 0'),
+      .nonnegative('Giá trị giảm giá phải lớn hơn hoặc bằng 0'),
     usageLimit: z
       .number({
         required_error: 'Vui lòng nhập số lượt sử dụng giới hạn'
       })
-      .nonpositive('Giới hạn lượt sử dụng phải lớn hơn hoặc bằng 0'),
+      .nonnegative('Giới hạn lượt sử dụng phải lớn hơn hoặc bằng 0'),
     startDate: z.string(),
     endDate: z.string()
   })

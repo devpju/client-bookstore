@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
@@ -13,6 +11,7 @@ import {
 } from '@/redux/apis/booksApi';
 import BooksTableToolbar from './BooksTable/BooksTableToolbar';
 import { booksTableColumns } from '@/components/table/columns';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const BooksManagerPage = () => {
   const dispatch = useDispatch();
@@ -26,15 +25,14 @@ const BooksManagerPage = () => {
   const [toggleVisibilityBooks, toggleVisibilityBooksState] =
     useToggleVisibilityBooksMutation();
 
-  const handleAPISuccess = (message) => toast.success(message);
-  const handleAPIError = (error) => toast.error(error?.data?.message);
-
-  useEffect(() => {
-    if (toggleVisibilityBooksState.isSuccess)
-      handleAPISuccess('Cập nhật trạng thái sách thành công!');
-    else if (toggleVisibilityBooksState.isError)
-      handleAPIError(toggleVisibilityBooksState.error);
-  }, [toggleVisibilityBooksState]);
+  useApiToastNotifications({
+    success: toggleVisibilityBooksState.isSuccess,
+    successMessage: 'Cập nhật trạng thái sách thành công!',
+    isLoading: toggleVisibilityBooksState.isLoading,
+    loadingMessage: 'Đang cập nhật trạng thái sách...',
+    error: toggleVisibilityBooksState.error,
+    fallbackErrorMessage: 'Cập nhật trạng thái sách thất bại!'
+  });
 
   const handleToggleVisibilityBook = () =>
     toggleVisibilityBooks({

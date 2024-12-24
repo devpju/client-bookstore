@@ -5,11 +5,10 @@ import {
   useUploadImageMutation,
   useUploadMultipleImagesMutation
 } from '@/redux/apis/cloudinaryApi';
-import { handleAPIError, handleAPISuccess } from '@/utils/apiUtils';
-import { useEffect } from 'react';
 import { bookFormSchema } from '@/validations/bookSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 const CreateBookPage = () => {
   useBreadcrumb('Tạo sách mới');
   const form = useForm({
@@ -36,28 +35,27 @@ const CreateBookPage = () => {
     useUploadMultipleImagesMutation();
   const [uploadImage, uploadImageState] = useUploadImageMutation();
 
-  useEffect(() => {
-    if (addBookState.isSuccess) {
-      handleAPISuccess('Thêm sách thành công!');
-      form.reset();
-    } else if (addBookState.isError) {
-      handleAPIError(addBookState.error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addBookState]);
+  useApiToastNotifications({
+    isSuccess: addBookState.isSuccess,
+    successMessage: 'Thêm sách mới thành công!',
+    isLoading: addBookState.isLoading,
+    loadingMessage: 'Đang thêm sách mới...',
+    isError: addBookState.isError,
+    error: addBookState.error,
+    fallbackErrorMessage: 'Thêm sách mới thất bại!'
+  });
 
   const handleAddNewBook = async (values) => {
-    try {
-      const thumbnail = await uploadImage(values.thumbnail).unwrap();
-      const images = await uploadMultipleImages(values.images).unwrap();
+    const thumbnail = await uploadImage(values.thumbnail).unwrap();
+    const images = await uploadMultipleImages(values.images).unwrap();
 
-      await addBook({
-        ...values,
-        thumbnail: thumbnail.url,
-        images: images.map((image) => image.url)
-      });
-    } catch (error) {
-      handleAPIError(error);
+    await addBook({
+      ...values,
+      thumbnail: thumbnail.url,
+      images: images.map((image) => image.url)
+    });
+    if (addBookState.isSuccess) {
+      form.reset();
     }
   };
 

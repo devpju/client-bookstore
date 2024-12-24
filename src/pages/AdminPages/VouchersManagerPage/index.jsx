@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 
@@ -22,6 +21,7 @@ import VoucherFormDialog from './VouchersTable/VoucherFormDialog';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { voucherFormSchema } from '@/validations/voucherSchema';
 import { cn } from '@/utils/classUtils';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const VouchersManagerPage = () => {
   const dispatch = useDispatch();
@@ -52,45 +52,51 @@ const VouchersManagerPage = () => {
   useEffect(() => {
     if (dialogData?.rowData) {
       voucherForm.reset({
-        type: dialogData.rowData.type,
-        discountValue: dialogData.rowData.discountValue,
-        usageLimit: dialogData.rowData.usageLimit,
-        startDate: dialogData.rowData.startDate,
-        endDate: dialogData.rowData.endDate
+        ...dialogData.rowData
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dialogData]);
 
-  const handleAPISuccess = (message) => toast.success(message);
-  const handleAPIError = (error) => toast.error(error?.data?.message);
+  useApiToastNotifications({
+    isLoading: addVoucherState.isLoading,
+    loadingMessage: 'Đang thêm mã giảm giá...',
+    isSuccess: addVoucherState.isSuccess,
+    successMessage: 'Thêm mã giảm giá thành công!',
+    isError: addVoucherState.isError,
+    error: addVoucherState.error,
+    fallbackErrorMessage: 'Thêm mã giảm giá thất bại!'
+  });
 
-  useEffect(() => {
-    if (addVoucherState.isSuccess)
-      handleAPISuccess('Thêm mã giảm giá thành công!');
-    else if (addVoucherState.isError) handleAPIError(addVoucherState.error);
-  }, [addVoucherState]);
+  useApiToastNotifications({
+    isLoading: updateVoucherState.isLoading,
+    loadingMessage: 'Đang cập nhật thông tin mã giảm giá...',
+    isSuccess: updateVoucherState.isSuccess,
+    successMessage: 'Cập nhật thông tin mã giảm giá thành công!',
+    isError: updateVoucherState.isError,
+    error: updateVoucherState.error,
+    fallbackErrorMessage: 'Cập nhật thông tin mã giảm giá thất bại!'
+  });
 
-  useEffect(() => {
-    if (updateVoucherState.isSuccess)
-      handleAPISuccess('Cập nhật thông tin mã giảm giá thành công!');
-    else if (updateVoucherState.isError)
-      handleAPIError(updateVoucherState.error);
-  }, [updateVoucherState]);
+  useApiToastNotifications({
+    isLoading: deleteVouchersState.isLoading,
+    loadingMessage: 'Đang xoá mã giảm giá...',
+    isSuccess: deleteVouchersState.isSuccess,
+    successMessage: 'Xoá mã giảm giá thành công!',
+    isError: deleteVouchersState.isError,
+    error: deleteVouchersState.error,
+    fallbackErrorMessage: 'Xoá mã giảm giá thất bại!'
+  });
 
-  useEffect(() => {
-    if (deleteVouchersState.isSuccess)
-      handleAPISuccess('Xoá mã giảm giá thành công!');
-    else if (deleteVouchersState.isError)
-      handleAPIError(deleteVouchersState.error);
-  }, [deleteVouchersState]);
-
-  useEffect(() => {
-    if (toggleActiveVouchersState.isSuccess)
-      handleAPISuccess('Cập nhật trạng thái mã giảm giá thành công!');
-    else if (toggleActiveVouchersState.isError)
-      handleAPIError(toggleActiveVouchersState.error);
-  }, [toggleActiveVouchersState]);
+  useApiToastNotifications({
+    isLoading: toggleActiveVouchersState.isLoading,
+    loadingMessage: 'Đang cập nhật trạng thái mã giảm giá...',
+    isSuccess: toggleActiveVouchersState.isSuccess,
+    successMessage: 'Cập nhật trạng thái mã giảm giá thành công!',
+    isError: toggleActiveVouchersState.isError,
+    error: toggleActiveVouchersState.error,
+    fallbackErrorMessage: 'Cập nhật trạng thái mã giảm giá thất bại!'
+  });
 
   const handleAddVoucher = (values) => {
     addVoucher(values);

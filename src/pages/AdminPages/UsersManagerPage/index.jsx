@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
 
@@ -21,6 +20,7 @@ import { DIALOG_ACTION_TYPE, USER_ROLES_ARRAY } from '@/utils/constants';
 import { rolesFormSchema } from '@/validations/userSchema';
 import { cn } from '@/utils/classUtils';
 import MultiSelectField from '@/components/inputs/MultiSelectField';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const UsersManagerPage = () => {
   const dispatch = useDispatch();
@@ -41,28 +41,31 @@ const UsersManagerPage = () => {
   useEffect(() => {
     if (dialogData?.rowData) {
       updateUserRolesForm.reset({
-        roles: dialogData.rowData.roles
+        ...dialogData?.rowData
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dialogData]);
 
-  const handleAPISuccess = (message) => toast.success(message);
-  const handleAPIError = (error) => toast.error(error?.data?.message);
+  useApiToastNotifications({
+    isLoading: updateUserRolesState.isLoading,
+    loadingMessage: 'Đang cập nhật vai trò người dùng...',
+    isSuccess: updateUserRolesState.isSuccess,
+    successMessage: 'Cập nhật vai trò người dùng thành công!',
+    isError: updateUserRolesState.isError,
+    error: updateUserRolesState.error,
+    fallbackErrorMessage: 'Cập nhật vai trò người dùng thất bại!'
+  });
 
-  useEffect(() => {
-    if (updateUserRolesState.isSuccess)
-      handleAPISuccess('Cập nhật vai trò người dùng thành công!');
-    else if (updateUserRolesState.isError)
-      handleAPIError(updateUserRolesState.error);
-  }, [updateUserRolesState]);
-
-  useEffect(() => {
-    if (toggleBanUsersState.isSuccess)
-      handleAPISuccess('Cập nhật trạng thái người dùng thành công!');
-    else if (toggleBanUsersState.isError)
-      handleAPIError(toggleBanUsersState.error);
-  }, [toggleBanUsersState]);
+  useApiToastNotifications({
+    isLoading: toggleBanUsersState.isLoading,
+    loadingMessage: 'Đang cập nhật trạng thái người dùng...',
+    isSuccess: toggleBanUsersState.isSuccess,
+    successMessage: 'Cập nhật trạng thái người dùng thành công!',
+    isError: toggleBanUsersState.isError,
+    error: toggleBanUsersState.error,
+    fallbackErrorMessage: 'Cập nhật trạng thái người dùng thất bại!'
+  });
 
   const handleUpdateUserRoles = (values) =>
     updateUserRoles({ id: selectedIds[0], ...values });

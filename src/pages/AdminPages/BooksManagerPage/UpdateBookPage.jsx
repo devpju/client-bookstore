@@ -8,14 +8,12 @@ import {
   useUploadImageMutation,
   useUploadMultipleImagesMutation
 } from '@/redux/apis/cloudinaryApi';
-import { handleAPIError, handleAPISuccess } from '@/utils/apiUtils';
-import { useEffect } from 'react';
 import { bookFormSchema } from '@/validations/bookSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocation, useNavigate } from 'react-router';
-import { urlToFile } from '@/utils/fileUtils';
 import Loading from '@/components/Loading';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 const initialValues = {
   name: '',
   width: 0,
@@ -47,67 +45,19 @@ const UpdateBookPage = () => {
     useUploadMultipleImagesMutation();
   const [uploadImage, uploadImageState] = useUploadImageMutation();
 
-  const {
-    data: bookData,
-    isLoading: isLoadingBookDetails,
-    isSuccess: isBookDetailsLoaded
-  } = useGetDetailBookQuery({ id: bookId });
+  const { data: bookData, isLoading: isLoadingBookDetails } =
+    useGetDetailBookQuery({ id: bookId });
   const detailBook = bookData?.results;
 
-  useEffect(() => {
-    const populateForm = async () => {
-      if (isBookDetailsLoaded && detailBook) {
-        const handleFiles = async (urls) => {
-          return await Promise.all(
-            urls.map(async (url) => {
-              const fileName = url.split('/').pop();
-              const file = await urlToFile(url, fileName);
-              file.preview = url;
-              return file;
-            })
-          );
-        };
-
-        const thumbnailFile = detailBook.thumbnail
-          ? await handleFiles([detailBook.thumbnail])
-          : [];
-        const imageFiles = detailBook.images?.length
-          ? await handleFiles(detailBook.images)
-          : [];
-
-        form.reset({
-          name: detailBook?.name || '',
-          width: detailBook?.width || 0,
-          height: detailBook?.height || 0,
-          authors: detailBook?.authors || '',
-          totalPages: detailBook?.totalPages || 0,
-          description: detailBook?.description || '',
-          originalPrice: detailBook?.originalPrice || 0,
-          price: detailBook?.price || 0,
-          publishDate: detailBook?.publishDate || '',
-          publisher: detailBook?.publisher || '',
-          coverType: detailBook?.coverType || '',
-          thumbnail: thumbnailFile,
-          images: imageFiles,
-          categoryId: detailBook?.category?.id || ''
-        });
-      }
-    };
-
-    populateForm();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBookDetailsLoaded, detailBook]);
-
-  useEffect(() => {
-    if (updateBookState.isSuccess) {
-      handleAPISuccess('Sửa thông tin sách thành công!');
-      form.reset({ initialValues });
-      navigate('/admin/books');
-    } else if (updateBookState.isError) {
-      handleAPIError(updateBookState.error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateBookState]);
+  useApiToastNotifications({
+    isSuccess: updateBookState.isSuccess,
+    successMessage: 'Cập nhật sách thành công!',
+    isLoading: updateBookState.isLoading,
+    loadingMessage: 'Đang cập nhật sách...',
+    isError: updateBookState.isError,
+    error: updateBookState.error,
+    fallbackErrorMessage: 'Cập nhật sách thất bại!'
+  });
 
   if (isLoadingBookDetails) {
     return <Loading />;
@@ -147,8 +97,12 @@ const UpdateBookPage = () => {
         thumbnail: thumbnailUrl,
         images: updatedImages
       }).unwrap();
+      if (updateBookState.isSuccess) {
+        form.reset({ initialValues });
+        navigate('/admin/books');
+      }
     } catch (error) {
-      handleAPIError(error);
+      console.log(error);
     }
   };
 

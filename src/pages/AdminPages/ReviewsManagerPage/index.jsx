@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { closeDialog, openDialog } from '@/redux/slices/dialogSlice';
@@ -13,7 +12,7 @@ import ReviewsTableToolbar from './ReviewsTable/ReviewsTableToolbar';
 import { reviewsTableColumns } from '@/components/table/columns';
 import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { cn } from '@/utils/classUtils';
-import { handleAPIError, handleAPISuccess } from '@/utils/apiUtils';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const ReviewsManagerPage = () => {
   const dispatch = useDispatch();
@@ -27,17 +26,21 @@ const ReviewsManagerPage = () => {
   const [toggleVisibilityReviews, toggleVisibilityReviewsState] =
     useToggleReviewsVisibilityMutation();
 
+  useApiToastNotifications({
+    isSuccess: toggleVisibilityReviewsState.isSuccess,
+    isLoading: toggleVisibilityReviewsState.isLoading,
+    isErrored: toggleVisibilityReviewsState.isError,
+    error: toggleVisibilityReviewsState.error,
+    loadingMessage: 'Đang cập nhật trạng thái đánh giá',
+    successMessage: 'Cập nhật trạng thái đánh giá thành công',
+    fallbackErrorMessage: 'Cập nhật trạng thái đánh giá thất bại'
+  });
+
   const handleToggleVisibilityReviews = () =>
     toggleVisibilityReviews({
       reviewIds: selectedIds,
       visible: dialogData.isReviewHidden
     });
-  useEffect(() => {
-    if (toggleVisibilityReviewsState.isSuccess)
-      handleAPISuccess('Cập nhật trạng thái đánh giá thành công!');
-    else if (toggleVisibilityReviewsState.isError)
-      handleAPIError(toggleVisibilityReviewsState.error);
-  }, [toggleVisibilityReviewsState]);
 
   return (
     <div>

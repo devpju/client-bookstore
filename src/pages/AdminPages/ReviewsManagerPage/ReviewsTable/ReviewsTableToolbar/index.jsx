@@ -18,7 +18,6 @@ export default function ReviewsTableToolbar({ rowSelection, table }) {
     createdAt: convertISODateToDDMMYYYY(item.original?.createdAt),
     isHidden: item.original.isHidden ? 'Đang ẩn' : 'Đang hiện'
   }));
-  console.log(dataToExport);
   const [filters, setFilters] = useState({
     searchText: '',
     status: '',

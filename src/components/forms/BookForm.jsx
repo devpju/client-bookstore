@@ -7,11 +7,11 @@ import TextEditorField from '@/components/inputs/TextEditorField';
 import TextField from '@/components/inputs/TextField';
 import { Form, FormField } from '@/components/shadcnUI/form';
 import { useGetCategoriesQuery } from '@/redux/apis/categoriesApi';
-import { handleAPIError } from '@/utils/apiUtils';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CancelButton from '../buttons/CancelButton';
 import { useNavigate } from 'react-router';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const BookForm = ({ onSubmit, isLoading, form }) => {
   useState(false);
@@ -19,9 +19,11 @@ const BookForm = ({ onSubmit, isLoading, form }) => {
     useGetCategoriesQuery();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (getCategoriesState.isError) handleAPIError(getCategoriesState.error);
-  }, [getCategoriesState.isError, getCategoriesState.error]);
+  useApiToastNotifications({
+    isError: getCategoriesState.isError,
+    error: getCategoriesState.error,
+    fallbackErrorMessage: 'Lấy danh mục sách thất bại!'
+  });
 
   return (
     <Form {...form}>

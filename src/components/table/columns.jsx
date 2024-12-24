@@ -434,7 +434,7 @@ export const usersTableColumns = [
 ];
 
 export const ordersTableColumns = [
-  selectColumn,
+  //   selectColumn,
   indexColumn,
   {
     accessorKey: 'orderId',
