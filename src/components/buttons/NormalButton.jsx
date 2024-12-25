@@ -8,10 +8,12 @@ const NormalButton = ({
   iconClassName,
   size = 'sm',
   variant = 'default',
-  icon: Icon
+  icon: Icon,
+  type = 'button'
 }) => {
   return (
     <Button
+      type={type}
       onClick={onClick}
       size={size}
       variant={variant}

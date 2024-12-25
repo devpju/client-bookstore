@@ -1,5 +1,6 @@
 import AuthLayout from '@/components/layouts/AuthLayout';
 import CustomerLayout from '@/components/layouts/CustomerLayout';
+import PersonalInfoLayout from '@/components/layouts/CustomerLayout/PersonalInfoLayout';
 import ForgotPasswordPage from '@/pages/AuthPages/ForgotPassword/RequestPage';
 import ForgotPasswordSuccessPage from '@/pages/AuthPages/ForgotPassword/SuccessPage';
 import LoginPage from '@/pages/AuthPages/LoginPage';
@@ -10,6 +11,7 @@ import ResetPasswordPage from '@/pages/AuthPages/ResetPassword/EnterPage';
 import ResetPasswordSuccessPage from '@/pages/AuthPages/ResetPassword/SuccessPage';
 import DetailBookPage from '@/pages/CustomerPages/DetailBookPage';
 import HomePage from '@/pages/CustomerPages/HomePage';
+import ProfilePage from '@/pages/CustomerPages/PersonalInfoPages/ProfilePage';
 import ProductListPage from '@/pages/CustomerPages/ProductListPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { Route, Routes } from 'react-router';
@@ -41,6 +43,9 @@ const PublicRoutes = () => {
         <Route path='/danh-muc/:slug' element={<ProductListPage />} />
         <Route path='/sach/:slug' element={<DetailBookPage />} />
         <Route path='/tim-kiem/:content' element={<ProductListPage />} />
+        <Route path='/user' element={<PersonalInfoLayout />}>
+          <Route path='profile' element={<ProfilePage />} />
+        </Route>
       </Route>
       <Route path='*' element={<NotFoundPage />} />
     </Routes>

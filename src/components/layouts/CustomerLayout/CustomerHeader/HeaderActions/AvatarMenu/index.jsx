@@ -47,7 +47,7 @@ const AvatarMenu = () => {
         </Link>
         <Link
           className='cursor-pointer rounded-md px-4 py-2 text-sm hover:bg-accent'
-          to='/user/info'
+          to='/user/profile'
         >
           Tài khoản của tôi
         </Link>

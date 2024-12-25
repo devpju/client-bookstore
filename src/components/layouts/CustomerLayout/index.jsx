@@ -6,7 +6,7 @@ const CustomerLayout = () => {
   return (
     <div>
       <CustomerHeader />
-      <main className='pt-24'>
+      <main className='pt-20'>
         <Outlet />
       </main>
       <CustomerFooter />
