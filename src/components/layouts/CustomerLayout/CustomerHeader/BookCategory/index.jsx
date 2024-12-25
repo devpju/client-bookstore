@@ -6,10 +6,11 @@ import {
 } from '@/components/shadcnUI/hover-card';
 import { ChevronDown } from 'lucide-react';
 import BookCategoryContent from './BookCategoryContent';
-import { categories } from '@/data/categories';
+import { useGetUserCategoriesQuery } from '@/redux/apis/categoriesApi';
 
 const BookCategory = () => {
-  const categoriesInHomePage = categories;
+  const { data } = useGetUserCategoriesQuery();
+  const categories = data?.results || [];
   return (
     <HoverCard openDelay={30}>
       <HoverCardTrigger asChild>
@@ -22,7 +23,7 @@ const BookCategory = () => {
         sideOffset={10}
         className='h-[calc(100vh-500px)] min-h-[400px] w-[300px] border-0 shadow-2xl sm:w-[500px]'
       >
-        <BookCategoryContent categories={categoriesInHomePage} />
+        <BookCategoryContent categories={categories} />
       </HoverCardContent>
     </HoverCard>
   );
