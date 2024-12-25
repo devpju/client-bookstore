@@ -13,23 +13,33 @@ export const booksApi = createApi({
     getUserBooks: builder.query({
       query: ({
         limit = 10,
-        page = 1,
+        page = 0,
         sort = 'desc-createdAt',
-        filters = {}
+        name = '',
+        category = ''
       }) => {
-        const filterString = JSON.stringify(filters);
+        const params = {
+          limit,
+          page,
+          sort
+        };
+
+        if (name) {
+          params.name = name;
+        }
+
+        if (category) {
+          params.category = category;
+        }
+
         return {
           url: `/user/books/`,
-          params: {
-            limit,
-            page,
-            sort,
-            filters: filterString
-          }
+          params
         };
       },
       providesTags: ['Books']
     }),
+
     updateBook: builder.mutation({
       query: (book) => ({
         url: `/admin/books/${book.id}`,

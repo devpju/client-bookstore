@@ -5,6 +5,7 @@ import {
   authReducer,
   breadcrumbReducer,
   dialogReducer,
+  filtersReducer,
   selectorReducer,
   sidebarReducer
 } from './slices';
@@ -49,6 +50,7 @@ export const store = configureStore({
     selector: selectorReducer,
     breadcrumb: persistedBreadcrumbReducer,
     sidebar: sidebarReducer,
+    filters: filtersReducer,
     [authApi.reducerPath]: authApi.reducer,
     [categoriesApi.reducerPath]: categoriesApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,

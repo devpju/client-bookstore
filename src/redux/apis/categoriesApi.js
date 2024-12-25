@@ -12,6 +12,12 @@ export const categoriesApi = createApi({
       }),
       providesTags: ['Categories']
     }),
+    getUserCategories: builder.query({
+      query: () => ({
+        url: '/user/categories'
+      }),
+      providesTags: ['Categories']
+    }),
     addCategory: builder.mutation({
       query: ({ name }) => ({
         url: '/admin/categories',
@@ -43,5 +49,6 @@ export const {
   useGetCategoriesQuery,
   useAddCategoryMutation,
   useUpdateCategoryMutation,
-  useToggleVisibilityCategoriesMutation
+  useToggleVisibilityCategoriesMutation,
+  useGetUserCategoriesQuery
 } = categoriesApi;

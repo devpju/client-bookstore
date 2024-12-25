@@ -1,13 +1,19 @@
 import { formatCurrencyVND } from '@/utils/numberUtils';
 import BookCardStats from './BookCardStats';
 import { Link } from 'react-router';
+import { cn } from '@/utils/classUtils';
 
-export const BookCard = ({ book }) => {
+export const BookCard = ({ book, className }) => {
   return (
-    <div className='group w-full p-4 transition-transform hover:scale-105'>
+    <div
+      className={cn(
+        'group w-full p-4 transition-transform hover:scale-105',
+        className
+      )}
+    >
       <Link to={`/sach/${book.slug}-p${book.id}`} className='w-full'>
         <div className='flex h-[250px] w-full justify-center'>
-          <img src={book.thumbnailUrl} alt='' className='h-full object-cover' />
+          <img src={book.thumbnail} alt='' className='h-full object-cover' />
         </div>
       </Link>
       <div className='mt-3 space-y-2'>

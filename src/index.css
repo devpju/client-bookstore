@@ -236,3 +236,8 @@
 .slick-dots .slick-active div {
   @apply bg-primary;
 }
+/* global.css */
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+}
