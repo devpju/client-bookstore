@@ -39,10 +39,3 @@ export const bookFormSchema = z.object({
   images: z.array(z.instanceof(File)).nonempty('Vui lòng chọn ít nhất một ảnh'),
   categoryId: z.string().min(1, 'Vui lòng chọn một danh mục')
 });
-
-export const updateUserInfoFormSchema = z.object({
-  email: z.string().email('Email không hợp lệ'),
-  fullName: z.string(),
-  phoneNumber: z.string(),
-  urlAvatar: z.string()
-});

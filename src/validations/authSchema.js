@@ -1,7 +1,7 @@
 import { REGEX } from '@/utils/constants';
 import { z } from 'zod';
 
-const passwordSchema = z
+export const passwordSchema = z
   .string()
   .min(1, 'Vui lòng nhập mật khẩu')
   .regex(
@@ -19,16 +19,16 @@ const emailOrPhoneNumberSchema = z
     }
   );
 
-const fullNameSchema = z
+export const fullNameSchema = z
   .string()
   .min(1, 'Vui lòng nhập họ và tên')
   .max(30, 'Họ và tên quá dài');
 
-const emailSchema = z
+export const emailSchema = z
   .string(1, 'Vui lòng nhập email')
   .regex(REGEX.EMAIL, 'Email không hợp lệ');
 
-const phoneNumberSchema = z
+export const phoneNumberSchema = z
   .string(1, 'Vui lòng nhập số điện thoại')
   .regex(REGEX.PHONE_NUMBER, 'Số điện thoại không hợp lệ');
 

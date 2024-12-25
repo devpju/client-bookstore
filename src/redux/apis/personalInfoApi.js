@@ -16,8 +16,19 @@ export const personalInfoApi = createApi({
         method: 'PUT',
         body: { ...info }
       })
+    }),
+    changePassword: builder.mutation({
+      query: ({ currentPassword, password, logoutAllDevices = false }) => ({
+        url: `/user/password`,
+        method: 'PUT',
+        body: { currentPassword, password, logoutAll: logoutAllDevices }
+      })
     })
   })
 });
 
-export const { useGetInfoQuery, useUpdateInfoMutation } = personalInfoApi;
+export const {
+  useGetInfoQuery,
+  useUpdateInfoMutation,
+  useChangePasswordMutation
+} = personalInfoApi;

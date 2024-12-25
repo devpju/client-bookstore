@@ -10,36 +10,36 @@ const PersonalInfoLayout = () => {
       <div className='col-span-2 flex flex-col gap-2 pt-5 font-semibold'>
         <Link
           className={`rounded-md px-1 py-2 text-slate-600 ${isActive('/profile')}`}
-          to='/profile'
+          to='/user/profile'
         >
           Hồ sơ
         </Link>
         <Link
           className={`rounded-md px-1 py-2 text-slate-600 ${isActive('/change-password')}`}
-          to='/change-password'
+          to='/user/change-password'
         >
           Đổi mật khẩu
         </Link>
         <Link
           className={`rounded-md px-1 py-2 text-slate-600 ${isActive('/address')}`}
-          to='/address'
+          to='/user/address'
         >
           Địa chỉ
         </Link>
         <Link
           className={`rounded-md px-1 py-2 text-slate-600 ${isActive('/purchase')}`}
-          to='/purchase'
+          to='/user/purchase'
         >
           Đơn mua
         </Link>
         <Link
           className={`rounded-md px-1 py-2 text-slate-600 ${isActive('/vouchers-wallet')}`}
-          to='/vouchers-wallet'
+          to='/user/vouchers-wallet'
         >
           Kho mã giảm giá
         </Link>
       </div>
-      <div className='col-span-10 min-h-[calc(100vh-6rem)] border-l pt-5'>
+      <div className='col-span-10 min-h-[calc(100vh-6rem)] w-full border-l pt-5'>
         <Outlet />
       </div>
     </div>

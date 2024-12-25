@@ -11,7 +11,11 @@ import ResetPasswordPage from '@/pages/AuthPages/ResetPassword/EnterPage';
 import ResetPasswordSuccessPage from '@/pages/AuthPages/ResetPassword/SuccessPage';
 import DetailBookPage from '@/pages/CustomerPages/DetailBookPage';
 import HomePage from '@/pages/CustomerPages/HomePage';
+import AddressesManagerPage from '@/pages/CustomerPages/PersonalInfoPages/AddressesManagerPage';
+import ChangePasswordPage from '@/pages/CustomerPages/PersonalInfoPages/ChangePasswordPage';
 import ProfilePage from '@/pages/CustomerPages/PersonalInfoPages/ProfilePage';
+import PurchasedOrderPage from '@/pages/CustomerPages/PersonalInfoPages/PurchasedOrderPage';
+import VouchersWalletPage from '@/pages/CustomerPages/PersonalInfoPages/VouchersWalletPage';
 import ProductListPage from '@/pages/CustomerPages/ProductListPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { Route, Routes } from 'react-router';
@@ -45,6 +49,10 @@ const PublicRoutes = () => {
         <Route path='/tim-kiem/:content' element={<ProductListPage />} />
         <Route path='/user' element={<PersonalInfoLayout />}>
           <Route path='profile' element={<ProfilePage />} />
+          <Route path='change-password' element={<ChangePasswordPage />} />
+          <Route path='address' element={<AddressesManagerPage />} />
+          <Route path='purchase' element={<PurchasedOrderPage />} />
+          <Route path='vouchers-wallet' element={<VouchersWalletPage />} />
         </Route>
       </Route>
       <Route path='*' element={<NotFoundPage />} />
