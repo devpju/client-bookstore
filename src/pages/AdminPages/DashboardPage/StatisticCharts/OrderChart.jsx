@@ -8,6 +8,8 @@ import {
 } from '@/components/shadcnUI/card';
 import {
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/shadcnUI/chart';
@@ -51,6 +53,7 @@ const OrderChart = ({ orderStatistic }) => {
             <Bar dataKey='cancelled' fill='var(--color-cancelled)' radius={4} />
             <Bar dataKey='returned' fill='var(--color-returned)' radius={4} />
             <Bar dataKey='completed' fill='var(--color-completed)' radius={4} />
+            <ChartLegend content={<ChartLegendContent />} />
           </BarChart>
         </ChartContainer>
       </CardContent>

@@ -3,6 +3,7 @@ import { useGetDashboardQuery } from '@/redux/apis/dashboardApi';
 import { useSelector } from 'react-redux';
 import StatisticCards from './StatisticCards';
 import StatisticCharts from './StatisticCharts';
+import RecentOrders from './RecentOrders';
 
 const DashboardPage = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -11,7 +12,7 @@ const DashboardPage = () => {
   console.log(dashboard);
   if (isLoading) return <Loading />;
   return (
-    <div className='w-full px-5'>
+    <div className='w-full p-5'>
       <p className='text-slate-900'>
         Xin chào, <span>{userInfo.fullName}</span>
       </p>
@@ -19,8 +20,8 @@ const DashboardPage = () => {
         Thống kê về cửa hàng của bạn ngày hôm nay
       </p>
       <StatisticCards dashboard={dashboard} />
-
       <StatisticCharts dashboard={dashboard} />
+      <RecentOrders recentOrders={dashboard.recentOrders} />
     </div>
   );
 };

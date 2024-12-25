@@ -5,12 +5,13 @@ import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle
 } from '@/components/shadcnUI/card';
 import {
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/shadcnUI/chart';
@@ -58,6 +59,7 @@ const RevenueChart = ({ revenueStatistic }) => {
               strokeWidth={2}
               dot={true}
             />
+            <ChartLegend content={<ChartLegendContent />} />
           </LineChart>
         </ChartContainer>
       </CardContent>
