@@ -23,7 +23,9 @@ const SelectWithSearchField = ({
   options,
   label,
   keyName = { value: 'id', name: 'name' },
-  isError
+  isError,
+  onSelect,
+  disabled
 }) => {
   return (
     <FormItem className='flex flex-col'>
@@ -75,8 +77,10 @@ const SelectWithSearchField = ({
                         key={option[keyName.value]}
                         value={option[keyName.name]}
                         onSelect={() => {
+                          onSelect && onSelect(option[keyName.value]);
                           field.onChange(option[keyName.value]);
                         }}
+                        disabled={disabled}
                       >
                         {option[keyName.name]}
                         <Check

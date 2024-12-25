@@ -29,7 +29,10 @@ export const DIALOG_ACTION_TYPE = {
   UPDATE_ORDER_STATUS: 'update-order-status',
   ADD_NEW_BOOK: 'add-new-book',
   UPDATE_BOOK: 'update-book',
-  TOGGLE_VISIBILITY_BOOK: 'toggle-visibility-book'
+  TOGGLE_VISIBILITY_BOOK: 'toggle-visibility-book',
+  ADD_NEW_ADDRESS: 'add-new-address',
+  UPDATE_ADDRESS: 'update-address',
+  DELETE_ADDRESS: 'delete-address'
 };
 
 export const ORDER_STATUS_LIST = [
