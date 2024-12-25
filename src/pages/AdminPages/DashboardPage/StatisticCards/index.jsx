@@ -33,9 +33,8 @@ const StatisticCards = ({ dashboard }) => {
         colors={['text-purple-400', 'bg-purple-300/30']}
       />
       <StatisticCard
-        title='Sách đã bán'
-        value={dashboard.totalSelledBooks}
-        valueChange={dashboard.totalSelledBooksChange}
+        title='Tổng số sách'
+        value={dashboard.totalBooks}
         to='/admin/books'
         toName='Sách'
         icon={BookCheck}

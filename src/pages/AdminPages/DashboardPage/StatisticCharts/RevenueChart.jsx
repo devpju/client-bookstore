@@ -25,6 +25,8 @@ const chartConfig = {
 };
 
 const RevenueChart = ({ revenueStatistic }) => {
+  const maxValue = Math.max(...revenueStatistic.map((item) => item.revenue));
+
   return (
     <Card>
       <CardHeader>
@@ -47,7 +49,10 @@ const RevenueChart = ({ revenueStatistic }) => {
               axisLine={false}
               tickMargin={8}
             />
-            <YAxis tickFormatter={formatNumberWithK} />
+            <YAxis
+              tickFormatter={formatNumberWithK}
+              domain={['dataMin', maxValue * 1.1]}
+            />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}

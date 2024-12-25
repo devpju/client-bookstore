@@ -12,6 +12,7 @@ const StatisticCard = ({
   icon: Icon,
   colors = []
 }) => {
+  console.log(valueChange);
   return (
     <div className='rounded-lg border border-slate-200 p-2 shadow-md'>
       <div className='flex items-center justify-between'>
@@ -22,11 +23,11 @@ const StatisticCard = ({
           <span className='flex items-center gap-1 text-sm text-green-500'>
             <ArrowUpRight className='size-5' /> +{valueChange}%
           </span>
-        ) : (
+        ) : valueChange < 0 ? (
           <span className='flex items-center gap-1 text-sm text-red-500'>
             <ArrowDownRight className='size-5' /> {valueChange}%
           </span>
-        )}
+        ) : null}
       </div>
       <div className='mt-3 text-2xl font-semibold text-slate-700'>
         {type === 'money'

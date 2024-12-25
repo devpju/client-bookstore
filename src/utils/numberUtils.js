@@ -16,9 +16,9 @@ export const formatNumberWithK = (value) => {
     return 'N/A'; // Trả về giá trị mặc định nếu không hợp lệ
   }
 
-  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1)}t`; // Tỷ
-  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}m`; // Triệu
-  if (value >= 1_000) return `${(value / 1_000).toFixed(1)}k`; // Nghìn
+  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1)}T`; // Tỷ
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`; // Triệu
+  if (value >= 1_000) return `${(value / 1_000).toFixed(1)}K`; // Nghìn
   return value.toString(); // Giá trị nhỏ hơn 1 nghìn
 };
 
