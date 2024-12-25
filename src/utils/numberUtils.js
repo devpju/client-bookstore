@@ -36,3 +36,7 @@ export const formatCurrencyVND = (number) => {
     currency: 'VND'
   }).format(number);
 };
+
+export function formatNumberVietnamese(number) {
+  return new Intl.NumberFormat('vi-VN').format(number);
+}
