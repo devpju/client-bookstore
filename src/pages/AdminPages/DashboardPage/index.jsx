@@ -2,6 +2,7 @@ import Loading from '@/components/Loading';
 import { useGetDashboardQuery } from '@/redux/apis/dashboardApi';
 import { useSelector } from 'react-redux';
 import StatisticCards from './StatisticCards';
+import StatisticCharts from './StatisticCharts';
 
 const DashboardPage = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -18,6 +19,8 @@ const DashboardPage = () => {
         Thống kê về cửa hàng của bạn ngày hôm nay
       </p>
       <StatisticCards dashboard={dashboard} />
+
+      <StatisticCharts dashboard={dashboard} />
     </div>
   );
 };

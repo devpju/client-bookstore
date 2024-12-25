@@ -7,17 +7,19 @@
  *  formatNumberWithK(2345) // '2.3K'
  *  formatNumberWithK(10000) // '10.0K'
  */
-export const formatNumberWithK = (num) => {
-  if (typeof num !== 'number' || isNaN(num)) {
-    return 'Số không hợp lệ';
+// utils/formatNumber.js
+
+export const formatNumberWithK = (value) => {
+  // Kiểm tra xem đầu vào có phải là số hay không
+  if (typeof value !== 'number' || isNaN(value)) {
+    console.warn('Input must be a valid number');
+    return 'N/A'; // Trả về giá trị mặc định nếu không hợp lệ
   }
-  if (num < 1000) {
-    return num.toString();
-  }
-  const formattedNumber = (num / 1000).toFixed(1);
-  return formattedNumber.endsWith('.0')
-    ? `${parseInt(formattedNumber)}K`
-    : `${formattedNumber}K`;
+
+  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1)}t`; // Tỷ
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}m`; // Triệu
+  if (value >= 1_000) return `${(value / 1_000).toFixed(1)}k`; // Nghìn
+  return value.toString(); // Giá trị nhỏ hơn 1 nghìn
 };
 
 /**
