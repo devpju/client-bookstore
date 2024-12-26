@@ -214,15 +214,13 @@ const DetailOrderPage = () => {
         <div className='mt-5 space-y-4'>
           {orderInfo.books.map((book) => (
             <div
-              key={book.id}
+              key={book.info.id}
               className='flex items-center justify-between rounded-lg border bg-gray-50 p-3 shadow'
             >
               <div className='flex items-center gap-4'>
                 <img
-                  src={
-                    'https://t3.ftcdn.net/jpg/04/62/60/80/360_F_462608080_J2AJrf8h0fmbFqnTVUQfza8JivYOfShz.jpg'
-                  }
-                  alt={book.name}
+                  src={book.info.thumbnail || ''}
+                  alt={book.info.name}
                   className='h-20 w-20 rounded-lg object-cover'
                 />
                 <div>

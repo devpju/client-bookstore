@@ -2,12 +2,12 @@ import OTPVerificationForm from '@/components/forms/OTPVerificationForm';
 import IconCircleWrapper from '@/components/icons/IconCircleWrapper';
 import ResendEmailPrompt from '@/components/prompts/ResendEmailPrompt';
 import { Skeleton } from '@/components/shadcnUI/skeleton';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 import { useSendOTPMutation, useVerifyOTPMutation } from '@/redux/apis/authApi';
 import { maskEmail } from '@/utils/stringUtils';
 import { Key } from 'lucide-react';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { toast } from 'sonner';
 
 const OTPVerificationPage = () => {
   const navigate = useNavigate();
@@ -19,18 +19,26 @@ const OTPVerificationPage = () => {
     if (!email) navigate('/login');
   }, [email, navigate]);
 
-  useEffect(() => {
+  const handleVerifyOTP = async ({ otp }) => {
+    await verifyOTP({ email, otp });
     if (verifyOTPState.isSuccess) {
       navigate('/verify-otp-success');
-    } else if (verifyOTPState.isError) {
-      toast.error(verifyOTPState.error.data.message);
-    } else if (sendOTPState.isError) {
-      toast.error(sendOTPState.error.data.message);
     }
-  }, [verifyOTPState, navigate, sendOTPState]);
-  const handleVerifyOTP = ({ otp }) => {
-    verifyOTP({ email, otp });
   };
+  useApiToastNotifications({
+    isError: verifyOTPState.isError,
+    error: verifyOTPState.error,
+    fallbackErrorMessage: 'Xử lý OTP thất bại!'
+  });
+
+  useApiToastNotifications({
+    isSuccess: sendOTPState.isSuccess,
+    successMessage: 'Gửi mã OTP thành công',
+    isError: sendOTPState.isError,
+    error: sendOTPState.error,
+    fallbackErrorMessage: 'Gửi OTP thất bại!'
+  });
+
   const handleResendEmail = () => {
     sendOTP({ email });
   };
