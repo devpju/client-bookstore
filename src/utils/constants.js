@@ -32,7 +32,8 @@ export const DIALOG_ACTION_TYPE = {
   TOGGLE_VISIBILITY_BOOK: 'toggle-visibility-book',
   ADD_NEW_ADDRESS: 'add-new-address',
   UPDATE_ADDRESS: 'update-address',
-  DELETE_ADDRESS: 'delete-address'
+  DELETE_ADDRESS: 'delete-address',
+  DELETE_REVIEW: 'delete-review'
 };
 
 export const ORDER_STATUS_LIST = [

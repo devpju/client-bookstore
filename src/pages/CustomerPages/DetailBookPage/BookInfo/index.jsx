@@ -4,27 +4,38 @@ import { formatCurrencyVND } from '@/utils/numberUtils';
 import { ShoppingBasket } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import { useState } from 'react';
+import { useAddToCartMutation } from '@/redux/apis/cartApi';
+import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 
 const BookInfo = ({ bookInfo }) => {
-  // Làm sạch nội dung HTML của mô tả
   const cleanDescription = DOMPurify.sanitize(bookInfo.description);
-  const [quantity, setQuantity] = useState(1); // State cho số lượng
+  const [quantity, setQuantity] = useState(1);
+  const [addToCart, addToCartState] = useAddToCartMutation();
 
-  // Xử lý tăng số lượng
+  const handleAddToCart = () => {
+    addToCart({ bookId: bookInfo.id, quantity });
+  };
+
+  useApiToastNotifications({
+    isSuccess: addToCartState.isSuccess,
+    successMessage: 'Thêm vào giỏ hàng thành công',
+    isError: addToCartState.isError,
+    error: addToCartState.error,
+    fallbackErrorMessage: 'Thêm vào giỏ hàng thất bại'
+  });
+
   const handleIncrease = () => {
     if (quantity < bookInfo.stock) {
-      setQuantity(quantity + 1); // Tăng số lượng
+      setQuantity(quantity + 1);
     }
   };
 
-  // Xử lý giảm số lượng
   const handleDecrease = () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1); // Giảm số lượng
+      setQuantity(quantity - 1);
     }
   };
 
-  // Cập nhật số lượng trong input khi người dùng thay đổi thủ công
   const handleChange = (e) => {
     const value = parseInt(e.target.value, 10);
     if (value >= 1 && value <= bookInfo.stock) {
@@ -63,24 +74,30 @@ const BookInfo = ({ bookInfo }) => {
         <div className='flex flex-col'>
           <span className='text-sm text-gray-600'>Số trang</span>
           <span className='mt-1 text-lg font-semibold'>
-            {bookInfo.totalPages}
+            {bookInfo.totalPages} trang
           </span>
         </div>
         <div className='flex flex-col'>
           <span className='text-sm text-gray-600'>Chiều dài</span>
-          <span className='mt-1 text-lg font-semibold'>{bookInfo.height}</span>
+          <span className='mt-1 text-lg font-semibold'>
+            {bookInfo.height} cm
+          </span>
         </div>
         <div className='flex flex-col'>
           <span className='text-sm text-gray-600'>Chiều rộng</span>
-          <span className='mt-1 text-lg font-semibold'>{bookInfo.width}</span>
+          <span className='mt-1 text-lg font-semibold'>
+            {bookInfo.width} cm
+          </span>
         </div>
-        <div className='flex flex-col'>
+        <div className='col-span-2 flex flex-col'>
           <span className='text-sm text-gray-600'>Tác giả</span>
           <span className='mt-1 text-lg font-semibold'>{bookInfo.authors}</span>
         </div>
         <div className='flex flex-col'>
           <span className='text-sm text-gray-600'>Đã bán</span>
-          <span className='mt-1 text-lg font-semibold'>{bookInfo.sold}</span>
+          <span className='mt-1 text-lg font-semibold'>
+            {bookInfo.sold} quyển
+          </span>
         </div>
         <div className='col-span-3 flex flex-col'>
           <span className='text-sm text-gray-600'>Mô tả</span>
@@ -126,13 +143,14 @@ const BookInfo = ({ bookInfo }) => {
           name='Thêm vào giỏ hàng'
           size='lg'
           icon={ShoppingBasket}
+          onClick={handleAddToCart}
         />
-        <NormalButton
+        {/* <NormalButton
           name='Mua ngay'
           size='lg'
           variant='outline'
           className='border-primary'
-        />
+        /> */}
       </div>
     </div>
   );

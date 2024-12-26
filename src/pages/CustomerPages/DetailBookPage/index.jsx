@@ -1,9 +1,20 @@
+import { useLocation } from 'react-router';
 import BestSellerBooksSection from '../HomePage/BestSellerBooksSection';
 import BookInfo from './BookInfo';
 import BookReviews from './BookReviews';
 import CarouselBookImages from './CarouselBookImages';
+import { useGetDetailBookQuery } from '@/redux/apis/booksApi';
+import Loading from '@/components/Loading';
 
 const DetailBookPage = () => {
+  const { pathname } = useLocation();
+
+  const lastPIndex = pathname.lastIndexOf('-p');
+  const id = lastPIndex !== -1 ? pathname.substring(lastPIndex + 2) : null;
+
+  const { data, isLoading } = useGetDetailBookQuery(id);
+  if (isLoading) return <Loading />;
+  //   const bookInfo = data?.results || {};
   const bookInfo = {
     id: '001',
     name: 'Tư Duy Nhanh và Chậm',
@@ -33,8 +44,6 @@ const DetailBookPage = () => {
       'https://placehold.co/300x500/9C27B0/ffffff' // Purple background, white text
     ]
   };
-
-  // Combine the thumbnail and images array into one array
   const allImages = [bookInfo.thumbnail, ...bookInfo.images];
   return (
     <div className='container mx-auto py-4'>

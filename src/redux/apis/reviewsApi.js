@@ -28,6 +28,13 @@ export const reviewsApi = createApi({
       }),
       invalidatesTags: ['Reviews']
     }),
+    deleteReview: builder.mutation({
+      query: (id) => ({
+        url: `/user/reviews/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Reviews']
+    }),
     getReviewsByBookId: builder.query({
       query: (bookId) => ({
         url: `/reviews`,
@@ -44,5 +51,6 @@ export const {
   useGetReviewsQuery,
   useToggleReviewsVisibilityMutation,
   useGetReviewsByBookIdQuery,
-  useCreateReviewMutation
+  useCreateReviewMutation,
+  useDeleteReviewMutation
 } = reviewsApi;

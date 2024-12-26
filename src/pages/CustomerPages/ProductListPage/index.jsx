@@ -37,7 +37,6 @@ const ProductListPage = () => {
     }
   }, [decodedPathname, dispatch]);
 
-  // Lấy dữ liệu từ API với filter, sort, limit, page từ Redux store
   const { data, isLoading } = useGetUserBooksQuery(
     {
       name: name || undefined,
