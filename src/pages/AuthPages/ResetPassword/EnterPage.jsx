@@ -1,7 +1,6 @@
 import ResetPasswordForm from '@/components/forms/ResetPasswordForm';
 import IconCircleWrapper from '@/components/icons/IconCircleWrapper';
 import ResendEmailPrompt from '@/components/prompts/ResendEmailPrompt';
-import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 import {
   useForgotPasswordMutation,
   useResetPasswordMutation
@@ -9,6 +8,7 @@ import {
 import { Lock } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
+import { toast } from 'sonner';
 
 const ResetPasswordPage = () => {
   const [searchParams] = useSearchParams();
@@ -26,28 +26,31 @@ const ResetPasswordPage = () => {
   const handleResetPassword = async (data) => {
     const newPassword = data?.password;
     await resetPassword({ token, newPassword });
-    if (resetPasswordState.isSuccess) {
-      navigate('/reset-password-success');
-    }
   };
 
   const handleResendResetPasswordLink = async () => {
     await forgotPassword({ token });
   };
 
-  useApiToastNotifications({
-    isSuccess: forgotPasswordState.isSuccess,
-    successMessage: 'Liên kết đặt lại mật khẩu đã được gửi',
-    isError: forgotPasswordState.isError,
-    error: forgotPasswordState.error,
-    fallbackErrorMessage: 'Đã có lỗi xảy ra'
-  });
+  useEffect(() => {
+    if (forgotPasswordState.isSuccess) {
+      toast.success('Liên kết đặt lại mật khẩu đã được gửi!');
+    }
+    if (forgotPasswordState.isError) {
+      toast.error(
+        forgotPasswordState.error.data?.message || 'Đã có lỗi xảy ra'
+      );
+    }
+  }, [forgotPasswordState, navigate]);
 
-  useApiToastNotifications({
-    isError: resetPasswordState.isError,
-    error: resetPasswordState.error,
-    fallbackErrorMessage: 'Đã có lỗi xảy ra'
-  });
+  useEffect(() => {
+    if (resetPasswordState.isSuccess) {
+      navigate('/reset-password-success');
+    }
+    if (resetPasswordState.isError) {
+      toast.error(resetPasswordState.error.data?.message || 'Đã có lỗi xảy ra');
+    }
+  }, [resetPasswordState, navigate]);
   return (
     <div className='flex w-full flex-col items-center gap-7'>
       <IconCircleWrapper>

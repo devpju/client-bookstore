@@ -5,11 +5,11 @@ import { DIALOG_ACTION_TYPE } from '@/utils/constants';
 import { openDialog } from '@/redux/slices/dialogSlice';
 import { addId } from '@/redux/slices/selectorSlice';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 
 export default function UsersTableRowActions({ row }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const onClickUpdateUserRoles = () => {
     dispatch(
       openDialog({
@@ -31,15 +31,15 @@ export default function UsersTableRowActions({ row }) {
     dispatch(addId(row.original.id));
   };
 
-  const onClickViewDetailUser = () => {
-    navigate(`/admin/users/${row.original.slug}`, {
-      state: { id: row.original.id }
-    });
-  };
+  //   const onClickViewDetailUser = () => {
+  //     navigate(`/admin/users/${row.original.slug}`, {
+  //       state: { id: row.original.id }
+  //     });
+  //   };
 
   return (
     <div className='flex items-center justify-center gap-2'>
-      <InfoButton name='Chi tiết' onClick={onClickViewDetailUser} />
+      {/* <InfoButton name='Chi tiết' onClick={onClickViewDetailUser} /> */}
       <WarningButton name='Sửa' onClick={onClickUpdateUserRoles} />
       {row.original.version < 0 ? (
         <InfoButton name='Bỏ cấm' className='w-16' onClick={handleBanUser} />

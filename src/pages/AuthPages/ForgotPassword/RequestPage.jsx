@@ -1,29 +1,30 @@
 import ForgotPasswordForm from '@/components/forms/ForgotPasswordForm';
 import IconCircleWrapper from '@/components/icons/IconCircleWrapper';
-import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 import { useForgotPasswordMutation } from '@/redux/apis/authApi';
 import { Send } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
 
-  const [sendPasswordResetLink, sendPasswordResetLinkState] =
+  const [sendPasswordResetLink, { isError, isLoading, error, isSuccess }] =
     useForgotPasswordMutation();
 
   const onSubmit = async ({ email }) => {
-    await sendPasswordResetLink({ email });
-    if (sendPasswordResetLinkState.isSuccess) {
-      navigate('/forgot-password/success');
-    }
+    sendPasswordResetLink({ email });
+    setEmail(email);
   };
 
-  useApiToastNotifications({
-    isError: sendPasswordResetLinkState.isError,
-    error: sendPasswordResetLinkState.error,
-    fallbackErrorMessage: 'Gửi link đặt lại mật khẩu thất bại!'
-  });
-
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/forgot-password-success', { state: { email } });
+    } else if (isError) {
+      toast.error(error?.data?.message);
+    }
+  }, [isSuccess, isError, navigate, error, email]);
   return (
     <div className='flex w-full flex-col items-center gap-7'>
       <IconCircleWrapper>
@@ -35,10 +36,7 @@ const ForgotPasswordPage = () => {
       <p className='text-center text-sm text-primary/80'>
         Đừng lo lắng, chúng tôi sẽ gửi cho bạn link đặt lại mật khẩu
       </p>
-      <ForgotPasswordForm
-        onSubmit={onSubmit}
-        isLoading={sendPasswordResetLinkState.isLoading}
-      />
+      <ForgotPasswordForm onSubmit={onSubmit} isLoading={isLoading} />
     </div>
   );
 };

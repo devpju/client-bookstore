@@ -18,58 +18,89 @@ import { formatCurrencyVND } from '@/utils/numberUtils';
 
 const CheckOut = () => {
   const dispatch = useDispatch();
-  const { data } = useGetAddressesQuery();
-  const addresses = data?.results || [];
-  const defaultAddress = addresses.find((addr) => addr.isDefault);
-  const [selectedAddress, setSelectedAddress] = useState(
-    defaultAddress || null
-  );
+  const { data: addressesData } = useGetAddressesQuery();
+  const { data: vouchersData } = useGetCollectedVouchersQuery();
+  const [calculateOrder] = useCalculateOrderMutation();
 
-  const { data: fetchedVouchers } = useGetCollectedVouchersQuery();
-  const vouchers = fetchedVouchers?.results || [];
+  const addresses = addressesData?.results || [];
+  const vouchers = vouchersData?.results || [];
+
+  const order = useSelector((state) => state.order);
+
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [selectedVoucher, setSelectedVoucher] = useState(null);
 
-  const order = useSelector((state) => state.order); // Assuming order state is stored in `order`
+  useEffect(() => {
+    if (selectedAddress || selectedVoucher) {
+      dispatch(
+        setAddressAndVoucher({
+          addressId: selectedAddress.id,
+          voucherId: selectedVoucher.id,
+          code: selectedVoucher?.code
+        })
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAddress, selectedVoucher]);
+  useEffect(() => {
+    if (selectedAddress && order.books) {
+      calculateOrder({
+        addressId: selectedAddress.id,
+        voucherId: order.voucherId, // Giữ voucherId như cũ
+        books: order.books,
+        code: order.code
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAddress, order]);
 
-  const [calculateOrder, { data: calculatedOrder, isLoading }] =
-    useCalculateOrderMutation();
-
-  // Handle address selection
   const handleSelectAddress = (addressId) => {
     const address = addresses.find((addr) => addr.id === addressId);
     setSelectedAddress(address);
   };
 
-  // Handle voucher selection
   const handleSelectVoucher = (voucherId) => {
     const voucher = vouchers.find((voucher) => voucher.id === voucherId);
     setSelectedVoucher(voucher);
   };
 
-  // Dispatch action when address or voucher is selected
-  useEffect(() => {
-    if (selectedAddress && selectedVoucher) {
-      dispatch(
-        setAddressAndVoucher({
-          addressId: selectedAddress.id,
-          voucherId: selectedVoucher.id,
-          code: selectedVoucher?.code || null
-        })
-      );
-    }
-  }, [selectedAddress, selectedVoucher, dispatch]);
+  const renderAddressItem = (address) => (
+    <SelectItem key={address.id} value={address.id} className='mt-4'>
+      <div>
+        <div className='flex items-center gap-1'>
+          <h2>{address.fullName}</h2>
+          <Separator orientation='vertical' className='h-5 bg-gray-500' />
+          <p className='text-sm text-gray-500'>{address.phoneNumber}</p>
+        </div>
+        <div className='mt-3 text-sm text-gray-500'>
+          <p>{address.description}</p>
+          <p>
+            {address.ward.name} - {address.district.name} -{' '}
+            {address.province.name}
+          </p>
+        </div>
+        {address.isDefault && (
+          <span className='mt-2 inline-block rounded border border-red-500 px-2 py-1 text-xs font-semibold text-red-600'>
+            Mặc định
+          </span>
+        )}
+      </div>
+    </SelectItem>
+  );
 
-  useEffect(() => {
-    if (order.addressId && order.voucherId) {
-      console.log(1);
-      calculateOrder({
-        addressId: order.addressId,
-        voucherId: order.voucherId,
-        books: order.books,
-        code: order.code
-      });
-    }
-  }, [order, calculateOrder]);
+  const renderVoucherItem = (voucher) => (
+    <SelectItem key={voucher.id} value={voucher.id} className='mt-4'>
+      <div>
+        <span>{voucher.code}</span>
+        <span className='ml-5'>
+          Giảm{' '}
+          {voucher.type === 'percentage'
+            ? `${voucher.discountValue}%`
+            : formatCurrencyVND(voucher.discountValue)}
+        </span>
+      </div>
+    </SelectItem>
+  );
 
   return (
     <div>
@@ -87,38 +118,7 @@ const CheckOut = () => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Địa chỉ của bạn</SelectLabel>
-              {addresses.map((address) => (
-                <SelectItem
-                  key={address.id}
-                  value={address.id}
-                  className='mt-4'
-                >
-                  <div>
-                    <div className='flex items-center gap-1'>
-                      <h2>{address.fullName}</h2>
-                      <Separator
-                        orientation='vertical'
-                        className='h-5 bg-gray-500'
-                      />
-                      <p className='text-sm text-gray-500'>
-                        {address.phoneNumber}
-                      </p>
-                    </div>
-                    <div className='mt-3 text-sm text-gray-500'>
-                      <p>{address.description}</p>
-                      <p>
-                        {address.ward.name} - {address.district.name} -{' '}
-                        {address.province.name}
-                      </p>
-                    </div>
-                    {address.isDefault && (
-                      <span className='mt-2 inline-block rounded border border-red-500 px-2 py-1 text-xs font-semibold text-red-600'>
-                        Mặc định
-                      </span>
-                    )}
-                  </div>
-                </SelectItem>
-              ))}
+              {addresses.map(renderAddressItem)}
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -136,34 +136,13 @@ const CheckOut = () => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Mã giảm giá của bạn</SelectLabel>
-              {vouchers.map((voucher) => (
-                <SelectItem
-                  key={voucher.id}
-                  value={voucher.id}
-                  className='mt-4'
-                >
-                  <div>
-                    <span>{voucher.code}</span>
-                    <span className='ml-5'>
-                      -{' '}
-                      {voucher.type === 'percentage'
-                        ? `${voucher.discountValue}%`
-                        : formatCurrencyVND(voucher.discountValue)}
-                    </span>
-                  </div>
-                </SelectItem>
-              ))}
+              {vouchers.map(renderVoucherItem)}
             </SelectGroup>
           </SelectContent>
         </Select>
       </div>
 
-      <h2>Tổng tiền hàng</h2>
-      {calculatedOrder && !isLoading ? (
-        <div>{formatCurrencyVND(calculatedOrder.totalAmount)}</div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <div></div>
     </div>
   );
 };

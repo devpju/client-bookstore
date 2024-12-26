@@ -1,30 +1,28 @@
-import GoogleLoginButton from '@/components/buttons/GoogleLoginButton';
+// import GoogleLoginButton from '@/components/buttons/GoogleLoginButton';
 import LoginForm from '@/components/forms/LoginForm';
 import AuthLinkPrompt from '@/components/prompts/AuthLinkPrompt';
-import useApiToastNotifications from '@/hooks/useApiToastNotifications';
 import { useLoginMutation } from '@/redux/apis/authApi';
 import { addAuth } from '@/redux/slices/authSlice';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, loginState] = useLoginMutation();
-
-  useApiToastNotifications({
-    isError: loginState.isError,
-    error: loginState.error,
-    fallbackErrorMessage: 'Đăng nhập thất bại!'
-  });
-
-  const handleLogin = async (values) => {
-    login(values);
+  useEffect(() => {
     if (loginState.isSuccess) {
       const { accessToken, ...userInfo } = loginState.data.results;
       dispatch(addAuth({ accessToken, userInfo }));
       navigate('/');
+    } else if (loginState.isError) {
+      toast.error(loginState.error.data.message);
     }
+  });
+  const handleLogin = (values) => {
+    login(values);
   };
   return (
     <div className='w-full space-y-7'>
