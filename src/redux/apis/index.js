@@ -9,3 +9,4 @@ export { cloudinaryApi } from './cloudinaryApi';
 export { dashboardApi } from './dashboardApi';
 export { personalInfoApi } from './personalInfoApi';
 export { addressesApi } from './addressesApi';
+export { cartApi } from './cartApi';

@@ -1,3 +1,4 @@
+import BestSellerBooksSection from '../HomePage/BestSellerBooksSection';
 import BookInfo from './BookInfo';
 import BookReviews from './BookReviews';
 import CarouselBookImages from './CarouselBookImages';
@@ -47,6 +48,9 @@ const DetailBookPage = () => {
       </div>
       <div className='mt-10'>
         <BookReviews bookId={bookInfo.id} />
+      </div>
+      <div className='mt-10'>
+        <BestSellerBooksSection />
       </div>
     </div>
   );

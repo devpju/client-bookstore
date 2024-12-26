@@ -18,6 +18,12 @@ export const vouchersApi = createApi({
       }),
       providesTags: ['Vouchers']
     }),
+    getCollectedVouchers: builder.query({
+      query: () => ({
+        url: '/user/vouchers/collected'
+      }),
+      providesTags: ['Vouchers']
+    }),
     addVoucherToMyWallet: builder.mutation({
       query: ({ id }) => ({
         url: `/user/vouchers/${id}`,
@@ -67,5 +73,6 @@ export const {
   useDeleteVouchersMutation,
   useToggleActiveVouchersMutation,
   useGetUncollectedVouchersQuery,
-  useAddVoucherToMyWalletMutation
+  useAddVoucherToMyWalletMutation,
+  useGetCollectedVouchersQuery
 } = vouchersApi;

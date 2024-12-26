@@ -9,6 +9,7 @@ import OTPVerificationSuccessPage from '@/pages/AuthPages/OTPVerification/Succes
 import RegisterPage from '@/pages/AuthPages/RegisterPage';
 import ResetPasswordPage from '@/pages/AuthPages/ResetPassword/EnterPage';
 import ResetPasswordSuccessPage from '@/pages/AuthPages/ResetPassword/SuccessPage';
+import CartPage from '@/pages/CustomerPages/CartPage';
 import DetailBookPage from '@/pages/CustomerPages/DetailBookPage';
 import HomePage from '@/pages/CustomerPages/HomePage';
 import AddressesManagerPage from '@/pages/CustomerPages/PersonalInfoPages/AddressesManagerPage';
@@ -54,6 +55,7 @@ const PublicRoutes = () => {
           <Route path='purchase' element={<PurchasedOrderPage />} />
           <Route path='vouchers-wallet' element={<VouchersWalletPage />} />
         </Route>
+        <Route path='cart' element={<CartPage />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />
     </Routes>

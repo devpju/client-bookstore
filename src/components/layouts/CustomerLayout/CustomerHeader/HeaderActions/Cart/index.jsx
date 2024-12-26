@@ -1,12 +1,12 @@
-import { Button } from '@/components/shadcnUI/button';
 import { ShoppingCartIcon } from 'lucide-react';
+import { Link } from 'react-router';
 
 const Cart = () => {
   return (
     <div>
-      <Button variant='ghost' size='icon'>
+      <Link to='/cart' className='block px-4'>
         <ShoppingCartIcon className='!size-6' />
-      </Button>
+      </Link>
     </div>
   );
 };

@@ -24,6 +24,13 @@ export const ordersApi = createApi({
         body: { paymentStatus, orderStatus }
       }),
       invalidatesTags: ['Orders']
+    }),
+    calculateOrder: builder.mutation({
+      query: (orderInfo) => ({
+        url: `/orders/calculate`,
+        method: 'POST', // Use POST since you're sending a body
+        body: { ...orderInfo } // Send the order data in the body
+      })
     })
   })
 });
@@ -31,5 +38,6 @@ export const ordersApi = createApi({
 export const {
   useGetOrdersQuery,
   useUpdateOrderStatusMutation,
-  useGetDetailOrderQuery
+  useGetDetailOrderQuery,
+  useCalculateOrderMutation
 } = ordersApi;

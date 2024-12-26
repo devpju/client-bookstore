@@ -20,10 +20,12 @@ import {
   vouchersApi,
   dashboardApi,
   personalInfoApi,
-  addressesApi
+  addressesApi,
+  cartApi
 } from './apis';
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
+import { orderReducer } from './slices/orderSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -51,6 +53,7 @@ export const store = configureStore({
     breadcrumb: persistedBreadcrumbReducer,
     sidebar: sidebarReducer,
     filters: filtersReducer,
+    order: orderReducer,
     [authApi.reducerPath]: authApi.reducer,
     [categoriesApi.reducerPath]: categoriesApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
@@ -61,7 +64,8 @@ export const store = configureStore({
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [cloudinaryApi.reducerPath]: cloudinaryApi.reducer,
     [personalInfoApi.reducerPath]: personalInfoApi.reducer,
-    [addressesApi.reducerPath]: addressesApi.reducer
+    [addressesApi.reducerPath]: addressesApi.reducer,
+    [cartApi.reducerPath]: cartApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -78,6 +82,7 @@ export const store = configureStore({
       .concat(dashboardApi.middleware)
       .concat(personalInfoApi.middleware)
       .concat(addressesApi.middleware)
+      .concat(cartApi.middleware)
 });
 
 export const persistor = persistStore(store);

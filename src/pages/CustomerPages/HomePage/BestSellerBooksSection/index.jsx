@@ -8,7 +8,7 @@ const BestSellerBooksSection = () => {
     page: 0,
     sort: 'sold-desc'
   });
-  const data = fetchedBooks?.results || [];
+  const data = fetchedBooks?.results?.books || [];
   return (
     <section className='py-12'>
       <div className='flex items-center justify-between'>
