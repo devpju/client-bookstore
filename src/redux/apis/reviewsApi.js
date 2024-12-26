@@ -19,9 +19,30 @@ export const reviewsApi = createApi({
         body: { reviewIds, visible }
       }),
       invalidatesTags: ['Reviews']
+    }),
+    createReview: builder.mutation({
+      query: (review) => ({
+        url: `/user/reviews`,
+        method: 'POST',
+        body: { ...review }
+      }),
+      invalidatesTags: ['Reviews']
+    }),
+    getReviewsByBookId: builder.query({
+      query: (bookId) => ({
+        url: `/reviews`,
+        params: {
+          bookId
+        }
+      }),
+      providesTags: ['Reviews']
     })
   })
 });
 
-export const { useGetReviewsQuery, useToggleReviewsVisibilityMutation } =
-  reviewsApi;
+export const {
+  useGetReviewsQuery,
+  useToggleReviewsVisibilityMutation,
+  useGetReviewsByBookIdQuery,
+  useCreateReviewMutation
+} = reviewsApi;

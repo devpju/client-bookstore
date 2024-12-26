@@ -65,7 +65,7 @@ export const booksApi = createApi({
       invalidatesTags: ['Books']
     }),
     getDetailBook: builder.query({
-      query: ({ id }) => ({ url: `books/${id}` })
+      query: (id) => ({ url: `books/${id}` })
     })
   })
 });

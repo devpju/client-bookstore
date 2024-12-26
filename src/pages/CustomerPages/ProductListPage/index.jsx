@@ -48,8 +48,8 @@ const ProductListPage = () => {
     },
     { skip }
   );
-
   const { books, totalPage } = data?.results || { books: [], totalPage: 0 };
+  console.log(books);
 
   return (
     <div className='container mx-auto grid grid-cols-12 pt-5'>

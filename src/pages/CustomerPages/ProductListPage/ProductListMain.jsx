@@ -36,7 +36,6 @@ const ProductListMain = ({
   };
 
   if (isLoading) return <Loading />;
-  const bookList = books || [];
 
   const getPageRange = (currentPage, totalPage) => {
     const range = [];
@@ -58,7 +57,6 @@ const ProductListMain = ({
   };
 
   const pageRange = getPageRange(page, totalPage);
-
   return (
     <div>
       <div>
@@ -97,11 +95,15 @@ const ProductListMain = ({
         </div>
       </div>
 
-      <div className='grid grid-cols-3'>
-        {bookList.map((book) => (
-          <BookCard key={book.id} book={book} />
-        ))}
-      </div>
+      {books.length === 0 ? (
+        <div>Không tìm thấy quyển sách nào</div>
+      ) : (
+        <div className='grid grid-cols-3'>
+          {books.map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
+        </div>
+      )}
 
       <Pagination>
         <PaginationContent>
@@ -147,9 +149,9 @@ const ProductListMain = ({
                 e.preventDefault();
                 if (page < totalPage) handlePageChange(page + 1);
               }}
-              disabled={page === totalPage || bookList.length === 0}
+              disabled={page === totalPage || books.length === 0}
               className={`${
-                page === totalPage || bookList.length === 0
+                page === totalPage || books.length === 0
                   ? 'cursor-not-allowed opacity-50'
                   : ''
               }`}

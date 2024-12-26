@@ -241,3 +241,36 @@ html body[data-scroll-locked] {
   overflow: visible !important;
   margin-right: 0 !important;
 }
+
+.book-images-slider .slick-dots.slick-thumb {
+  @apply right-0 top-0 !flex max-h-full w-fit !flex-col gap-5 overflow-y-auto bg-white;
+}
+
+.book-images-slider .slick-dots.slick-thumb::-webkit-scrollbar {
+  display: none;
+}
+
+.book-images-slider .slick-dots.slick-thumb {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.book-images-slider .slick-dots.slick-thumb li {
+  @apply h-full w-[120px];
+}
+.book-images-slider .slick-slide.slick-active.slick-current div div {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+/* Ẩn mũi tên trong input number */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
