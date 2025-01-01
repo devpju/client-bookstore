@@ -39,18 +39,18 @@ export const addressesApi = createApi({
     }),
     getProvinces: builder.query({
       query: () => ({
-        url: '/province'
+        url: '/provinces'
       })
     }),
     getDistricts: builder.query({
       query: (provinceId) => ({
-        url: `district`,
+        url: `districts`,
         params: { provinceId }
       })
     }),
     getWards: builder.query({
       query: (districtId) => ({
-        url: `ward`,
+        url: `wards`,
         params: { districtId }
       })
     })

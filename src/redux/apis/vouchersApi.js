@@ -14,7 +14,7 @@ export const vouchersApi = createApi({
     }),
     getUncollectedVouchers: builder.query({
       query: () => ({
-        url: '/user/vouchers/uncollected'
+        url: '/user/vouchers'
       }),
       providesTags: ['Vouchers']
     }),

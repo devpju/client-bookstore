@@ -33,7 +33,7 @@ export const booksApi = createApi({
         }
 
         return {
-          url: `/user/books/`,
+          url: `/user/books`,
           params
         };
       },

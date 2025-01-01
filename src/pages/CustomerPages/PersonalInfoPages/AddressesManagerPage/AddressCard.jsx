@@ -56,7 +56,7 @@ const AddressCard = ({ address, handleSetDefaultAddress }) => {
       </div>
       <div className='flex flex-col items-end gap-4'>
         <div className='space-x-2'>
-          {!address.isDefault && (
+          {!address.default && (
             <button
               className='text-sm text-blue-500'
               onClick={handleClickUpdateButton}
